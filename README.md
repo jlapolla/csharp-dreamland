@@ -1,5 +1,5 @@
 # C# Dreamland
 
-Where I can explore ideas in C#, free from the requirements of responsible
+A place where I can explore C# free from the constraints of responsible
 programming.
 
