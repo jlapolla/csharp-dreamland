@@ -1,0 +1,4 @@
+#!/bin/sh
+
+mdoc-update -o doc/ bin/Release/He4.Collections.dll
+
