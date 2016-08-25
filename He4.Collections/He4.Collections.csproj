@@ -29,5 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="He4\Collections\Generic\IIndexedDictionary.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
 </Project>
