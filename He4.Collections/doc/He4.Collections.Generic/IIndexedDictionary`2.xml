@@ -1,0 +1,75 @@
+<Type Name="IIndexedDictionary&lt;TKey,TValue&gt;" FullName="He4.Collections.Generic.IIndexedDictionary&lt;TKey,TValue&gt;">
+  <TypeSignature Language="C#" Value="public interface IIndexedDictionary&lt;TKey,TValue&gt; : System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;TKey,TValue&gt;&gt;, System.Collections.Generic.IDictionary&lt;TKey,TValue&gt;, System.Collections.Generic.IEnumerable&lt;System.Collections.Generic.KeyValuePair&lt;TKey,TValue&gt;&gt;, System.Collections.Generic.IList&lt;System.Collections.Generic.KeyValuePair&lt;TKey,TValue&gt;&gt;" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IIndexedDictionary`2&lt;TKey, TValue&gt; implements class System.Collections.Generic.ICollection`1&lt;valuetype System.Collections.Generic.KeyValuePair`2&lt;!TKey, !TValue&gt;&gt;, class System.Collections.Generic.IDictionary`2&lt;!TKey, !TValue&gt;, class System.Collections.Generic.IEnumerable`1&lt;valuetype System.Collections.Generic.KeyValuePair`2&lt;!TKey, !TValue&gt;&gt;, class System.Collections.Generic.IList`1&lt;valuetype System.Collections.Generic.KeyValuePair`2&lt;!TKey, !TValue&gt;&gt;, class System.Collections.IEnumerable" />
+  <AssemblyInfo>
+    <AssemblyName>He4.Collections</AssemblyName>
+    <AssemblyVersion>0.1.0.32949</AssemblyVersion>
+  </AssemblyInfo>
+  <TypeParameters>
+    <TypeParameter Name="TKey" />
+    <TypeParameter Name="TValue" />
+  </TypeParameters>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;TKey,TValue&gt;&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.Generic.IDictionary&lt;TKey,TValue&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.Generic.IEnumerable&lt;System.Collections.Generic.KeyValuePair&lt;TKey,TValue&gt;&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.Generic.IList&lt;System.Collections.Generic.KeyValuePair&lt;TKey,TValue&gt;&gt;</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
+    <typeparam name="TValue">The type of values in the dictionary.</typeparam>
+    <summary>A collection of key/value pairs which can be accessed by numeric index.</summary>
+    <remarks>
+      <para>
+
+      Direct access to the IIndexedDictionary&lt;TKey, TValue&gt; uses the
+      semantics of <see
+        cref="T:System.Collections.Generic.IDictionary{TKey,&#xA;
+        TValue}" />. To access key/value pairs by numeric index, access the
+      IIndexedDictionary through its <see
+        cref="T:System.Collections.Generic.IList{KeyValuePair{TKey, TValue}}"
+        /> interface.
+
+      </para>
+      <para>
+
+        Access via the IList  interface is read only (<see
+          cref="P:System.Collections.Generic.IList{T}.IsReadOnly" /> returns
+        <see langword="true" />). This is because the semantics of a writable
+        IList allow the same item to be added multiple times, while the
+        semantics of IDictionary dictate that each key appears only once in the
+        collection. To reconcile these differences, IIndexedDictionary presents
+        a read only IList interface.
+
+      </para>
+      <para>
+
+        To summarize, it's best to think of IIndexedDictionary as an
+        IDictionary with an auxilliary read only IList interface.
+
+      </para>
+      <para>
+
+        The order in which key/value pairs are enumerated depends on the
+        interface that GetEnumerator is called through. Iterating over the
+        IList interface, or any of the other list interfaces, returns key/value
+        pairs in the order of the numeric indicies. The order of the key/value
+        pairs when iterating over any non-list interface (e.g. ICollection,
+        IDictionary, etc.) is unspecified, but it is the same order as the
+        associated keys in the keys collection returned by the <see
+          cref="P:System.Collections.Generic.Dictionary{TKey, TValue}.Keys" />
+        property.
+
+      </para>
+    </remarks>
+  </Docs>
+  <Members />
+</Type>
