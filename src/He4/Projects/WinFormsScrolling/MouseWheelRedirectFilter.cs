@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -50,11 +51,110 @@ namespace He4.Projects.WinFormsScrolling
     }
   }
 
-  internal static class Win32Api
+  /// <summary>
+  /// Provides access to the functions in User32.dll.
+  /// </summary>
+  ///
+  /// <remarks>
+  /// <para>
+  /// This class does not include all functions in User32.dll.
+  /// </para>
+  /// </remarks>
+  internal static class User32Api
   {
   }
 
-  internal class MouseWheelMessageTranslator
+  /// <summary>
+  /// C# implementation of mouse input related macros in Windows.h.
+  /// </summary>
+  ///
+  /// <remarks>
+  /// <para>
+  /// For details, refer to
+  /// https://msdn.microsoft.com/en-us/library/ff468876.aspx
+  /// </para>
+  /// </remarks>
+  internal static class Win32MouseMacro
+  {
+
+    private static short GetWord(IntPtr intPtr, int offset)
+    {
+
+      int startIndex;
+      byte[] bytes = BitConverter.GetBytes(intPtr.ToInt64());
+
+      if (BitConverter.IsLittleEndian)
+      {
+
+        startIndex = 2 * offset;
+      }
+      else
+      {
+
+        startIndex = bytes.Length - (2 * (offset + 1));
+      }
+
+      return BitConverter.ToInt16(bytes, startIndex);
+    }
+
+    /// <remarks>
+    /// For details, refer to
+    /// https://msdn.microsoft.com/en-us/library/ms646251.aspx
+    /// </remarks>
+    [Flags]
+    public enum KeyStates : short
+    {
+
+      MK_NONE     = 0x0000,
+      MK_SHIFT    = 0x0004, // The SHIFT key is down.
+      MK_CONTROL  = 0x0008, // The CTRL key is down.
+      MK_LBUTTON  = 0x0001, // The left mouse button is down.
+      MK_RBUTTON  = 0x0002, // The right mouse button is down.
+      MK_MBUTTON  = 0x0010, // The middle mouse button is down.
+      MK_XBUTTON1 = 0x0020, // The first X button is down.
+      MK_XBUTTON2 = 0x0040, // The second X button is down.
+    }
+
+    /// <summary>
+    /// Implements the GET_KEYSTATE_WPARAM macro.
+    /// </summary>
+    public static KeyStates GetKeyStateWParam(IntPtr wParam)
+    {
+
+      return (KeyStates) GetWord(wParam, 0);
+    }
+  }
+
+  internal interface IMessageTranslator
+  {
+
+    bool CanTranslate(Message message);
+    EventArgs Translate(Message message);
+  }
+
+  /// <remarks>
+  ///
+  /// <para>
+  /// There is no way to send an event directly to a Control from outside the
+  /// Control. This is because all of the Control's On[SomeEvent] methods are
+  /// protected. Therefore, we cannot use a message filter to translate and
+  /// send MouseWheelEventArgs events to any arbitrary control. Instead we have
+  /// to subclass the control, and override the WndProc(Message) method.
+  /// </para>
+  ///
+  /// <para>
+  /// The MouseWheelMessageTranslator is useful when overriding the
+  /// WndProc(Message) method in a Control. Use it to translate the message,
+  /// then send it to an overriden OnMouseWeel(MouseEventArgs) method. In the
+  /// OnMouseWheel(MouseEventArgs) method, check if the event is a
+  /// MouseWheelEventArgs, and respond appropriately. For example, in a
+  /// ScrollableControl, you could use the MouseWheelEventArgs to generate a
+  /// vertical or horizontal ScrollEventArgs, and then pass that to the
+  /// OnScroll(ScrollEventArgs) method.
+  /// </para>
+  ///
+  /// </remarks>
+  internal class MouseWheelMessageTranslator : IMessageTranslator
   {
 
     public bool CanTranslate(Message message)
@@ -81,10 +181,22 @@ namespace He4.Projects.WinFormsScrolling
       return result;
     }
 
-    public MouseEventArgs Translate(Message message)
+    public MouseWheelEventArgs Translate(Message message)
     {
 
-      return null;
+      MouseWheelEventArgs result = null;
+
+      if (CanTranslate(message))
+      {
+      }
+
+      return result;
+    }
+
+    EventArgs IMessageTranslator.Translate(Message message)
+    {
+
+      return Translate(message);
     }
   }
 
