@@ -23,12 +23,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="He4\" />
-    <Folder Include="He4\Collections\" />
-    <Folder Include="He4\Collections\Generic\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="He4\Collections\Generic\IIndexedDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="He4\Collections\Generic\IIndexedDictionary.cs" />
   </ItemGroup>
 </Project>

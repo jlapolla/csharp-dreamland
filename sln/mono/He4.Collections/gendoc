@@ -1,0 +1,5 @@
+#!/bin/sh
+
+myDir=`dirname $0`
+mdoc-update -fno-assembly-versions -o $myDir/doc/ $myDir/bin/Release/He4.Collections.dll
+
