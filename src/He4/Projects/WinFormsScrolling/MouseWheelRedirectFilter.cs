@@ -40,7 +40,7 @@ namespace He4.Projects.WinFormsScrolling
   /// Application.Run(Form).
   /// </para>
   /// </remarks>
-  public class RedirectToMouseFilter : IMessageFilter
+  public class MouseWheelRedirectFilter : IMessageFilter
   {
 
     public bool PreFilterMessage(ref Message message)
