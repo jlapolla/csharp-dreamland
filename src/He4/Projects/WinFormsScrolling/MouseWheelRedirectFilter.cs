@@ -42,6 +42,11 @@ namespace He4.Projects.WinFormsScrolling
   /// </para>
   ///
   /// <para>
+  /// For a list of controls that scroll, refer to
+  /// https://msdn.microsoft.com/en-us/library/ms645601.aspx#Controls_that_Scroll.
+  /// </para>
+  ///
+  /// <para>
   /// Windows 10 Update
   /// </para>
   ///
@@ -54,7 +59,7 @@ namespace He4.Projects.WinFormsScrolling
   /// items).
   /// </para>
   /// </remarks>
-  internal class MouseWheelRedirectFilter : IMessageFilter
+  public class MouseWheelRedirectFilter : IMessageFilter
   {
 
     public bool PreFilterMessage(ref Message message)
@@ -73,7 +78,7 @@ namespace He4.Projects.WinFormsScrolling
   /// This class does not include all functions in User32.dll.
   /// </para>
   /// </remarks>
-  internal static class User32Api
+  public static class User32Api
   {
   }
 
@@ -82,40 +87,22 @@ namespace He4.Projects.WinFormsScrolling
   /// </summary>
   ///
   /// <remarks>
-  /// <para>
   /// For details, refer to
   /// https://msdn.microsoft.com/en-us/library/ff468876.aspx
-  /// </para>
   /// </remarks>
-  internal static class Win32MouseMacro
+  public static class Win32MouseMacro
   {
 
-    private static short GetWord(IntPtr intPtr, int offset)
-    {
-
-      int startIndex;
-      byte[] bytes = BitConverter.GetBytes(intPtr.ToInt64());
-
-      if (BitConverter.IsLittleEndian)
-      {
-
-        startIndex = 2 * offset;
-      }
-      else
-      {
-
-        startIndex = bytes.Length - (2 * (offset + 1));
-      }
-
-      return BitConverter.ToInt16(bytes, startIndex);
-    }
-
+    /// <summary>
+    /// Virtual key states.
+    /// </summary>
+    ///
     /// <remarks>
     /// For details, refer to
     /// https://msdn.microsoft.com/en-us/library/ms646251.aspx
     /// </remarks>
     [Flags]
-    public enum KeyStates : short
+    public enum KeyStates : int
     {
 
       MK_NONE     = 0x0000,
@@ -131,14 +118,149 @@ namespace He4.Projects.WinFormsScrolling
     /// <summary>
     /// Implements the GET_KEYSTATE_WPARAM macro.
     /// </summary>
+    ///
+    /// <remarks>
+    /// For details, refer to
+    /// https://msdn.microsoft.com/en-us/library/ms646251.aspx
+    /// </remarks>
     public static KeyStates GetKeyStateWParam(IntPtr wParam)
     {
 
-      return (KeyStates) GetWord(wParam, 0);
+      byte[] source = BitConverter.GetBytes(wParam.ToInt64());
+      byte[] intermediate = new byte[2];
+      CopyLeastSignificantBytes(source, intermediate);
+      byte[] final = new byte[4];
+      CopyLeastSignificantBytes(intermediate, final);
+
+      return (KeyStates) BitConverter.ToInt32(final, 0);
+    }
+
+    /// <summary>
+    /// Implements the GET_WHEEL_DELTA_WPARAM macro.
+    /// </summary>
+    ///
+    /// <remarks>
+    /// For details, refer to
+    /// https://msdn.microsoft.com/en-us/library/ms646254.aspx
+    /// </remarks>
+    public static short GetWheelDeltaWParam(IntPtr wParam)
+    {
+
+      byte[] source = BitConverter.GetBytes(wParam.ToInt64());
+      byte[] final = new byte[2];
+      CopyLeastSignificantBytes(source, final, 2);
+
+      return BitConverter.ToInt16(final, 0);
+    }
+
+    /// <summary>
+    /// Implements the GET_X_LPARAM macro.
+    /// </summary>
+    ///
+    /// <remarks>
+    /// For details, refer to
+    /// https://msdn.microsoft.com/en-us/library/ms632654.aspx
+    /// </remarks>
+    public static int GetXLParam(IntPtr lParam)
+    {
+
+      byte[] source = BitConverter.GetBytes(lParam.ToInt64());
+      byte[] intermediate = new byte[2];
+      CopyLeastSignificantBytes(source, intermediate);
+      byte[] final = new byte[4];
+      CopyLeastSignificantBytes(intermediate, final);
+
+      return BitConverter.ToInt32(final, 0);
+    }
+
+    /// <summary>
+    /// Implements the GET_Y_LPARAM macro.
+    /// </summary>
+    ///
+    /// <remarks>
+    /// For details, refer to
+    /// https://msdn.microsoft.com/en-us/library/ms632655.aspx
+    /// </remarks>
+    public static int GetYLParam(IntPtr lParam)
+    {
+
+      byte[] source = BitConverter.GetBytes(lParam.ToInt64());
+      byte[] intermediate = new byte[2];
+      CopyLeastSignificantBytes(source, intermediate, 2);
+      byte[] final = new byte[4];
+      CopyLeastSignificantBytes(intermediate, final);
+
+      return BitConverter.ToInt32(final, 0);
+    }
+
+    /// <summary>
+    /// Copies bytes from source to destination, taking into account the
+    /// endianness of the current computer architecture. Designed for use with
+    /// System.BitConverter.
+    /// </summary>
+    ///
+    /// <remarks>
+    ///
+    /// <para>
+    /// When copying bytes, this function takes into account the endianness of
+    /// the current computer architecture. It is designed to be used directly
+    /// with the arrays that are output by (and consumed by)
+    /// System.BitConverter, without having to use Array.Reverse to account for
+    /// endianness.
+    /// </para>
+    ///
+    /// <para>
+    /// 'startByte' is the zero-based index of the least significant byte to
+    /// copy from 'source'. A 'startByte' of 0 means "Copy bytes from source to
+    /// destination, starting with the least significant byte of source." If
+    /// the function runs out of bytes in 'source' before it has filled all
+    /// indices in 'destination', it fills remaining indicies with 0.
+    /// </para>
+    ///
+    /// <para>
+    /// 'startByte' may be negative. A 'startByte' of -2 means "Put 0 in the
+    /// first two indices of destination, then copy bytes from source to
+    /// destination, starting with the least significant byte of source."
+    /// </para>
+    /// </remarks>
+    private static void CopyLeastSignificantBytes(byte[] source, byte[] destination, int startByte = 0)
+    {
+
+      int sourceIndex;
+
+      if (BitConverter.IsLittleEndian)
+      {
+
+        sourceIndex = startByte;
+      }
+      else
+      {
+
+        sourceIndex = source.Length - startByte - destination.Length;
+      }
+
+      for (int destinationIndex = 0; destinationIndex < destination.Length; destinationIndex++, sourceIndex++)
+      {
+
+        byte nextByte;
+
+        if (0 <= sourceIndex && sourceIndex < source.Length)
+        {
+
+          nextByte = source[sourceIndex];
+        }
+        else
+        {
+
+          nextByte = 0;
+        }
+
+        destination[destinationIndex] = nextByte;
+      }
     }
   }
 
-  internal interface IMessageTranslator
+  public interface IMessageTranslator
   {
 
     bool CanTranslate(Message message);
@@ -167,7 +289,7 @@ namespace He4.Projects.WinFormsScrolling
   /// </para>
   ///
   /// </remarks>
-  internal class MouseWheelMessageTranslator : IMessageTranslator
+  public class MouseWheelMessageTranslator : IMessageTranslator
   {
 
     public bool CanTranslate(Message message)
@@ -230,7 +352,7 @@ namespace He4.Projects.WinFormsScrolling
   /// of system defined messages in the Message Types section).
   /// </para>
   /// </remarks>
-  internal enum Win32MouseMessages
+  public enum Win32MouseMessages
   {
 
     // Mouse wheel messages
@@ -277,13 +399,13 @@ namespace He4.Projects.WinFormsScrolling
     WM_CAPTURECHANGED  = 0x0215, // Sent to the window that is losing the mouse capture.
   }
 
-  internal enum MouseWheelOrientations
+  public enum MouseWheelOrientations
   {
     Vertical,
     Horizontal
   }
 
-  internal class MouseWheelEventArgs : MouseEventArgs
+  public class MouseWheelEventArgs : MouseEventArgs
   {
 
     private readonly MouseWheelOrientations _WheelOrientation;
