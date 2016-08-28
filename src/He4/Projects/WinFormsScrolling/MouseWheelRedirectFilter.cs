@@ -40,6 +40,19 @@ namespace He4.Projects.WinFormsScrolling
   /// message filter in your program's Main function before calling
   /// Application.Run(Form).
   /// </para>
+  ///
+  /// <para>
+  /// Windows 10 Update
+  /// </para>
+  ///
+  /// <para>
+  /// Windows 10 sends the WM_MOUSEWHEEL and WM_MOUSEHWHEEL messages to the
+  /// window under the cursor if the user has turned on the "Scroll inactive
+  /// windows when I hover over them" option in "Mouse and touchpad settings".
+  /// This fixes the scrolling problem in most cases, but can cause unexpected
+  /// behavior (for example, ComboBox controls will scroll through their
+  /// items).
+  /// </para>
   /// </remarks>
   internal class MouseWheelRedirectFilter : IMessageFilter
   {
