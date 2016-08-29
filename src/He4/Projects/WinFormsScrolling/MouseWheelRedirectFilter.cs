@@ -128,9 +128,9 @@ namespace He4.Projects.WinFormsScrolling
 
       byte[] source = BitConverter.GetBytes(wParam.ToInt64());
       byte[] intermediate = new byte[2];
-      CopyLeastSignificantBytes(source, intermediate);
+      Win32Utilities.CopyLeastSignificantBytes(source, intermediate);
       byte[] final = new byte[4];
-      CopyLeastSignificantBytes(intermediate, final);
+      Win32Utilities.CopyLeastSignificantBytes(intermediate, final);
 
       return (KeyStates) BitConverter.ToInt32(final, 0);
     }
@@ -148,10 +148,22 @@ namespace He4.Projects.WinFormsScrolling
 
       byte[] source = BitConverter.GetBytes(wParam.ToInt64());
       byte[] final = new byte[2];
-      CopyLeastSignificantBytes(source, final, 2);
+      Win32Utilities.CopyLeastSignificantBytes(source, final, 2);
 
       return BitConverter.ToInt16(final, 0);
     }
+  }
+
+  /// <summary>
+  /// C# implementation of window related macros in Windows.h.
+  /// </summary>
+  ///
+  /// <remarks>
+  /// For details, refer to
+  /// https://msdn.microsoft.com/en-us/library/ff468920.aspx
+  /// </remarks>
+  public static class Win32WindowMacro
+  {
 
     /// <summary>
     /// Implements the GET_X_LPARAM macro.
@@ -166,9 +178,9 @@ namespace He4.Projects.WinFormsScrolling
 
       byte[] source = BitConverter.GetBytes(lParam.ToInt64());
       byte[] intermediate = new byte[2];
-      CopyLeastSignificantBytes(source, intermediate);
+      Win32Utilities.CopyLeastSignificantBytes(source, intermediate);
       byte[] final = new byte[4];
-      CopyLeastSignificantBytes(intermediate, final);
+      Win32Utilities.CopyLeastSignificantBytes(intermediate, final);
 
       return BitConverter.ToInt32(final, 0);
     }
@@ -186,12 +198,16 @@ namespace He4.Projects.WinFormsScrolling
 
       byte[] source = BitConverter.GetBytes(lParam.ToInt64());
       byte[] intermediate = new byte[2];
-      CopyLeastSignificantBytes(source, intermediate, 2);
+      Win32Utilities.CopyLeastSignificantBytes(source, intermediate, 2);
       byte[] final = new byte[4];
-      CopyLeastSignificantBytes(intermediate, final);
+      Win32Utilities.CopyLeastSignificantBytes(intermediate, final);
 
       return BitConverter.ToInt32(final, 0);
     }
+  }
+
+  public static class Win32Utilities
+  {
 
     /// <summary>
     /// Copies bytes from source to destination, taking into account the
@@ -200,7 +216,6 @@ namespace He4.Projects.WinFormsScrolling
     /// </summary>
     ///
     /// <remarks>
-    ///
     /// <para>
     /// When copying bytes, this function takes into account the endianness of
     /// the current computer architecture. It is designed to be used directly
@@ -223,7 +238,7 @@ namespace He4.Projects.WinFormsScrolling
     /// destination, starting with the least significant byte of source."
     /// </para>
     /// </remarks>
-    private static void CopyLeastSignificantBytes(byte[] source, byte[] destination, int startByte = 0)
+    public static void CopyLeastSignificantBytes(byte[] source, byte[] destination, int startByte = 0)
     {
 
       int sourceIndex;
