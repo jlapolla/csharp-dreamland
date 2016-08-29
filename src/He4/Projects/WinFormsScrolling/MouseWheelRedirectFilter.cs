@@ -72,12 +72,6 @@ namespace He4.Projects.WinFormsScrolling
   /// <summary>
   /// Provides access to the functions in User32.dll.
   /// </summary>
-  ///
-  /// <remarks>
-  /// <para>
-  /// This class does not include all functions in User32.dll.
-  /// </para>
-  /// </remarks>
   public static class User32Api
   {
   }
@@ -88,7 +82,7 @@ namespace He4.Projects.WinFormsScrolling
   ///
   /// <remarks>
   /// For details, refer to
-  /// https://msdn.microsoft.com/en-us/library/ff468876.aspx
+  /// https://msdn.microsoft.com/en-us/library/ff468876.aspx.
   /// </remarks>
   public static class Win32MouseMacro
   {
@@ -100,7 +94,7 @@ namespace He4.Projects.WinFormsScrolling
     /// <remarks>
     /// <para>
     /// For details, refer to
-    /// https://msdn.microsoft.com/en-us/library/ms646251.aspx
+    /// https://msdn.microsoft.com/en-us/library/ms646251.aspx.
     /// </para>
     ///
     /// <para>
@@ -158,7 +152,7 @@ namespace He4.Projects.WinFormsScrolling
     ///
     /// <remarks>
     /// For details, refer to
-    /// https://msdn.microsoft.com/en-us/library/ms646251.aspx
+    /// https://msdn.microsoft.com/en-us/library/ms646251.aspx.
     /// </remarks>
     public static KeyStates GetKeyStateWParam(IntPtr wParam)
     {
@@ -178,7 +172,7 @@ namespace He4.Projects.WinFormsScrolling
     ///
     /// <remarks>
     /// For details, refer to
-    /// https://msdn.microsoft.com/en-us/library/ms646254.aspx
+    /// https://msdn.microsoft.com/en-us/library/ms646254.aspx.
     /// </remarks>
     public static short GetWheelDeltaWParam(IntPtr wParam)
     {
@@ -197,7 +191,7 @@ namespace He4.Projects.WinFormsScrolling
   ///
   /// <remarks>
   /// For details, refer to
-  /// https://msdn.microsoft.com/en-us/library/ff468920.aspx
+  /// https://msdn.microsoft.com/en-us/library/ff468920.aspx.
   /// </remarks>
   public static class Win32WindowMacro
   {
@@ -208,7 +202,7 @@ namespace He4.Projects.WinFormsScrolling
     ///
     /// <remarks>
     /// For details, refer to
-    /// https://msdn.microsoft.com/en-us/library/ms632654.aspx
+    /// https://msdn.microsoft.com/en-us/library/ms632654.aspx.
     /// </remarks>
     public static int GetXLParam(IntPtr lParam)
     {
@@ -228,7 +222,7 @@ namespace He4.Projects.WinFormsScrolling
     ///
     /// <remarks>
     /// For details, refer to
-    /// https://msdn.microsoft.com/en-us/library/ms632655.aspx
+    /// https://msdn.microsoft.com/en-us/library/ms632655.aspx.
     /// </remarks>
     public static int GetYLParam(IntPtr lParam)
     {
