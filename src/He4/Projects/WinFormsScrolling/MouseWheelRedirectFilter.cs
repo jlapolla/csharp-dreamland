@@ -368,9 +368,6 @@ namespace He4.Projects.WinFormsScrolling
       {
 
         case Win32Messages.WM_MOUSEWHEEL:
-          result = true;
-          break;
-
         case Win32Messages.WM_MOUSEHWHEEL:
           result = true;
           break;
