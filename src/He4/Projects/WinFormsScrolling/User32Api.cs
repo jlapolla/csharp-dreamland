@@ -16,15 +16,44 @@ namespace He4.Projects.WinFormsScrolling
   {
 
     /// <summary>
-    /// Synchronously sends the specified message to a window or windows.
+    /// Synchronously sends the specified message to an unmanaged window or
+    /// windows.
     /// </summary>
     ///
     /// <remarks>
+    /// <para>
+    /// Do not use this function when hWnd is a handle owned by a managed
+    /// object. Instead, use the SendMessage(HandleRef, uint, IntPtr, IntPtr)
+    /// overload. For discussion, see the Remarks section at
+    /// https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.handleref.aspx.
+    /// </para>
+    ///
+    /// <para>
     /// For details, refer to
     /// https://msdn.microsoft.com/en-us/library/ms644950.aspx.
+    /// </para>
     /// </remarks>
-    [DllImport("User32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto, ThrowOnUnmappableChar = true)]
-    public static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+    [DllImport("User32.dll", CharSet = CharSet.Auto, ThrowOnUnmappableChar = true)]
+    public static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
+    /// <summary>
+    /// Synchronously sends the specified message to a managed window or
+    /// windows.
+    /// </summary>
+    ///
+    /// <remarks>
+    /// <para>
+    /// To send a message to an unmanaged window, use the SendMessage(IntPtr,
+    /// uint, IntPtr, IntPtr) overload.
+    /// </para>
+    ///
+    /// <para>
+    /// For details, refer to
+    /// https://msdn.microsoft.com/en-us/library/ms644950.aspx.
+    /// </para>
+    /// </remarks>
+    [DllImport("User32.dll", CharSet = CharSet.Auto, ThrowOnUnmappableChar = true)]
+    public static extern IntPtr SendMessage(HandleRef hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
     /// <summary>
     /// Retrieves a handle to the window that contains the specified point.
@@ -45,7 +74,7 @@ namespace He4.Projects.WinFormsScrolling
     /// https://msdn.microsoft.com/en-us/library/ms633558.aspx.
     /// </para>
     /// </remarks>
-    [DllImport("User32.dll", EntryPoint = "WindowFromPoint", CharSet = CharSet.Auto, ThrowOnUnmappableChar = true)]
+    [DllImport("User32.dll", CharSet = CharSet.Auto, ThrowOnUnmappableChar = true)]
     public static extern IntPtr WindowFromPoint(System.Drawing.Point point);
   }
 }
