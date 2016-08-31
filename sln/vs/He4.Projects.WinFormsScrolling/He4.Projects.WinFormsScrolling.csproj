@@ -48,6 +48,9 @@
     <Compile Include="..\..\..\src\He4\Projects\WinFormsScrolling\User32Api.cs">
       <Link>He4\Projects\WinFormsScrolling\User32Api.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\src\He4\Projects\WinFormsScrolling\User32WinFormsApi.cs">
+      <Link>He4\Projects\WinFormsScrolling\User32WinFormsApi.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\src\He4\Projects\WinFormsScrolling\Win32Messages.cs">
       <Link>He4\Projects\WinFormsScrolling\Win32Messages.cs</Link>
     </Compile>
