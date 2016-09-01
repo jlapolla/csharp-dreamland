@@ -68,6 +68,106 @@ namespace He4.Projects.WinFormsScrolling
     }
   }
 
+  public interface IMessageFilterElement
+  {
+
+    /// <remarks>
+    /// Calling this function must not produce side effects. For example,
+    /// calling this function must not cause a message to be sent to a window.
+    /// The sole purpose of this function is to observe the message that is
+    /// passed in, and return a (possibly modified) message.
+    /// </remarks>
+    Nullable<Message> DoFilter(Nullable<Message> message);
+
+    /// <summary>
+    /// The next IMessageFilterElement in the filter chain.
+    /// </summary>
+    ///
+    /// <remarks>
+    /// Implementations of DoFilter(Message?) may call Next.DoFilter(Message?)
+    /// to pass a message onto the next filter in the filter chain.
+    /// </remarks>
+    IMessageFilterElement Next { get; set; }
+  }
+
+  public class MessageFilterAdapter : EmptyMessageFilterElement, IMessageFilter
+  {
+
+    /// <summary>
+    /// Filters the message using its Next IMessageFilterElement. Handles the
+    /// filtered message if it differs from the original message.
+    /// </summary>
+    ///
+    /// <remarks>
+    /// If the filtering process returns the original message, the original
+    /// message is dispatched as normal. If the filtering process returns a new
+    /// message, the new message is sent, and the original message is not
+    /// dispatched. If the filtering process returns null, no message is sent
+    /// or dispatched.
+    /// </remarks>
+    public bool PreFilterMessage(ref Message message)
+    {
+
+      bool result = false;
+
+      Nullable<Message> filteredMessage = DoFilter(message);
+      if (filteredMessage.HasValue)
+      {
+
+        Message unboxedMessage = filteredMessage.Value;
+        if (message != unboxedMessage)
+        {
+
+          User32WinFormsApi.SendMessage(ref unboxedMessage);
+          result = true;
+        }
+      }
+      else
+      {
+
+        // Stop message from being dispatched
+        result = true;
+      }
+
+      return result;
+    }
+  }
+
+  /// <summary>
+  /// Default implementation of IMessageFilterElement.
+  /// </summary>
+  ///
+  /// <remarks>
+  /// Other implementations of IMessageFilterElement are encouraged to inherit
+  /// from this class. Derived classes should override Dofilter(Message?),
+  /// calling DoNextFilter(Message?) to run the next IMessageFilterElement.
+  /// </remarks>
+  public class EmptyMessageFilterElement : IMessageFilterElement
+  {
+
+    public virtual Nullable<Message> DoFilter(Nullable<Message> message)
+    {
+
+      return DoNextFilter(message);
+    }
+
+    public IMessageFilterElement Next { get; set; }
+
+    protected Nullable<Message> DoNextFilter(Nullable<Message> message)
+    {
+
+      Nullable<Message> result = message;
+
+      if (Next != null)
+      {
+
+        result = Next.DoFilter(message);
+      }
+
+      return result;
+    }
+  }
+
   public interface IMessageTranslator
   {
 
