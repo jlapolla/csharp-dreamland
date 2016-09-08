@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "He4.Projects.WinFormsScrolling", "He4.Projects.WinFormsScrolling\He4.Projects.WinFormsScrolling.csproj", "{1A90791C-6BBD-48E1-9A72-5E17F009A6E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "He4.Projects.SafeBits", "He4.Projects.SafeBits\He4.Projects.SafeBits.csproj", "{5C27E873-46FD-4533-8260-9CB1DB7CC5F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{1A90791C-6BBD-48E1-9A72-5E17F009A6E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A90791C-6BBD-48E1-9A72-5E17F009A6E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A90791C-6BBD-48E1-9A72-5E17F009A6E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C27E873-46FD-4533-8260-9CB1DB7CC5F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C27E873-46FD-4533-8260-9CB1DB7CC5F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C27E873-46FD-4533-8260-9CB1DB7CC5F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C27E873-46FD-4533-8260-9CB1DB7CC5F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
