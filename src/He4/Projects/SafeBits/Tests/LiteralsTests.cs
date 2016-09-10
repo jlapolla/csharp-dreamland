@@ -20,10 +20,8 @@ namespace He4.Projects.SafeBits.Tests
     /// Examines the types and values of decimal and hexadecimal literals.
     /// </summary>
     [TestMethod]
-    public void LiteralTypesAndValues()
+    public void Literal8Bits()
     {
-
-      /* 8 bits */
 
       // 0x01
       Assert.AreEqual(1, 0x01); // 2^0
@@ -40,8 +38,11 @@ namespace He4.Projects.SafeBits.Tests
       Assert.AreEqual(typeof(Int32), (-0x80).GetType());
       Assert.AreEqual(typeof(Int32), (128).GetType());
       Assert.AreEqual(typeof(Int32), (-128).GetType());
+    }
 
-      /* 16 bits */
+    [TestMethod]
+    public void Literal16Bits()
+    {
 
       // 0x01 00
       Assert.AreEqual(256, 0x0100); // 2^8
@@ -58,8 +59,11 @@ namespace He4.Projects.SafeBits.Tests
       Assert.AreEqual(typeof(Int32), (-0x8000).GetType());
       Assert.AreEqual(typeof(Int32), (32768).GetType());
       Assert.AreEqual(typeof(Int32), (-32768).GetType());
+    }
 
-      /* 32 bits */
+    [TestMethod]
+    public void Literal32Bits()
+    {
 
       // 0x0001 0000
       Assert.AreEqual(65536, 0x00010000); // 2^16
@@ -76,8 +80,11 @@ namespace He4.Projects.SafeBits.Tests
       Assert.AreEqual(typeof(Int32), (-0x80000000).GetType());
       Assert.AreEqual(typeof(UInt32), (2147483648).GetType());
       Assert.AreEqual(typeof(Int32), (-2147483648).GetType());
+    }
 
-      /* 64 bits */
+    [TestMethod]
+    public void Literal64Bits()
+    {
 
       // 0x0000 0001 0000 0000
       Assert.AreEqual(4294967296, 0x0000000100000000); // 2^32
@@ -94,16 +101,17 @@ namespace He4.Projects.SafeBits.Tests
       Assert.AreEqual(typeof(Int64), (-0x8000000000000000).GetType());
       Assert.AreEqual(typeof(UInt64), (9223372036854775808).GetType());
       Assert.AreEqual(typeof(Int64), (-9223372036854775808).GetType());
+    }
 
-      /* 65 bits (causes compiler error) */
+    [TestMethod]
+    public void LiteralGreaterThan64Bits()
+    {
 
       // 0x1 0000 0000 0000 0000
       // Causes compiler error CS1021: Integral constant is too large
-
-      /*
-       * Assert.AreEqual(0x10000000000000000, 0x10000000000000000); // 2^64
-       * Assert.AreEqual(-0x10000000000000000, -0x10000000000000000); // -2^64
-       */
+      // Assert.AreEqual(0x10000000000000000, 0x10000000000000000); // 2^64
+      // Assert.AreEqual(-0x10000000000000000, -0x10000000000000000); // -2^64
+      
     }
   }
 }
