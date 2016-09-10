@@ -12,75 +12,208 @@ namespace He4.Projects.SafeBits.Tests
   public class CastsTests
   {
 
-    public const Byte A08 = 0x40;
-    public const UInt16 A16 = 0x4140;
-    public const UInt32 A32 = 0x40014140;
-    public const UInt64 A64 = 0x4000000140014140;
-
-    public const Byte B08 = 0x80;
-    public const UInt16 B16 = 0x8180;
-    public const UInt32 B32 = 0x80018180;
-    public const UInt64 B64 = 0x8000000180018180;
-
-    public const SByte C08 = unchecked((SByte) 0x40);
-    public const Int16 C16 = unchecked((Int16) 0x4140);
-    public const Int32 C32 = unchecked((Int32) 0x40014140);
-    public const Int64 C64 = unchecked((Int64) 0x4000000140014140);
-
-    public const SByte D08 = unchecked((SByte) 0x80);
-    public const Int16 D16 = unchecked((Int16) 0x8180);
-    public const Int32 D32 = unchecked((Int32) 0x80018180);
-    public const Int64 D64 = unchecked((Int64) 0x8000000180018180);
-
     [TestMethod]
-    public void ByteCasts()
+    public void CastToByte()
     {
 
-      Assert.AreEqual(A08, (Byte) A08);
-      Assert.AreEqual(A08, unchecked((Byte) A16));
-      Assert.AreEqual(A08, unchecked((Byte) A32));
-      Assert.AreEqual(A08, unchecked((Byte) A64));
-      // CS0221: Constant value '16704' cannot be converted to a 'byte' (use 'unchecked' syntax to override).
-      // Assert.AreEqual(A08, (Byte) A16);
-      // CS0221: Constant value '1073824064' cannot be converted to a 'byte' (use 'unchecked' syntax to override).
-      // Assert.AreEqual(A08, (Byte) A32);
-      // CS0221: Constant value '4611686023796179264' cannot be converted to a 'byte' (use 'unchecked' syntax to override).
-      // Assert.AreEqual(A08, (Byte) A64);
+      Byte val;
 
-      Assert.AreEqual(B08, (Byte) B08);
-      Assert.AreEqual(B08, unchecked((Byte) B16));
-      Assert.AreEqual(B08, unchecked((Byte) B32));
-      Assert.AreEqual(B08, unchecked((Byte) B64));
-      // CS0221: Constant value '33152' cannot be converted to a 'byte' (use 'unchecked' syntax to override).
-      // Assert.AreEqual(B08, (Byte) B16);
-      // CS0221: Constant value '2147582336' cannot be converted to a 'byte' (use 'unchecked' syntax to override).
-      // Assert.AreEqual(B08, (Byte) B32);
-      // CS0221: Constant value '9223372043297325440' cannot be converted to a 'byte' (use 'unchecked' syntax to override).
-      // Assert.AreEqual(B08, (Byte) B64);
+      val = 0x00;
+      Assert.AreEqual(0, val);
 
-      Assert.AreEqual(A08, (Byte) C08);
-      Assert.AreEqual(A08, unchecked((Byte) C16));
-      Assert.AreEqual(A08, unchecked((Byte) C32));
-      Assert.AreEqual(A08, unchecked((Byte) C64));
-      // CS0221: Constant value '16704' cannot be converted to a 'byte' (use 'unchecked' syntax to override).
-      // Assert.AreEqual(A08, (Byte) C16);
-      // CS0221: Constant value '1073824064' cannot be converted to a 'byte' (use 'unchecked' syntax to override).
-      // Assert.AreEqual(A08, (Byte) C32);
-      // CS0221: Constant value '4611686023796179264' cannot be converted to a 'byte' (use 'unchecked' syntax to override).
-      // Assert.AreEqual(A08, (Byte) C64);
+      val = 0xFF;
+      Assert.AreEqual(255, val);
+    }
 
-      Assert.AreEqual(B08, unchecked((Byte) D08));
-      Assert.AreEqual(B08, unchecked((Byte) D16));
-      Assert.AreEqual(B08, unchecked((Byte) D32));
-      Assert.AreEqual(B08, unchecked((Byte) D64));
-      // CS0221: Constant value '-128' cannot be converted to a 'byte' (use 'unchecked' syntax to override).
-      // Assert.AreEqual(B08, (Byte) D08);
-      // CS0221: Constant value '-32384' cannot be converted to a 'byte' (use 'unchecked' syntax to override).
-      // Assert.AreEqual(B08, (Byte) D16);
-      // CS0221: Constant value '-2147384960' cannot be converted to a 'byte' (use 'unchecked' syntax to override).
-      // Assert.AreEqual(B08, (Byte) D32);
-      // CS0221: Constant value '-9223372030412226176' cannot be converted to a 'byte' (use 'unchecked' syntax to override).
-      // Assert.AreEqual(B08, (Byte) D64);
+    [TestMethod]
+    public void UncheckedCastToByte()
+    {
+
+      Byte val;
+
+      val = unchecked((Byte) 0x100);
+      Assert.AreEqual(0, val);
+
+      val = unchecked((Byte) 0x1FF);
+      Assert.AreEqual(255, val);
+    }
+
+    [TestMethod]
+    public void CastToSByte()
+    {
+
+      SByte val;
+
+      val = -0x80;
+      Assert.AreEqual(-128, val);
+
+      val = 0x7F;
+      Assert.AreEqual(127, val);
+    }
+
+    [TestMethod]
+    public void UncheckedCastToSByte()
+    {
+
+      SByte val;
+
+      val = unchecked((SByte) 0x80);
+      Assert.AreEqual(-128, val);
+
+      val = unchecked((SByte) 0xFF);
+      Assert.AreEqual(-1, val);
+
+      val = unchecked((SByte) 0x100);
+      Assert.AreEqual(0, val);
+
+      val = unchecked((SByte) 0x17F);
+      Assert.AreEqual(127, val);
+    }
+
+    [TestMethod]
+    public void CastToUInt16()
+    {
+
+      UInt16 val;
+
+      val = 0x0000;
+      Assert.AreEqual(0, val);
+
+      val = 0xFFFF;
+      Assert.AreEqual(65535, val);
+    }
+
+    [TestMethod]
+    public void UncheckedCastToUInt16()
+    {
+
+      UInt16 val;
+
+      val = unchecked((UInt16) 0x10000);
+      Assert.AreEqual(0, val);
+
+      val = unchecked((UInt16) 0x1FFFF);
+      Assert.AreEqual(65535, val);
+    }
+
+    [TestMethod]
+    public void CastToInt16()
+    {
+
+      Int16 val;
+
+      val = -0x8000;
+      Assert.AreEqual(-32768, val);
+
+      val = 0x7FFF;
+      Assert.AreEqual(32767, val);
+    }
+
+    [TestMethod]
+    public void UncheckedCastToInt16()
+    {
+
+      Int16 val;
+
+      val = unchecked((Int16) 0x8000);
+      Assert.AreEqual(-32768, val);
+
+      val = unchecked((Int16) 0xFFFF);
+      Assert.AreEqual(-1, val);
+
+      val = unchecked((Int16) 0x10000);
+      Assert.AreEqual(0, val);
+
+      val = unchecked((Int16) 0x17FFF);
+      Assert.AreEqual(32767, val);
+    }
+
+    [TestMethod]
+    public void CastToUInt32()
+    {
+
+      UInt32 val;
+
+      val = 0x00000000;
+      Assert.AreEqual((UInt32) 0, val);
+
+      val = 0xFFFFFFFF;
+      Assert.AreEqual(4294967295, val);
+    }
+
+    [TestMethod]
+    public void UncheckedCastToUInt32()
+    {
+
+      UInt32 val;
+
+      val = unchecked((UInt32) 0x100000000);
+      Assert.AreEqual((UInt32) 0, val);
+
+      val = unchecked((UInt32) 0x1FFFFFFFF);
+      Assert.AreEqual(4294967295, val);
+    }
+
+    [TestMethod]
+    public void CastToInt32()
+    {
+
+      Int32 val;
+
+      val = -0x80000000;
+      Assert.AreEqual(-2147483648, val);
+
+      val = 0x7FFFFFFF;
+      Assert.AreEqual(2147483647, val);
+    }
+
+    [TestMethod]
+    public void UncheckedCastToInt32()
+    {
+
+      Int32 val;
+
+      val = unchecked((Int32) 0x80000000);
+      Assert.AreEqual(-2147483648, val);
+
+      val = unchecked((Int32) 0xFFFFFFFF);
+      Assert.AreEqual(-1, val);
+
+      val = unchecked((Int32) 0x100000000);
+      Assert.AreEqual(0, val);
+
+      val = unchecked((Int32) 0x17FFFFFFF);
+      Assert.AreEqual(2147483647, val);
+    }
+
+    [TestMethod]
+    public void CastToUInt64()
+    {
+
+      UInt64 val;
+
+      val = 0x0000000000000000;
+      Assert.AreEqual((UInt64) 0, val);
+
+      val = 0xFFFFFFFFFFFFFFFF;
+      Assert.AreEqual(18446744073709551615, val);
+    }
+
+    /// <remarks>
+    /// Cannot compile this function. Produces compilation error CS1021
+    /// Integral constant is too large.
+    /// </remarks>
+    [TestMethod]
+    public void UncheckedCastToUInt64()
+    {
+
+      // UInt64 val;
+
+      // val = unchecked((UInt64) 0x10000000000000000);
+      // Assert.AreEqual((UInt64) 0, val);
+
+      // val = unchecked((UInt64) 0x1FFFFFFFFFFFFFFFF);
+      // Assert.AreEqual(18446744073709551615, val);
     }
   }
 }
