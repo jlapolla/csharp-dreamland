@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\src\He4\Projects\SafeBits\Tests\CastCharacterization.cs">
+      <Link>He4\Projects\SafeBits\Tests\CastCharacterization.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\src\He4\Projects\SafeBits\Tests\CastsTests.cs">
       <Link>He4\Projects\SafeBits\Tests\CastsTests.cs</Link>
     </Compile>
