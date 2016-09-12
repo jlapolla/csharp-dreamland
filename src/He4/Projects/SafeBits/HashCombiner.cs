@@ -13,8 +13,16 @@ namespace He4.Projects.SafeBits
       protected set;
     }
 
-    public void Put(int hashCode)
+    public void Put(object field)
     {
+
+      int hashCode = 0;
+
+      if (field != null)
+      {
+
+        hashCode = field.GetHashCode();
+      }
 
       Value = (Value * Factor) + hashCode;
     }
