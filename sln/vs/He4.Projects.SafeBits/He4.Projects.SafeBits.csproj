@@ -44,6 +44,9 @@
     <Compile Include="..\..\..\src\He4\Projects\SafeBits\HashCombiner.cs">
       <Link>He4\Projects\SafeBits\HashCombiner.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\src\He4\Projects\SafeBits\IntegralCasts.cs">
+      <Link>He4\Projects\SafeBits\IntegralCasts.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\src\He4\Projects\SafeBits\Random2.cs">
       <Link>He4\Projects\SafeBits\Random2.cs</Link>
     </Compile>
@@ -64,6 +67,9 @@
     </Compile>
     <Compile Include="..\..\..\src\He4\Projects\SafeBits\Tests\UnsafeFunctionsTests.cs">
       <Link>He4\Projects\SafeBits\Tests\UnsafeFunctionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\He4\Projects\SafeBits\TypeProperties.cs">
+      <Link>He4\Projects\SafeBits\TypeProperties.cs</Link>
     </Compile>
     <Compile Include="..\..\..\src\He4\Projects\SafeBits\UnpackedInt32.cs">
       <Link>He4\Projects\SafeBits\UnpackedInt32.cs</Link>
