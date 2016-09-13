@@ -99,3 +99,10 @@ If the hypothesis is correct, we can draw the following conclusions:
 - *(p4(c) = Unchecked) ⇔ (effect(c) = BitWiseCopy)*
 - *(resizeMode(c) = Shrink) ∧ (p4(c) = Implicit) ⇔ (effect(c) = CompileTimeError)*
 - *(valueMode(c) = Incompatible) ∧ ¬(p4(c)= Unchecked) ⇒ Fails(c)*
+
+## Notes
+
+Implicit, explicit, and bitwise operators are not shown in the [reference
+source][Int32 Reference Source] of System.Int32.
+
+[Int32 Reference Source]: http://referencesource.microsoft.com/#mscorlib/system/int32.cs
