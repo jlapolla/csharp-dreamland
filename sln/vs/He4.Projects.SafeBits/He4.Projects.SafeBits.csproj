@@ -44,6 +44,9 @@
     <Compile Include="..\..\..\src\He4\Projects\SafeBits\HashCombiner.cs">
       <Link>He4\Projects\SafeBits\HashCombiner.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\src\He4\Projects\SafeBits\Random2.cs">
+      <Link>He4\Projects\SafeBits\Random2.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\src\He4\Projects\SafeBits\Tests\CastCharacterization.cs">
       <Link>He4\Projects\SafeBits\Tests\CastCharacterization.cs</Link>
     </Compile>
