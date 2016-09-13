@@ -1,7 +1,7 @@
 namespace He4.Projects.SafeBits
 {
 
-  public class HashCombiner
+  public struct HashCombiner
   {
 
     private int Factor;
@@ -10,7 +10,7 @@ namespace He4.Projects.SafeBits
     {
 
       get;
-      protected set;
+      private set;
     }
 
     public void Put(object field)
@@ -30,20 +30,16 @@ namespace He4.Projects.SafeBits
     public static HashCombiner Make()
     {
 
-      var instance = new HashCombiner();
-      Setup(instance, 1009, 9176); // http://stackoverflow.com/a/34006336
+      var instance = default(HashCombiner);
+      Setup(ref instance, 1009, 9176); // http://stackoverflow.com/a/34006336
       return instance;
     }
 
-    protected static void Setup(HashCombiner instance, int seed, int factor)
+    private static void Setup(ref HashCombiner instance, int seed, int factor)
     {
 
       instance.Value = seed;
       instance.Factor = factor;
-    }
-
-    protected HashCombiner()
-    {
     }
   }
 }

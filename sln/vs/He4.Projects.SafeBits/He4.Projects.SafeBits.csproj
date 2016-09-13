@@ -50,6 +50,9 @@
     <Compile Include="..\..\..\src\He4\Projects\SafeBits\Tests\CastsTests.cs">
       <Link>He4\Projects\SafeBits\Tests\CastsTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\src\He4\Projects\SafeBits\Tests\HashCombinerTests.cs">
+      <Link>He4\Projects\SafeBits\Tests\HashCombinerTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\src\He4\Projects\SafeBits\Tests\LiteralsTests.cs">
       <Link>He4\Projects\SafeBits\Tests\LiteralsTests.cs</Link>
     </Compile>
