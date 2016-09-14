@@ -3,14 +3,7 @@ using System;
 namespace He4.Projects.SafeBits
 {
 
-  public enum CastTypes
-  {
-    Implicit,
-    Explicit,
-    Unchecked,
-  }
-
-  public sealed class SByteSByteImplicit : ImplicitSameCast<sbyte>
+  public interface ICast
   {
   }
 
@@ -18,7 +11,8 @@ namespace He4.Projects.SafeBits
   {
 
     protected abstract void Evaluate();
-    public abstract CastTypes CastType { get; }
+    public abstract bool IsCheckedCast { get; }
+    public abstract bool IsExplicitCast { get; }
     public abstract bool IsValueCopy { get; }
     public abstract bool IsZeroFillBinaryCopy { get; }
     public abstract bool IsOneFillBinaryCopy { get; }
@@ -27,7 +21,28 @@ namespace He4.Projects.SafeBits
 
     public Exception Exception { get; protected set; }
 
-    public TDestination Destination { get; protected set; }
+    private TDestination _Destination;
+    public TDestination Destination
+    {
+
+      get
+      {
+
+        if (IsRunTimeError || IsCompileTimeError)
+        {
+
+          throw new InvalidOperationException();
+        }
+
+        return _Destination;
+      }
+
+      protected set
+      {
+
+        _Destination = value;
+      }
+    }
 
     private TSource _Source;
     public TSource Source
@@ -44,7 +59,17 @@ namespace He4.Projects.SafeBits
 
         _Source = value;
         Exception = null;
-        Evaluate();
+
+        try
+        {
+
+          Evaluate();
+        }
+        catch (Exception e)
+        {
+
+          Exception = e;
+        }
       }
     }
 
@@ -118,27 +143,13 @@ namespace He4.Projects.SafeBits
       }
     }
 
-    public bool IsRuntimeError
+    public bool IsRunTimeError
     {
 
       get
       {
 
         return Exception != null;
-      }
-    }
-  }
-
-  public abstract class ImplicitCast<TSource, TDestination> : Cast<TSource, TDestination>
-  {
-
-    public override CastTypes CastType
-    {
-
-      get
-      {
-
-        return CastTypes.Implicit;
       }
     }
   }
@@ -157,7 +168,7 @@ namespace He4.Projects.SafeBits
     }
   }
 
-  public abstract class ImplicitSameCast<T> : SameCast<T>
+  public abstract class ImplicitCheckedSameCast<T> : SameCast<T>
   {
 
     protected override void Evaluate()
@@ -166,13 +177,23 @@ namespace He4.Projects.SafeBits
       Destination = Source;
     }
 
-    public override CastTypes CastType
+    public override bool IsCheckedCast
     {
 
       get
       {
 
-        return CastTypes.Implicit;
+        return true;
+      }
+    }
+
+    public override bool IsExplicitCast
+    {
+
+      get
+      {
+
+        return false;
       }
     }
 
@@ -213,6 +234,20 @@ namespace He4.Projects.SafeBits
       {
 
         return false;
+      }
+    }
+  }
+
+  public sealed class SByteSByteImplicitChecked : ImplicitCheckedSameCast<sbyte>
+  {
+
+    public override bool IsValueCopy
+    {
+
+      get
+      {
+
+        return Destination == Source;
       }
     }
   }
