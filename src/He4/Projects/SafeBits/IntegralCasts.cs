@@ -132,7 +132,7 @@ namespace He4.Projects.SafeBits
   public abstract class ImplicitCast<TSource, TDestination> : Cast<TSource, TDestination>
   {
 
-    public sealed override CastTypes CastType
+    public override CastTypes CastType
     {
 
       get
@@ -146,7 +146,7 @@ namespace He4.Projects.SafeBits
   public abstract class SameCast<T> : Cast<T, T>
   {
 
-    public sealed override bool IsValueCompatible
+    public override bool IsValueCompatible
     {
 
       get
@@ -160,13 +160,13 @@ namespace He4.Projects.SafeBits
   public abstract class ImplicitSameCast<T> : SameCast<T>
   {
 
-    protected sealed override void Evaluate()
+    protected override void Evaluate()
     {
 
       Destination = Source;
     }
 
-    public sealed override CastTypes CastType
+    public override CastTypes CastType
     {
 
       get
@@ -176,7 +176,7 @@ namespace He4.Projects.SafeBits
       }
     }
 
-    public sealed override bool IsValueCopy
+    public override bool IsValueCopy
     {
 
       get
@@ -186,7 +186,7 @@ namespace He4.Projects.SafeBits
       }
     }
 
-    public sealed override bool IsZeroFillBinaryCopy
+    public override bool IsZeroFillBinaryCopy
     {
 
       get
@@ -196,7 +196,7 @@ namespace He4.Projects.SafeBits
       }
     }
 
-    public sealed override bool IsOneFillBinaryCopy
+    public override bool IsOneFillBinaryCopy
     {
 
       get
@@ -206,7 +206,7 @@ namespace He4.Projects.SafeBits
       }
     }
 
-    public sealed override bool IsCompileTimeError
+    public override bool IsCompileTimeError
     {
 
       get
