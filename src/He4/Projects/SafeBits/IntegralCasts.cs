@@ -345,15 +345,7 @@ namespace He4.Projects.SafeBits.Casts
       get
       {
 
-        bool result = false;
-
-        if (!(IsCompileTimeError || IsRunTimeError))
-        {
-
-          result = Destination == Source;
-        }
-
-        return result;
+        return CastProperties.IsValueCopy(this);
       }
     }
 
@@ -363,49 +355,7 @@ namespace He4.Projects.SafeBits.Casts
       get
       {
 
-        bool result = false;
-
-        if (!(IsCompileTimeError || IsRunTimeError))
-        {
-
-          result = true;
-
-          System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(SourceType);
-          System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(DestinationType);
-          sbyte sourceBit = 1;
-          sbyte destinationBit = 1;
-
-          for (var i = 0; i < destinationLimit; i++)
-          {
-
-            if (i < sourceLimit)
-            {
-
-              if (((Source & sourceBit) == 0) != ((Destination & destinationBit) == 0))
-              {
-
-                result = false;
-                break;
-              }
-
-              sourceBit <<= 1;
-            }
-            else
-            {
-
-              if ((Destination & destinationBit) != 0)
-              {
-
-                result = false;
-                break;
-              }
-            }
-
-            destinationBit <<= 1;
-          }
-        }
-
-        return result;
+        return CastProperties.IsZeroFillBinaryCopy(this);
       }
     }
 
@@ -415,49 +365,7 @@ namespace He4.Projects.SafeBits.Casts
       get
       {
 
-        bool result = false;
-
-        if (!(IsCompileTimeError || IsRunTimeError))
-        {
-
-          result = true;
-
-          System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(SourceType);
-          System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(DestinationType);
-          sbyte sourceBit = 1;
-          sbyte destinationBit = 1;
-
-          for (var i = 0; i < destinationLimit; i++)
-          {
-
-            if (i < sourceLimit)
-            {
-
-              if (((Source & sourceBit) == 0) != ((Destination & destinationBit) == 0))
-              {
-
-                result = false;
-                break;
-              }
-
-              sourceBit <<= 1;
-            }
-            else
-            {
-
-              if ((Destination & destinationBit) == 0)
-              {
-
-                result = false;
-                break;
-              }
-            }
-
-            destinationBit <<= 1;
-          }
-        }
-
-        return result;
+        return CastProperties.IsOneFillBinaryCopy(this);
       }
     }
 
@@ -483,15 +391,7 @@ namespace He4.Projects.SafeBits.Casts
       get
       {
 
-        bool result = false;
-
-        if (!(IsCompileTimeError || IsRunTimeError))
-        {
-
-          result = Destination == Source;
-        }
-
-        return result;
+        return CastProperties.IsValueCopy(this);
       }
     }
 
@@ -501,49 +401,7 @@ namespace He4.Projects.SafeBits.Casts
       get
       {
 
-        bool result = false;
-
-        if (!(IsCompileTimeError || IsRunTimeError))
-        {
-
-          result = true;
-
-          System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(SourceType);
-          System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(DestinationType);
-          sbyte sourceBit = 1;
-          sbyte destinationBit = 1;
-
-          for (var i = 0; i < destinationLimit; i++)
-          {
-
-            if (i < sourceLimit)
-            {
-
-              if (((Source & sourceBit) == 0) != ((Destination & destinationBit) == 0))
-              {
-
-                result = false;
-                break;
-              }
-
-              sourceBit <<= 1;
-            }
-            else
-            {
-
-              if ((Destination & destinationBit) != 0)
-              {
-
-                result = false;
-                break;
-              }
-            }
-
-            destinationBit <<= 1;
-          }
-        }
-
-        return result;
+        return CastProperties.IsZeroFillBinaryCopy(this);
       }
     }
 
@@ -553,49 +411,7 @@ namespace He4.Projects.SafeBits.Casts
       get
       {
 
-        bool result = false;
-
-        if (!(IsCompileTimeError || IsRunTimeError))
-        {
-
-          result = true;
-
-          System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(SourceType);
-          System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(DestinationType);
-          sbyte sourceBit = 1;
-          sbyte destinationBit = 1;
-
-          for (var i = 0; i < destinationLimit; i++)
-          {
-
-            if (i < sourceLimit)
-            {
-
-              if (((Source & sourceBit) == 0) != ((Destination & destinationBit) == 0))
-              {
-
-                result = false;
-                break;
-              }
-
-              sourceBit <<= 1;
-            }
-            else
-            {
-
-              if ((Destination & destinationBit) == 0)
-              {
-
-                result = false;
-                break;
-              }
-            }
-
-            destinationBit <<= 1;
-          }
-        }
-
-        return result;
+        return CastProperties.IsOneFillBinaryCopy(this);
       }
     }
 
@@ -621,15 +437,7 @@ namespace He4.Projects.SafeBits.Casts
       get
       {
 
-        bool result = false;
-
-        if (!(IsCompileTimeError || IsRunTimeError))
-        {
-
-          result = Destination == Source;
-        }
-
-        return result;
+        return CastProperties.IsValueCopy(this);
       }
     }
 
@@ -639,49 +447,7 @@ namespace He4.Projects.SafeBits.Casts
       get
       {
 
-        bool result = false;
-
-        if (!(IsCompileTimeError || IsRunTimeError))
-        {
-
-          result = true;
-
-          System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(SourceType);
-          System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(DestinationType);
-          sbyte sourceBit = 1;
-          sbyte destinationBit = 1;
-
-          for (var i = 0; i < destinationLimit; i++)
-          {
-
-            if (i < sourceLimit)
-            {
-
-              if (((Source & sourceBit) == 0) != ((Destination & destinationBit) == 0))
-              {
-
-                result = false;
-                break;
-              }
-
-              sourceBit <<= 1;
-            }
-            else
-            {
-
-              if ((Destination & destinationBit) != 0)
-              {
-
-                result = false;
-                break;
-              }
-            }
-
-            destinationBit <<= 1;
-          }
-        }
-
-        return result;
+        return CastProperties.IsZeroFillBinaryCopy(this);
       }
     }
 
@@ -691,49 +457,7 @@ namespace He4.Projects.SafeBits.Casts
       get
       {
 
-        bool result = false;
-
-        if (!(IsCompileTimeError || IsRunTimeError))
-        {
-
-          result = true;
-
-          System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(SourceType);
-          System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(DestinationType);
-          sbyte sourceBit = 1;
-          sbyte destinationBit = 1;
-
-          for (var i = 0; i < destinationLimit; i++)
-          {
-
-            if (i < sourceLimit)
-            {
-
-              if (((Source & sourceBit) == 0) != ((Destination & destinationBit) == 0))
-              {
-
-                result = false;
-                break;
-              }
-
-              sourceBit <<= 1;
-            }
-            else
-            {
-
-              if ((Destination & destinationBit) == 0)
-              {
-
-                result = false;
-                break;
-              }
-            }
-
-            destinationBit <<= 1;
-          }
-        }
-
-        return result;
+        return CastProperties.IsOneFillBinaryCopy(this);
       }
     }
 
@@ -759,15 +483,7 @@ namespace He4.Projects.SafeBits.Casts
       get
       {
 
-        bool result = false;
-
-        if (!(IsCompileTimeError || IsRunTimeError))
-        {
-
-          result = Destination == Source;
-        }
-
-        return result;
+        return CastProperties.IsValueCopy(this);
       }
     }
 
@@ -777,49 +493,7 @@ namespace He4.Projects.SafeBits.Casts
       get
       {
 
-        bool result = false;
-
-        if (!(IsCompileTimeError || IsRunTimeError))
-        {
-
-          result = true;
-
-          System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(SourceType);
-          System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(DestinationType);
-          sbyte sourceBit = 1;
-          sbyte destinationBit = 1;
-
-          for (var i = 0; i < destinationLimit; i++)
-          {
-
-            if (i < sourceLimit)
-            {
-
-              if (((Source & sourceBit) == 0) != ((Destination & destinationBit) == 0))
-              {
-
-                result = false;
-                break;
-              }
-
-              sourceBit <<= 1;
-            }
-            else
-            {
-
-              if ((Destination & destinationBit) != 0)
-              {
-
-                result = false;
-                break;
-              }
-            }
-
-            destinationBit <<= 1;
-          }
-        }
-
-        return result;
+        return CastProperties.IsZeroFillBinaryCopy(this);
       }
     }
 
@@ -829,49 +503,7 @@ namespace He4.Projects.SafeBits.Casts
       get
       {
 
-        bool result = false;
-
-        if (!(IsCompileTimeError || IsRunTimeError))
-        {
-
-          result = true;
-
-          System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(SourceType);
-          System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(DestinationType);
-          sbyte sourceBit = 1;
-          sbyte destinationBit = 1;
-
-          for (var i = 0; i < destinationLimit; i++)
-          {
-
-            if (i < sourceLimit)
-            {
-
-              if (((Source & sourceBit) == 0) != ((Destination & destinationBit) == 0))
-              {
-
-                result = false;
-                break;
-              }
-
-              sourceBit <<= 1;
-            }
-            else
-            {
-
-              if ((Destination & destinationBit) == 0)
-              {
-
-                result = false;
-                break;
-              }
-            }
-
-            destinationBit <<= 1;
-          }
-        }
-
-        return result;
+        return CastProperties.IsOneFillBinaryCopy(this);
       }
     }
 

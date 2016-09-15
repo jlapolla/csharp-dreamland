@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\src\He4\Projects\SafeBits\Casts\CastProperties.cs">
+      <Link>He4\Projects\SafeBits\Casts\CastProperties.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\src\He4\Projects\SafeBits\HashCombiner.cs">
       <Link>He4\Projects\SafeBits\HashCombiner.cs</Link>
     </Compile>
