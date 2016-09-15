@@ -135,9 +135,11 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
+#if false
+
     /*
      * Copy these templates and find / replace T1 and T2
-     *
+     */
 
     public static bool IsValueCopy(Cast<T1, T2> cast)
     {
@@ -269,7 +271,7 @@ namespace He4.Projects.SafeBits.Casts
 
       return result;
     }
-    */
+#endif
 
     public static bool IsValueCopy(Cast<ulong, sbyte> cast)
     {
