@@ -106,3 +106,182 @@ Implicit, explicit, and bitwise operators are not shown in the [reference
 source][Int32 Reference Source] of System.Int32.
 
 [Int32 Reference Source]: http://referencesource.microsoft.com/#mscorlib/system/int32.cs
+
+# Value Compatibility Code Template Verification
+
+## Sets
+
+- IntegralTypes = { SByte, Byte, Int16, UInt16, Int32, UInt32, Int64, UInt64 }
+- CastTypes = { Implicit, Explicit, Unchecked }
+- IntegralCasts = {〈td, ts, vs, ct〉 | (td ∈ IntegralTypes) ∧ (ts ∈ IntegralTypes) ∧ (vs ∈ valueSet(ts)) ∧ (ct ∈ CastTypes)}
+  - td = type of destination
+  - ts = type of source
+  - vs = value of source
+  - ct = cast type
+- IntegralCastEffects = { ValueCopy, BitWiseCopy, RunTimeError, CompileTimeError }
+
+## Functions
+
+- max(X | X ∈ IntegralTypes) ∈ ℤ
+  - Maximum value in valueSet(X)
+- min(X | X ∈ IntegralTypes) ∈ ℤ
+  - Minimum value in valueSet(X)
+- valueSet(X | X ∈ IntegralTypes) ⊂ ℤ
+  - The set of integers representable by X
+
+## Predicates
+
+- IsSigned(X | X ∈ IntegralTypes) ⇔ X ∈ { SByte, Int16, Int32, Int64 }
+- Succeeds(c | c ∈ IntegralCasts) ⇔ ¬Fails(c)
+- Fails(c | c ∈ IntegralCasts) ⇔ (effect(c) = RunTimeError) ∨ (effect(c) = CompileTimeError)
+
+## Variables
+
+- D ∈ IntegralTypes
+  - Destination type
+- S ∈ IntegralTypes
+  - Source type
+- s ∈ valueSet(S)
+  - Source value
+- c ∈ IntegralCasts | (p1(c) = D) ∧ (p2(c) = S) ∧ (p3(c) = s)
+  - Cast
+
+## Theorems
+
+- s <= d ⇔ ¬(s > d)
+- s >= d ⇔ ¬(s < d)
+- ¬IsSigned(X | X ∈ IntegralTypes) ⇔ (min(X) = 0)
+- IsSigned(X | X ∈ IntegralTypes) ⇔ (min(X) < 0)
+
+## Proof 1
+
+### Hypothesis
+
+(max(A) >= max(B)) ∧ (min(A) > min(B)) ⇒ ¬IsSigned(A) ∧ IsSigned(B)
+
+### Proof
+
+(max(A) >= max(B)) ∧ (min(A) > min(B)) ⇒ ¬IsSigned(A) ∧ IsSigned(B)
+  C ∨ ¬C
+    C ⇔ (max(A) >= max(B)) ∧ (min(A) > min(B)) ⇒ ¬IsSigned(A) ∧ IsSigned(B)
+
+C ∨ ¬((max(A) >= max(B)) ∧ (min(A) > min(B)) ⇒ ¬IsSigned(A) ∧ IsSigned(B))
+  P ⇒ Q ⇔ ¬P ∨ Q
+    P ⇔ (max(A) >= max(B)) ∧ (min(A) > min(B))
+    Q ⇔ ¬IsSigned(A) ∧ IsSigned(B)
+  (max(A) >= max(B)) ∧ (min(A) > min(B)) ⇒ ¬IsSigned(A) ∧ IsSigned(B) ⇔ ¬((max(A) >= max(B)) ∧ (min(A) > min(B))) ∨ (¬IsSigned(A) ∧ IsSigned(B))
+
+C ∨ ¬(¬((max(A) >= max(B)) ∧ (min(A) > min(B))) ∨ (¬IsSigned(A) ∧ IsSigned(B)))
+  ¬(P ∨ Q) ⇔ ¬P ∧ ¬Q
+    P ⇔ ¬((max(A) >= max(B)) ∧ (min(A) > min(B)))
+    Q ⇔ (¬IsSigned(A) ∧ IsSigned(B))
+  ¬(¬((max(A) >= max(B)) ∧ (min(A) > min(B))) ∨ (¬IsSigned(A) ∧ IsSigned(B))) ⇔ ¬¬((max(A) >= max(B)) ∧ (min(A) > min(B))) ∧ ¬(¬IsSigned(A) ∧ IsSigned(B))
+
+C ∨ ¬¬((max(A) >= max(B)) ∧ (min(A) > min(B))) ∧ ¬(¬IsSigned(A) ∧ IsSigned(B))
+  ¬¬P ⇔ P
+    P ⇔ ((max(A) >= max(B)) ∧ (min(A) > min(B)))
+  ¬¬((max(A) >= max(B)) ∧ (min(A) > min(B))) ⇔ ((max(A) >= max(B)) ∧ (min(A) > min(B)))
+
+C ∨ ((max(A) >= max(B)) ∧ (min(A) > min(B))) ∧ ¬(¬IsSigned(A) ∧ IsSigned(B))
+C ∨ (max(A) >= max(B)) ∧ (min(A) > min(B)) ∧ ¬(¬IsSigned(A) ∧ IsSigned(B))
+  ¬IsSigned(X) ⇔ (min(X) = 0)
+    X = A
+  ¬IsSigned(A) ⇔ (min(A) = 0)
+
+C ∨ (max(A) >= max(B)) ∧ (min(A) > min(B)) ∧ ¬((min(A) = 0) ∧ IsSigned(B))
+  IsSigned(X) ⇔ (min(X) < 0)
+    X = B
+  IsSigned(B) ⇔ (min(B) < 0)
+
+C ∨ (max(A) >= max(B)) ∧ (min(A) > min(B)) ∧ ¬((min(A) = 0) ∧ (min(B) < 0))
+  ¬(P ∧ Q) ⇔ ¬P ∨ ¬Q
+    P ⇔ (min(A) = 0)
+    Q ⇔ (min(B) < 0)
+  ¬((min(A) = 0) ∧ (min(B) < 0)) ⇔ (¬(min(A) = 0) ∨ ¬(min(B) < 0))
+
+C ∨ (max(A) >= max(B)) ∧ (min(A) > min(B)) ∧ (¬(min(A) = 0) ∨ ¬(min(B) < 0))
+  ¬(x = 0) ⇔ (x > 0) ∨ (x < 0)
+    x = min(A)
+  ¬(min(A) = 0) ⇔ (min(A) > 0) ∨ (min(A) < 0)
+
+C ∨ (max(A) >= max(B)) ∧ (min(A) > min(B)) ∧ ((min(A) > 0) ∨ (min(A) < 0) ∨ ¬(min(B) < 0))
+  ¬(x < 0) ⇔ (x = 0) ∨ (x > 0)
+    x = min(B)
+  ¬(min(B) < 0) ⇔ (min(B) = 0) ∨ (min(B) > 0)
+
+C ∨ (max(A) >= max(B)) ∧ (min(A) > min(B)) ∧ ((min(A) > 0) ∨ (min(A) < 0) ∨ (min(B) = 0) ∨ (min(B) > 0))
+
+  X ∈ IntegralTypes ⇒ IsSigned(X) ∨ ¬IsSigned(X)
+    ¬IsSigned(X) ⇔ (min(X) = 0)
+    IsSigned(X) ⇔ (min(X) < 0)
+
+  X ∈ IntegralTypes ⇒ (min(X) < 0) ∨ (min(X) = 0)
+    X = B
+
+  B ∈ IntegralTypes ⇒ (min(B) < 0) ∨ (min(B) = 0)
+    P ⇒ Q ⇔ ¬P ∨ Q
+      P ⇔ (B ∈ IntegralTypes)
+      Q ⇔ ((min(B) < 0) ∨ (min(B) = 0))
+    B ∈ IntegralTypes ⇒ (min(B) < 0) ∨ (min(B) = 0) ⇔ ¬(B ∈ IntegralTypes) ∨ ((min(B) < 0) ∨ (min(B) = 0))
+
+  ¬(B ∈ IntegralTypes) ∨ ((min(B) < 0) ∨ (min(B) = 0))
+  ¬(B ∈ IntegralTypes) ∨ (min(B) < 0) ∨ (min(B) = 0)
+    B ∈ IntegralTypes ⇔ t
+
+  ¬(t) ∨ (min(B) < 0) ∨ (min(B) = 0)
+  ¬t ∨ (min(B) < 0) ∨ (min(B) = 0)
+    ¬t ⇔ f
+
+  f ∨ (min(B) < 0) ∨ (min(B) = 0)
+    f ∨ P ⇔ P
+      P ⇔ (min(B) < 0) ∨ (min(B) = 0)
+    f ∨ (min(B) < 0) ∨ (min(B) = 0) ⇔ (min(B) < 0) ∨ (min(B) = 0)
+
+  (min(B) < 0) ∨ (min(B) = 0)
+    (x < 0) ∨ (x = 0) ⇒ ¬(x > 0)
+      x = min(B)
+    (min(B) < 0) ∨ (min(B) = 0) ⇒ ¬(min(B) > 0)
+
+  ∴ ¬(min(B) > 0)
+  ∴ (min(B) > 0) ⇔ f
+
+C ∨ (max(A) >= max(B)) ∧ (min(A) > min(B)) ∧ ((min(A) > 0) ∨ (min(A) < 0) ∨ (min(B) = 0) ∨ f)
+C ∨ (max(A) >= max(B)) ∧ (min(A) > min(B)) ∧ ((min(A) > 0) ∨ (min(A) < 0) ∨ (min(B) = 0))
+  By the same logic, (min(A) > 0) ⇔ f
+
+C ∨ (max(A) >= max(B)) ∧ (min(A) > min(B)) ∧ (f ∨ (min(A) < 0) ∨ (min(B) = 0))
+C ∨ (max(A) >= max(B)) ∧ (min(A) > min(B)) ∧ ((min(A) < 0) ∨ (min(B) = 0))
+  P ∧ (Q ∨ R) ⇔ (P ∧ Q) ∨ (P ∧ R)
+    P ⇔ (min(A) > min(B))
+    Q ⇔ (min(A) < 0)
+    R ⇔ (min(B) = 0)
+  (min(A) > min(B)) ∧ ((min(A) < 0) ∨ (min(B) = 0)) ⇔ (((min(A) > min(B)) ∧ (min(A) < 0)) ∨ ((min(A) > min(B)) ∧ (min(B) = 0)))
+
+C ∨ (max(A) >= max(B)) ∧ (((min(A) > min(B)) ∧ (min(A) < 0)) ∨ ((min(A) > min(B)) ∧ (min(B) = 0)))
+  (x > y) ∧ (y = 0) ⇒ (x > 0)
+    x = min(A)
+    y = min(B)
+
+  (min(A) > min(B)) ∧ (min(B) = 0) ⇒ (min(A) > 0)
+    P ⇒ Q ⇔ ¬P ∨ Q
+      P ⇔ (min(A) > min(B)) ∧ (min(B) = 0)
+      Q ⇔ (min(A) > 0)
+    (min(A) > min(B)) ∧ (min(B) = 0) ⇒ (min(A) > 0) ⇔ ¬((min(A) > min(B)) ∧ (min(B) = 0)) ∨ (min(A) > 0)
+
+  ¬((min(A) > min(B)) ∧ (min(B) = 0)) ∨ (min(A) > 0)
+    From above, we know that (min(A) > 0) ⇔ f
+
+  ¬((min(A) > min(B)) ∧ (min(B) = 0)) ∨ f
+  ¬((min(A) > min(B)) ∧ (min(B) = 0))
+  ∴ (min(A) > min(B)) ∧ (min(B) = 0) ⇔ f
+
+C ∨ (max(A) >= max(B)) ∧ (((min(A) > min(B)) ∧ (min(A) < 0)) ∨ (f))
+C ∨ (max(A) >= max(B)) ∧ (((min(A) > min(B)) ∧ (min(A) < 0)))
+C ∨ (max(A) >= max(B)) ∧ ((min(A) > min(B)) ∧ (min(A) < 0))
+C ∨ (max(A) >= max(B)) ∧ (min(A) > min(B)) ∧ (min(A) < 0)
+  ∀A,B ∈ IntegralTypes ((max(A) >= max(B)) ∧ (min(A) > min(B)) ∧ (min(A) < 0) ⇔ f)
+
+C ∨ f
+C
+
+Not as formal as I would have liked to make it. Maybe I'll try again tomorrow.
