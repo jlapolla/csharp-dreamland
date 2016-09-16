@@ -150,7 +150,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // sbyte.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= sbyte.MinValue
+#if true // sbyte.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= sbyte.MinValue
         result = (cast.Destination == ((sbyte) cast.Source));
 #elif false // sbyte.MaxValue >= sbyte.MaxValue && sbyte.MinValue < sbyte.MinValue
         if (cast.Source >= sbyte.MinValue)
@@ -283,7 +283,7 @@ namespace He4.Projects.SafeBits.Casts
 
 #if false // byte.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= byte.MinValue
         result = (cast.Destination == ((byte) cast.Source));
-#elif false // byte.MaxValue >= sbyte.MaxValue && sbyte.MinValue < byte.MinValue
+#elif true // byte.MaxValue >= sbyte.MaxValue && sbyte.MinValue < byte.MinValue
         if (cast.Source >= byte.MinValue)
         {
 
@@ -412,7 +412,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // short.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= short.MinValue
+#if true // short.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= short.MinValue
         result = (cast.Destination == ((short) cast.Source));
 #elif false // short.MaxValue >= sbyte.MaxValue && sbyte.MinValue < short.MinValue
         if (cast.Source >= short.MinValue)
@@ -545,7 +545,7 @@ namespace He4.Projects.SafeBits.Casts
 
 #if false // ushort.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= ushort.MinValue
         result = (cast.Destination == ((ushort) cast.Source));
-#elif false // ushort.MaxValue >= sbyte.MaxValue && sbyte.MinValue < ushort.MinValue
+#elif true // ushort.MaxValue >= sbyte.MaxValue && sbyte.MinValue < ushort.MinValue
         if (cast.Source >= ushort.MinValue)
         {
 
@@ -674,7 +674,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // int.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= int.MinValue
+#if true // int.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= int.MinValue
         result = (cast.Destination == ((int) cast.Source));
 #elif false // int.MaxValue >= sbyte.MaxValue && sbyte.MinValue < int.MinValue
         if (cast.Source >= int.MinValue)
@@ -807,7 +807,7 @@ namespace He4.Projects.SafeBits.Casts
 
 #if false // uint.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= uint.MinValue
         result = (cast.Destination == ((uint) cast.Source));
-#elif false // uint.MaxValue >= sbyte.MaxValue && sbyte.MinValue < uint.MinValue
+#elif true // uint.MaxValue >= sbyte.MaxValue && sbyte.MinValue < uint.MinValue
         if (cast.Source >= uint.MinValue)
         {
 
@@ -936,7 +936,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // long.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= long.MinValue
+#if true // long.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= long.MinValue
         result = (cast.Destination == ((long) cast.Source));
 #elif false // long.MaxValue >= sbyte.MaxValue && sbyte.MinValue < long.MinValue
         if (cast.Source >= long.MinValue)
@@ -1069,7 +1069,7 @@ namespace He4.Projects.SafeBits.Casts
 
 #if false // ulong.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= ulong.MinValue
         result = (cast.Destination == ((ulong) cast.Source));
-#elif false // ulong.MaxValue >= sbyte.MaxValue && sbyte.MinValue < ulong.MinValue
+#elif true // ulong.MaxValue >= sbyte.MaxValue && sbyte.MinValue < ulong.MinValue
         if (cast.Source >= ulong.MinValue)
         {
 
@@ -1207,7 +1207,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((sbyte) cast.Source));
         }
-#elif false // sbyte.MaxValue < byte.MaxValue && byte.MinValue >= sbyte.MinValue
+#elif true // sbyte.MaxValue < byte.MaxValue && byte.MinValue >= sbyte.MinValue
         if (cast.Source <= sbyte.MaxValue)
         {
 
@@ -1329,7 +1329,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // byte.MaxValue >= byte.MaxValue && byte.MinValue >= byte.MinValue
+#if true // byte.MaxValue >= byte.MaxValue && byte.MinValue >= byte.MinValue
         result = (cast.Destination == ((byte) cast.Source));
 #elif false // byte.MaxValue >= byte.MaxValue && byte.MinValue < byte.MinValue
         if (cast.Source >= byte.MinValue)
@@ -1460,7 +1460,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // short.MaxValue >= byte.MaxValue && byte.MinValue >= short.MinValue
+#if true // short.MaxValue >= byte.MaxValue && byte.MinValue >= short.MinValue
         result = (cast.Destination == ((short) cast.Source));
 #elif false // short.MaxValue >= byte.MaxValue && byte.MinValue < short.MinValue
         if (cast.Source >= short.MinValue)
@@ -1591,7 +1591,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // ushort.MaxValue >= byte.MaxValue && byte.MinValue >= ushort.MinValue
+#if true // ushort.MaxValue >= byte.MaxValue && byte.MinValue >= ushort.MinValue
         result = (cast.Destination == ((ushort) cast.Source));
 #elif false // ushort.MaxValue >= byte.MaxValue && byte.MinValue < ushort.MinValue
         if (cast.Source >= ushort.MinValue)
@@ -1722,7 +1722,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // int.MaxValue >= byte.MaxValue && byte.MinValue >= int.MinValue
+#if true // int.MaxValue >= byte.MaxValue && byte.MinValue >= int.MinValue
         result = (cast.Destination == ((int) cast.Source));
 #elif false // int.MaxValue >= byte.MaxValue && byte.MinValue < int.MinValue
         if (cast.Source >= int.MinValue)
@@ -1853,7 +1853,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // uint.MaxValue >= byte.MaxValue && byte.MinValue >= uint.MinValue
+#if true // uint.MaxValue >= byte.MaxValue && byte.MinValue >= uint.MinValue
         result = (cast.Destination == ((uint) cast.Source));
 #elif false // uint.MaxValue >= byte.MaxValue && byte.MinValue < uint.MinValue
         if (cast.Source >= uint.MinValue)
@@ -1984,7 +1984,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // long.MaxValue >= byte.MaxValue && byte.MinValue >= long.MinValue
+#if true // long.MaxValue >= byte.MaxValue && byte.MinValue >= long.MinValue
         result = (cast.Destination == ((long) cast.Source));
 #elif false // long.MaxValue >= byte.MaxValue && byte.MinValue < long.MinValue
         if (cast.Source >= long.MinValue)
@@ -2115,7 +2115,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // ulong.MaxValue >= byte.MaxValue && byte.MinValue >= ulong.MinValue
+#if true // ulong.MaxValue >= byte.MaxValue && byte.MinValue >= ulong.MinValue
         result = (cast.Destination == ((ulong) cast.Source));
 #elif false // ulong.MaxValue >= byte.MaxValue && byte.MinValue < ulong.MinValue
         if (cast.Source >= ulong.MinValue)
@@ -2262,7 +2262,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((sbyte) cast.Source));
         }
-#elif false // sbyte.MaxValue < short.MaxValue && short.MinValue < sbyte.MinValue
+#elif true // sbyte.MaxValue < short.MaxValue && short.MinValue < sbyte.MinValue
         result = (cast.Source == ((short) cast.Destination));
 #else
         // Force a compile time error
@@ -2393,7 +2393,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((byte) cast.Source));
         }
-#elif false // byte.MaxValue < short.MaxValue && short.MinValue < byte.MinValue
+#elif true // byte.MaxValue < short.MaxValue && short.MinValue < byte.MinValue
         result = (cast.Source == ((short) cast.Destination));
 #else
         // Force a compile time error
@@ -2508,7 +2508,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // short.MaxValue >= short.MaxValue && short.MinValue >= short.MinValue
+#if true // short.MaxValue >= short.MaxValue && short.MinValue >= short.MinValue
         result = (cast.Destination == ((short) cast.Source));
 #elif false // short.MaxValue >= short.MaxValue && short.MinValue < short.MinValue
         if (cast.Source >= short.MinValue)
@@ -2641,7 +2641,7 @@ namespace He4.Projects.SafeBits.Casts
 
 #if false // ushort.MaxValue >= short.MaxValue && short.MinValue >= ushort.MinValue
         result = (cast.Destination == ((ushort) cast.Source));
-#elif false // ushort.MaxValue >= short.MaxValue && short.MinValue < ushort.MinValue
+#elif true // ushort.MaxValue >= short.MaxValue && short.MinValue < ushort.MinValue
         if (cast.Source >= ushort.MinValue)
         {
 
@@ -2770,7 +2770,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // int.MaxValue >= short.MaxValue && short.MinValue >= int.MinValue
+#if true // int.MaxValue >= short.MaxValue && short.MinValue >= int.MinValue
         result = (cast.Destination == ((int) cast.Source));
 #elif false // int.MaxValue >= short.MaxValue && short.MinValue < int.MinValue
         if (cast.Source >= int.MinValue)
@@ -2903,7 +2903,7 @@ namespace He4.Projects.SafeBits.Casts
 
 #if false // uint.MaxValue >= short.MaxValue && short.MinValue >= uint.MinValue
         result = (cast.Destination == ((uint) cast.Source));
-#elif false // uint.MaxValue >= short.MaxValue && short.MinValue < uint.MinValue
+#elif true // uint.MaxValue >= short.MaxValue && short.MinValue < uint.MinValue
         if (cast.Source >= uint.MinValue)
         {
 
@@ -3032,7 +3032,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // long.MaxValue >= short.MaxValue && short.MinValue >= long.MinValue
+#if true // long.MaxValue >= short.MaxValue && short.MinValue >= long.MinValue
         result = (cast.Destination == ((long) cast.Source));
 #elif false // long.MaxValue >= short.MaxValue && short.MinValue < long.MinValue
         if (cast.Source >= long.MinValue)
@@ -3165,7 +3165,7 @@ namespace He4.Projects.SafeBits.Casts
 
 #if false // ulong.MaxValue >= short.MaxValue && short.MinValue >= ulong.MinValue
         result = (cast.Destination == ((ulong) cast.Source));
-#elif false // ulong.MaxValue >= short.MaxValue && short.MinValue < ulong.MinValue
+#elif true // ulong.MaxValue >= short.MaxValue && short.MinValue < ulong.MinValue
         if (cast.Source >= ulong.MinValue)
         {
 
@@ -3303,7 +3303,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((sbyte) cast.Source));
         }
-#elif false // sbyte.MaxValue < ushort.MaxValue && ushort.MinValue >= sbyte.MinValue
+#elif true // sbyte.MaxValue < ushort.MaxValue && ushort.MinValue >= sbyte.MinValue
         if (cast.Source <= sbyte.MaxValue)
         {
 
@@ -3434,7 +3434,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((byte) cast.Source));
         }
-#elif false // byte.MaxValue < ushort.MaxValue && ushort.MinValue >= byte.MinValue
+#elif true // byte.MaxValue < ushort.MaxValue && ushort.MinValue >= byte.MinValue
         if (cast.Source <= byte.MaxValue)
         {
 
@@ -3565,7 +3565,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((short) cast.Source));
         }
-#elif false // short.MaxValue < ushort.MaxValue && ushort.MinValue >= short.MinValue
+#elif true // short.MaxValue < ushort.MaxValue && ushort.MinValue >= short.MinValue
         if (cast.Source <= short.MaxValue)
         {
 
@@ -3687,7 +3687,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // ushort.MaxValue >= ushort.MaxValue && ushort.MinValue >= ushort.MinValue
+#if true // ushort.MaxValue >= ushort.MaxValue && ushort.MinValue >= ushort.MinValue
         result = (cast.Destination == ((ushort) cast.Source));
 #elif false // ushort.MaxValue >= ushort.MaxValue && ushort.MinValue < ushort.MinValue
         if (cast.Source >= ushort.MinValue)
@@ -3818,7 +3818,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // int.MaxValue >= ushort.MaxValue && ushort.MinValue >= int.MinValue
+#if true // int.MaxValue >= ushort.MaxValue && ushort.MinValue >= int.MinValue
         result = (cast.Destination == ((int) cast.Source));
 #elif false // int.MaxValue >= ushort.MaxValue && ushort.MinValue < int.MinValue
         if (cast.Source >= int.MinValue)
@@ -3949,7 +3949,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // uint.MaxValue >= ushort.MaxValue && ushort.MinValue >= uint.MinValue
+#if true // uint.MaxValue >= ushort.MaxValue && ushort.MinValue >= uint.MinValue
         result = (cast.Destination == ((uint) cast.Source));
 #elif false // uint.MaxValue >= ushort.MaxValue && ushort.MinValue < uint.MinValue
         if (cast.Source >= uint.MinValue)
@@ -4080,7 +4080,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // long.MaxValue >= ushort.MaxValue && ushort.MinValue >= long.MinValue
+#if true // long.MaxValue >= ushort.MaxValue && ushort.MinValue >= long.MinValue
         result = (cast.Destination == ((long) cast.Source));
 #elif false // long.MaxValue >= ushort.MaxValue && ushort.MinValue < long.MinValue
         if (cast.Source >= long.MinValue)
@@ -4211,7 +4211,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // ulong.MaxValue >= ushort.MaxValue && ushort.MinValue >= ulong.MinValue
+#if true // ulong.MaxValue >= ushort.MaxValue && ushort.MinValue >= ulong.MinValue
         result = (cast.Destination == ((ulong) cast.Source));
 #elif false // ulong.MaxValue >= ushort.MaxValue && ushort.MinValue < ulong.MinValue
         if (cast.Source >= ulong.MinValue)
@@ -4358,7 +4358,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((sbyte) cast.Source));
         }
-#elif false // sbyte.MaxValue < int.MaxValue && int.MinValue < sbyte.MinValue
+#elif true // sbyte.MaxValue < int.MaxValue && int.MinValue < sbyte.MinValue
         result = (cast.Source == ((int) cast.Destination));
 #else
         // Force a compile time error
@@ -4489,7 +4489,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((byte) cast.Source));
         }
-#elif false // byte.MaxValue < int.MaxValue && int.MinValue < byte.MinValue
+#elif true // byte.MaxValue < int.MaxValue && int.MinValue < byte.MinValue
         result = (cast.Source == ((int) cast.Destination));
 #else
         // Force a compile time error
@@ -4620,7 +4620,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((short) cast.Source));
         }
-#elif false // short.MaxValue < int.MaxValue && int.MinValue < short.MinValue
+#elif true // short.MaxValue < int.MaxValue && int.MinValue < short.MinValue
         result = (cast.Source == ((int) cast.Destination));
 #else
         // Force a compile time error
@@ -4751,7 +4751,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((ushort) cast.Source));
         }
-#elif false // ushort.MaxValue < int.MaxValue && int.MinValue < ushort.MinValue
+#elif true // ushort.MaxValue < int.MaxValue && int.MinValue < ushort.MinValue
         result = (cast.Source == ((int) cast.Destination));
 #else
         // Force a compile time error
@@ -4866,7 +4866,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // int.MaxValue >= int.MaxValue && int.MinValue >= int.MinValue
+#if true // int.MaxValue >= int.MaxValue && int.MinValue >= int.MinValue
         result = (cast.Destination == ((int) cast.Source));
 #elif false // int.MaxValue >= int.MaxValue && int.MinValue < int.MinValue
         if (cast.Source >= int.MinValue)
@@ -4999,7 +4999,7 @@ namespace He4.Projects.SafeBits.Casts
 
 #if false // uint.MaxValue >= int.MaxValue && int.MinValue >= uint.MinValue
         result = (cast.Destination == ((uint) cast.Source));
-#elif false // uint.MaxValue >= int.MaxValue && int.MinValue < uint.MinValue
+#elif true // uint.MaxValue >= int.MaxValue && int.MinValue < uint.MinValue
         if (cast.Source >= uint.MinValue)
         {
 
@@ -5128,7 +5128,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // long.MaxValue >= int.MaxValue && int.MinValue >= long.MinValue
+#if true // long.MaxValue >= int.MaxValue && int.MinValue >= long.MinValue
         result = (cast.Destination == ((long) cast.Source));
 #elif false // long.MaxValue >= int.MaxValue && int.MinValue < long.MinValue
         if (cast.Source >= long.MinValue)
@@ -5261,7 +5261,7 @@ namespace He4.Projects.SafeBits.Casts
 
 #if false // ulong.MaxValue >= int.MaxValue && int.MinValue >= ulong.MinValue
         result = (cast.Destination == ((ulong) cast.Source));
-#elif false // ulong.MaxValue >= int.MaxValue && int.MinValue < ulong.MinValue
+#elif true // ulong.MaxValue >= int.MaxValue && int.MinValue < ulong.MinValue
         if (cast.Source >= ulong.MinValue)
         {
 
@@ -5399,7 +5399,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((sbyte) cast.Source));
         }
-#elif false // sbyte.MaxValue < uint.MaxValue && uint.MinValue >= sbyte.MinValue
+#elif true // sbyte.MaxValue < uint.MaxValue && uint.MinValue >= sbyte.MinValue
         if (cast.Source <= sbyte.MaxValue)
         {
 
@@ -5530,7 +5530,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((byte) cast.Source));
         }
-#elif false // byte.MaxValue < uint.MaxValue && uint.MinValue >= byte.MinValue
+#elif true // byte.MaxValue < uint.MaxValue && uint.MinValue >= byte.MinValue
         if (cast.Source <= byte.MaxValue)
         {
 
@@ -5661,7 +5661,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((short) cast.Source));
         }
-#elif false // short.MaxValue < uint.MaxValue && uint.MinValue >= short.MinValue
+#elif true // short.MaxValue < uint.MaxValue && uint.MinValue >= short.MinValue
         if (cast.Source <= short.MaxValue)
         {
 
@@ -5792,7 +5792,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((ushort) cast.Source));
         }
-#elif false // ushort.MaxValue < uint.MaxValue && uint.MinValue >= ushort.MinValue
+#elif true // ushort.MaxValue < uint.MaxValue && uint.MinValue >= ushort.MinValue
         if (cast.Source <= ushort.MaxValue)
         {
 
@@ -5923,7 +5923,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((int) cast.Source));
         }
-#elif false // int.MaxValue < uint.MaxValue && uint.MinValue >= int.MinValue
+#elif true // int.MaxValue < uint.MaxValue && uint.MinValue >= int.MinValue
         if (cast.Source <= int.MaxValue)
         {
 
@@ -6045,7 +6045,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // uint.MaxValue >= uint.MaxValue && uint.MinValue >= uint.MinValue
+#if true // uint.MaxValue >= uint.MaxValue && uint.MinValue >= uint.MinValue
         result = (cast.Destination == ((uint) cast.Source));
 #elif false // uint.MaxValue >= uint.MaxValue && uint.MinValue < uint.MinValue
         if (cast.Source >= uint.MinValue)
@@ -6176,7 +6176,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // long.MaxValue >= uint.MaxValue && uint.MinValue >= long.MinValue
+#if true // long.MaxValue >= uint.MaxValue && uint.MinValue >= long.MinValue
         result = (cast.Destination == ((long) cast.Source));
 #elif false // long.MaxValue >= uint.MaxValue && uint.MinValue < long.MinValue
         if (cast.Source >= long.MinValue)
@@ -6307,7 +6307,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // ulong.MaxValue >= uint.MaxValue && uint.MinValue >= ulong.MinValue
+#if true // ulong.MaxValue >= uint.MaxValue && uint.MinValue >= ulong.MinValue
         result = (cast.Destination == ((ulong) cast.Source));
 #elif false // ulong.MaxValue >= uint.MaxValue && uint.MinValue < ulong.MinValue
         if (cast.Source >= ulong.MinValue)
@@ -6454,7 +6454,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((sbyte) cast.Source));
         }
-#elif false // sbyte.MaxValue < long.MaxValue && long.MinValue < sbyte.MinValue
+#elif true // sbyte.MaxValue < long.MaxValue && long.MinValue < sbyte.MinValue
         result = (cast.Source == ((long) cast.Destination));
 #else
         // Force a compile time error
@@ -6585,7 +6585,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((byte) cast.Source));
         }
-#elif false // byte.MaxValue < long.MaxValue && long.MinValue < byte.MinValue
+#elif true // byte.MaxValue < long.MaxValue && long.MinValue < byte.MinValue
         result = (cast.Source == ((long) cast.Destination));
 #else
         // Force a compile time error
@@ -6716,7 +6716,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((short) cast.Source));
         }
-#elif false // short.MaxValue < long.MaxValue && long.MinValue < short.MinValue
+#elif true // short.MaxValue < long.MaxValue && long.MinValue < short.MinValue
         result = (cast.Source == ((long) cast.Destination));
 #else
         // Force a compile time error
@@ -6847,7 +6847,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((ushort) cast.Source));
         }
-#elif false // ushort.MaxValue < long.MaxValue && long.MinValue < ushort.MinValue
+#elif true // ushort.MaxValue < long.MaxValue && long.MinValue < ushort.MinValue
         result = (cast.Source == ((long) cast.Destination));
 #else
         // Force a compile time error
@@ -6978,7 +6978,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((int) cast.Source));
         }
-#elif false // int.MaxValue < long.MaxValue && long.MinValue < int.MinValue
+#elif true // int.MaxValue < long.MaxValue && long.MinValue < int.MinValue
         result = (cast.Source == ((long) cast.Destination));
 #else
         // Force a compile time error
@@ -7109,7 +7109,7 @@ namespace He4.Projects.SafeBits.Casts
           // Cast will succeed
           result = (cast.Destination == ((uint) cast.Source));
         }
-#elif false // uint.MaxValue < long.MaxValue && long.MinValue < uint.MinValue
+#elif true // uint.MaxValue < long.MaxValue && long.MinValue < uint.MinValue
         result = (cast.Source == ((long) cast.Destination));
 #else
         // Force a compile time error
@@ -7224,7 +7224,7 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // long.MaxValue >= long.MaxValue && long.MinValue >= long.MinValue
+#if true // long.MaxValue >= long.MaxValue && long.MinValue >= long.MinValue
         result = (cast.Destination == ((long) cast.Source));
 #elif false // long.MaxValue >= long.MaxValue && long.MinValue < long.MinValue
         if (cast.Source >= long.MinValue)
@@ -7357,7 +7357,7 @@ namespace He4.Projects.SafeBits.Casts
 
 #if false // ulong.MaxValue >= long.MaxValue && long.MinValue >= ulong.MinValue
         result = (cast.Destination == ((ulong) cast.Source));
-#elif false // ulong.MaxValue >= long.MaxValue && long.MinValue < ulong.MinValue
+#elif true // ulong.MaxValue >= long.MaxValue && long.MinValue < ulong.MinValue
         if (cast.Source >= ulong.MinValue)
         {
 
