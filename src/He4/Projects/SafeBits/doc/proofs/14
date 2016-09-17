@@ -1,0 +1,283 @@
+PROVE
+
+D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+(max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+
+LOCAL VARIABLES
+
+DMAX = max(values(D))
+DMIN = min(values(D))
+SMAX = max(values(S))
+SMIN = min(values(S))
+
+PROOF
+
+# Step
+(max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+(max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+
+Substitute local variables
+
+(max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+(max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D)))
+(DMAX           >= SMAX          ) ∧ (SMIN           >= DMIN          )
+(DMAX           >= SMAX          ) ∧ (SMIN           >= DMIN          ) ⇒ s ∈ values(D)
+(DMAX >= SMAX) ∧ (SMIN >= DMIN) ⇒ s ∈ values(D)
+
+# Step
+(DMAX >= SMAX) ∧ (SMIN >= DMIN) ⇒ s ∈ values(D)
+
+P ⇒ Q ⇔ ¬P ∨ Q
+
+  P ⇔ (DMAX >= SMAX) ∧ (SMIN >= DMIN)
+  Q ⇔ s ∈ values(D)
+
+   (DMAX >= SMAX) ∧ (SMIN >= DMIN) ⇒ s ∈ values(D)
+¬((DMAX >= SMAX) ∧ (SMIN >= DMIN)) ∨ (s ∈ values(D))
+
+# Step
+¬((DMAX >= SMAX) ∧ (SMIN >= DMIN)) ∨ (s ∈ values(D))
+
+¬(P ∧ Q) ⇔ ¬P ∨ ¬Q
+
+  P ⇔ (DMAX >= SMAX)
+  Q ⇔ (SMIN >= DMIN)
+
+¬((DMAX >= SMAX) ∧ (SMIN >= DMIN)) ∨ (s ∈ values(D))
+¬((DMAX >= SMAX) ∧ (SMIN >= DMIN))
+ ¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN)
+ ¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ (s ∈ values(D))
+
+# Step
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ (s ∈ values(D))
+
+X ∈ IT, x ∈ ℤ ⇒
+x ∈ values(X) ⇔ (max(values(X)) >= x) ∧ (x >= min(values(X)))
+
+  X ⇔ D
+  x ⇔ s
+
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ (s ∈ values(D))
+                                    (s ∈ values(D))
+                                    ((max(values(D)) >= s) ∧ (s >= min(values(D))))
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((max(values(D)) >= s) ∧ (s >= min(values(D))))
+
+# Step
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((max(values(D)) >= s) ∧ (s >= min(values(D))))
+
+Substitute local variables
+
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((max(values(D)) >= s) ∧ (s >= min(values(D))))
+                                    ((max(values(D)) >= s) ∧ (s >= min(values(D))))
+                                    ((DMAX           >= s) ∧ (s >= DMIN          ))
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX           >= s) ∧ (s >= DMIN          ))
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN))
+
+# Step
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN))
+
+P ∨ f ⇔ P
+
+  P ⇔ ¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN))
+
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN))
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ f
+
+# Step
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ f
+
+f ⇔ ¬t
+
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ f
+                                                                  f
+                                                                  ¬t
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬t
+
+# Step
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬t
+
+s ∈ values(S)
+
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬t
+                                                                   t
+                                                                   (s ∈ values(S))
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬(s ∈ values(S))
+
+# Step
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬(s ∈ values(S))
+
+X ∈ IT, x ∈ ℤ ⇒
+x ∈ values(X) ⇔ (max(values(X)) >= x) ∧ (x >= min(values(X)))
+
+  X ⇔ S
+  x ⇔ s
+
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬(s ∈ values(S))
+                                                                   (s ∈ values(S))
+                                                                   ((max(values(S)) >= s) ∧ (s >= min(values(S))))
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬((max(values(S)) >= s) ∧ (s >= min(values(S))))
+
+# Step
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬((max(values(S)) >= s) ∧ (s >= min(values(S))))
+
+Substitute local variables
+
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬((max(values(S)) >= s) ∧ (s >= min(values(S))))
+                                                                   ((max(values(S)) >= s) ∧ (s >= min(values(S))))
+                                                                   ((SMAX           >= s) ∧ (s >= SMIN          ))
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬((SMAX           >= s) ∧ (s >= SMIN          ))
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬((SMAX >= s) ∧ (s >= SMIN))
+
+# Step
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬((SMAX >= s) ∧ (s >= SMIN))
+
+¬(P ∧ Q) ⇔ ¬P ∨ ¬Q
+
+  P ⇔ (SMAX >= s)
+  Q ⇔ (s >= SMIN)
+
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬((SMAX >= s) ∧ (s >= SMIN))
+                                                                  ¬((SMAX >= s) ∧ (s >= SMIN))
+                                                                  ¬(SMAX >= s) ∨ ¬(s >= SMIN)
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬(SMAX >= s) ∨ ¬(s >= SMIN)
+
+# Step
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬(SMAX >= s) ∨ ¬(s >= SMIN)
+
+P ∨ Q ⇔ Q ∨ P
+
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬(SMAX >= s) ∨ ¬(s >= SMIN)
+¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ¬(SMAX >= s) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬(s >= SMIN)
+¬(DMAX >= SMAX) ∨ ¬(s >= SMIN) ∨ ¬(SMIN >= DMIN) ∨ ¬(SMAX >= s) ∨ ((DMAX >= s) ∧ (s >= DMIN))
+¬(s >= SMIN) ∨ ¬(SMIN >= DMIN) ∨ ¬(DMAX >= SMAX) ∨ ¬(SMAX >= s) ∨ ((DMAX >= s) ∧ (s >= DMIN))
+
+# Step
+¬(s >= SMIN) ∨ ¬(SMIN >= DMIN) ∨ ¬(DMAX >= SMAX) ∨ ¬(SMAX >= s) ∨ ((DMAX >= s) ∧ (s >= DMIN))
+
+¬(P ∧ Q) ⇔ ¬P ∨ ¬Q
+
+  P ⇔ (DMAX >= SMAX)
+  Q ⇔ (SMAX >= s)
+
+¬(s >= SMIN) ∨ ¬(SMIN >= DMIN) ∨ ¬(DMAX >= SMAX) ∨ ¬(SMAX >= s) ∨ ((DMAX >= s) ∧ (s >= DMIN))
+                                 ¬(DMAX >= SMAX) ∨ ¬(SMAX >= s)
+                                 ¬((DMAX >= SMAX) ∧ (SMAX >= s))
+¬(s >= SMIN) ∨ ¬(SMIN >= DMIN) ∨ ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ ((DMAX >= s) ∧ (s >= DMIN))
+¬(s >= SMIN) ∨ ¬(SMIN >= DMIN)
+¬((s >= SMIN) ∧ (SMIN >= DMIN))
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ ((DMAX >= s) ∧ (s >= DMIN))
+
+# Step
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ ((DMAX >= s) ∧ (s >= DMIN))
+
+P ∨ (Q ∧ R) ⇔ (P ∨ Q) ∧ (P ∨ R)
+
+  P ⇔ ¬((DMAX >= SMAX) ∧ (SMAX >= s))
+  Q ⇔ (DMAX >= s)
+  R ⇔ (s >= DMIN)
+
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ ((DMAX >= s) ∧ (s >= DMIN))
+                                  ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ ((DMAX >= s) ∧ (s >= DMIN))
+                                  ((¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (DMAX >= s)) ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ((¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (DMAX >= s)) ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
+
+# Step
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ((¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (DMAX >= s)) ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
+
+P ⇒ Q ⇔ ¬P ∨ Q
+
+  P ⇔ ((DMAX >= SMAX) ∧ (SMAX >= s))
+  Q ⇔ (DMAX >= s)
+
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ((¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (DMAX >= s)) ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
+                                   (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (DMAX >= s))
+                                   ( ((DMAX >= SMAX) ∧ (SMAX >= s)) ⇒ (DMAX >= s))
+                                   (  (DMAX >= SMAX) ∧ (SMAX >= s)  ⇒ (DMAX >= s))
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ((  (DMAX >= SMAX) ∧ (SMAX >= s)  ⇒ (DMAX >= s)) ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ (((DMAX >= SMAX) ∧ (SMAX >= s) ⇒ (DMAX >= s)) ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
+
+# Step
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ (((DMAX >= SMAX) ∧ (SMAX >= s) ⇒ (DMAX >= s)) ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
+
+x ∈ ℤ ∧ y ∈ ℤ ∧ z ∈ ℤ ⇒
+(x >= y) ∧ (y >= z) ⇒ (x >= z)
+
+  x ⇔ DMAX
+  y ⇔ SMAX
+  z ⇔ s
+
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ (((DMAX >= SMAX) ∧ (SMAX >= s) ⇒ (DMAX >= s)) ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
+                                    (DMAX >= SMAX) ∧ (SMAX >= s) ⇒ (DMAX >= s)
+                                    t
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ((t                                         ) ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ((t) ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ (t ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
+
+# Step
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ (t ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
+
+P ∧ t ⇔ P
+
+  P ⇔ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN))
+
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ (t ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
+                                   t ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN))
+                                       (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN))
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ (    (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨      (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN))
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨       ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)
+
+# Step
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)
+
+P ∨ Q ⇔ Q ∨ P
+
+¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)
+¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ ¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ (s >= DMIN)
+
+# Step
+¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ ¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ (s >= DMIN)
+
+P ⇒ Q ⇔ ¬P ∨ Q
+
+  P ⇔ ((s >= SMIN) ∧ (SMIN >= DMIN))
+  Q ⇔ (s >= DMIN)
+
+¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ ¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ (s >= DMIN)
+                                  ¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ (s >= DMIN)
+                                   ((s >= SMIN) ∧ (SMIN >= DMIN)) ⇒ (s >= DMIN)
+                                    (s >= SMIN) ∧ (SMIN >= DMIN)  ⇒ (s >= DMIN)
+                                   ((s >= SMIN) ∧ (SMIN >= DMIN)  ⇒ (s >= DMIN))
+¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨  ((s >= SMIN) ∧ (SMIN >= DMIN)  ⇒ (s >= DMIN))
+¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ ((s >= SMIN) ∧ (SMIN >= DMIN) ⇒ (s >= DMIN))
+
+# Step
+¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ ((s >= SMIN) ∧ (SMIN >= DMIN) ⇒ (s >= DMIN))
+
+x ∈ ℤ ∧ y ∈ ℤ ∧ z ∈ ℤ ⇒
+(x >= y) ∧ (y >= z) ⇒ (x >= z)
+
+  x ⇔ s
+  y ⇔ SMIN
+  z ⇔ DMIN
+
+¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ ((s >= SMIN) ∧ (SMIN >= DMIN) ⇒ (s >= DMIN))
+                                   (s >= SMIN) ∧ (SMIN >= DMIN) ⇒ (s >= DMIN)
+                                   t
+¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (t                                         )
+¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (t)
+¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ t
+
+# Step
+¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ t
+
+P ∨ t ⇔ t
+
+  P ⇔ ¬((DMAX >= SMAX) ∧ (SMAX >= s))
+
+¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ t
+t
+
+# Step
+t
