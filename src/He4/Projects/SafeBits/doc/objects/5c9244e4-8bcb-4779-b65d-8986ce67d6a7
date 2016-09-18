@@ -3,7 +3,21 @@ uuid: 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
 statement: |
   D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
   (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
-depends: []
+depends:
+  - 178ae964-5073-40f1-be5b-deda0a25f698
+  - 05604ff7-7b13-4713-aeba-f40a8508435d
+  - 482d6186-b0d0-4ac9-83d5-05b7fe2c9bf0
+  - 10466834-cc46-42d9-a50a-ff6b8fb2c987
+  - 12bae5ee-a526-43de-a1b4-3512ad05cc2a
+  - dd263127-2073-4aa4-a6bf-23ad10790d15
+  - 060f1c61-b5a7-48db-836e-1482fa57d9c4
+  - e269db78-4832-4e8b-aab0-5fe8107baee1
+  - 119d4570-f297-4986-a2be-3ad1841f4a07
+  - f61297e2-0d3c-49e7-832d-6af87fbfe49f
+  - 7db1a99f-73a7-40b4-8d08-6b2a73dbda3e
+  - d9f9f968-7425-4670-bff2-9daf6bb3d448
+  - 53f687e1-11d3-4d6f-a104-73fefa74c81e
+  - 696eb2bd-3e4f-4f53-a5cf-7fbedd2f5e02
 ---
 
 STATEMENT
@@ -34,6 +48,7 @@ Substitute local variables
 *******************************************************************************
 (DMAX >= SMAX) ∧ (SMIN >= DMIN) ⇒ s ∈ values(D)
 
+178ae964-5073-40f1-be5b-deda0a25f698
 P ⇒ Q ⇔ ¬P ∨ Q
 
   P ⇔ (DMAX >= SMAX) ∧ (SMIN >= DMIN)
@@ -45,6 +60,7 @@ P ⇒ Q ⇔ ¬P ∨ Q
 *******************************************************************************
 ¬((DMAX >= SMAX) ∧ (SMIN >= DMIN)) ∨ (s ∈ values(D))
 
+05604ff7-7b13-4713-aeba-f40a8508435d
 ¬(P ∧ Q) ⇔ ¬P ∨ ¬Q
 
   P ⇔ (DMAX >= SMAX)
@@ -58,6 +74,7 @@ P ⇒ Q ⇔ ¬P ∨ Q
 *******************************************************************************
 ¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ (s ∈ values(D))
 
+482d6186-b0d0-4ac9-83d5-05b7fe2c9bf0
 X ∈ IT, x ∈ ℤ ⇒
 x ∈ values(X) ⇔ (max(values(X)) >= x) ∧ (x >= min(values(X)))
 
@@ -83,6 +100,7 @@ Substitute local variables
 *******************************************************************************
 ¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN))
 
+10466834-cc46-42d9-a50a-ff6b8fb2c987
 P ∨ f ⇔ P
 
   P ⇔ ¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN))
@@ -93,6 +111,7 @@ P ∨ f ⇔ P
 *******************************************************************************
 ¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ f
 
+12bae5ee-a526-43de-a1b4-3512ad05cc2a
 f ⇔ ¬t
 
 ¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ f
@@ -113,6 +132,7 @@ s ∈ values(S)
 *******************************************************************************
 ¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬(s ∈ values(S))
 
+482d6186-b0d0-4ac9-83d5-05b7fe2c9bf0
 X ∈ IT, x ∈ ℤ ⇒
 x ∈ values(X) ⇔ (max(values(X)) >= x) ∧ (x >= min(values(X)))
 
@@ -138,6 +158,7 @@ Substitute local variables
 *******************************************************************************
 ¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬((SMAX >= s) ∧ (s >= SMIN))
 
+05604ff7-7b13-4713-aeba-f40a8508435d
 ¬(P ∧ Q) ⇔ ¬P ∨ ¬Q
 
   P ⇔ (SMAX >= s)
@@ -151,6 +172,7 @@ Substitute local variables
 *******************************************************************************
 ¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬(SMAX >= s) ∨ ¬(s >= SMIN)
 
+dd263127-2073-4aa4-a6bf-23ad10790d15
 P ∨ Q ⇔ Q ∨ P
 
 ¬(DMAX >= SMAX) ∨ ¬(SMIN >= DMIN) ∨ ((DMAX >= s) ∧ (s >= DMIN)) ∨ ¬(SMAX >= s) ∨ ¬(s >= SMIN)
@@ -161,6 +183,7 @@ P ∨ Q ⇔ Q ∨ P
 *******************************************************************************
 ¬(s >= SMIN) ∨ ¬(SMIN >= DMIN) ∨ ¬(DMAX >= SMAX) ∨ ¬(SMAX >= s) ∨ ((DMAX >= s) ∧ (s >= DMIN))
 
+05604ff7-7b13-4713-aeba-f40a8508435d
 ¬(P ∧ Q) ⇔ ¬P ∨ ¬Q
 
   P ⇔ (DMAX >= SMAX)
@@ -177,6 +200,7 @@ P ∨ Q ⇔ Q ∨ P
 *******************************************************************************
 ¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ ((DMAX >= s) ∧ (s >= DMIN))
 
+060f1c61-b5a7-48db-836e-1482fa57d9c4
 P ∨ (Q ∧ R) ⇔ (P ∨ Q) ∧ (P ∨ R)
 
   P ⇔ ¬((DMAX >= SMAX) ∧ (SMAX >= s))
@@ -191,6 +215,7 @@ P ∨ (Q ∧ R) ⇔ (P ∨ Q) ∧ (P ∨ R)
 *******************************************************************************
 ¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ((¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (DMAX >= s)) ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
 
+178ae964-5073-40f1-be5b-deda0a25f698
 P ⇒ Q ⇔ ¬P ∨ Q
 
   P ⇔ ((DMAX >= SMAX) ∧ (SMAX >= s))
@@ -206,6 +231,7 @@ P ⇒ Q ⇔ ¬P ∨ Q
 *******************************************************************************
 ¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ (((DMAX >= SMAX) ∧ (SMAX >= s) ⇒ (DMAX >= s)) ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
 
+e269db78-4832-4e8b-aab0-5fe8107baee1
 x ∈ ℤ ∧ y ∈ ℤ ∧ z ∈ ℤ ⇒
 (x >= y) ∧ (y >= z) ⇒ (x >= z)
 
@@ -223,6 +249,7 @@ x ∈ ℤ ∧ y ∈ ℤ ∧ z ∈ ℤ ⇒
 *******************************************************************************
 ¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ (t ∧ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)))
 
+119d4570-f297-4986-a2be-3ad1841f4a07
 P ∧ t ⇔ P
 
   P ⇔ (¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN))
@@ -238,6 +265,7 @@ P ∧ t ⇔ P
 *******************************************************************************
 ¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)
 
+dd263127-2073-4aa4-a6bf-23ad10790d15
 P ∨ Q ⇔ Q ∨ P
 
 ¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ (s >= DMIN)
@@ -246,6 +274,7 @@ P ∨ Q ⇔ Q ∨ P
 *******************************************************************************
 ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ ¬((s >= SMIN) ∧ (SMIN >= DMIN)) ∨ (s >= DMIN)
 
+178ae964-5073-40f1-be5b-deda0a25f698
 P ⇒ Q ⇔ ¬P ∨ Q
 
   P ⇔ ((s >= SMIN) ∧ (SMIN >= DMIN))
@@ -262,6 +291,7 @@ P ⇒ Q ⇔ ¬P ∨ Q
 *******************************************************************************
 ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ ((s >= SMIN) ∧ (SMIN >= DMIN) ⇒ (s >= DMIN))
 
+e269db78-4832-4e8b-aab0-5fe8107baee1
 x ∈ ℤ ∧ y ∈ ℤ ∧ z ∈ ℤ ⇒
 (x >= y) ∧ (y >= z) ⇒ (x >= z)
 
@@ -279,6 +309,7 @@ x ∈ ℤ ∧ y ∈ ℤ ∧ z ∈ ℤ ⇒
 *******************************************************************************
 ¬((DMAX >= SMAX) ∧ (SMAX >= s)) ∨ t
 
+f61297e2-0d3c-49e7-832d-6af87fbfe49f
 P ∨ t ⇔ t
 
   P ⇔ ¬((DMAX >= SMAX) ∧ (SMAX >= s))
