@@ -7,6 +7,18 @@ f ⇔ ¬t
 dd263127-2073-4aa4-a6bf-23ad10790d15
 P ∨ Q ⇔ Q ∨ P
 
+fbe2983b-c112-4787-80e4-2c20c32c6c40
+P ∧ Q ⇔ Q ∧ P
+
+6804cdc8-15e2-445d-adba-7dea1a0d88b6
+P ∨ ¬P ⇔ t
+
+640f1265-c13d-4d0f-9748-04d6f8d4e3dc
+¬(P ∨ Q) ⇔ ¬P ∧ ¬Q
+
+a9aa3354-7bb7-4889-93d2-9ce0a87f3804
+¬¬P ⇔ P
+
 10466834-cc46-42d9-a50a-ff6b8fb2c987
 P ∨ f ⇔ P
 
@@ -44,6 +56,14 @@ e269db78-4832-4e8b-aab0-5fe8107baee1
 x ∈ ℤ ∧ y ∈ ℤ ∧ z ∈ ℤ ⇒
 (x >= y) ∧ (y >= z) ⇒ (x >= z)
 
+dfb4af87-7874-42d4-b1a9-0d21bb4a614b
+x ∈ ℤ, y ∈ ℤ ⇒
+x = y ⇔ y = x
+
+8fdcc4c6-d504-4f64-b75a-33ee62d01a9b
+x ∈ ℤ, y ∈ ℤ, z ∈ ℤ ⇒
+(x >= y) ∧ (y = z) ⇒ (x >= z)
+
 THEOREMS
 *******************************************************************************
 
@@ -60,3 +80,11 @@ x ∈ values(X) ⇔ (max(values(X)) >= x) ∧ (x >= min(values(X)))
 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
 D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
 (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+
+9088a52d-d371-4363-9009-2f7f58abde72
+D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+(max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+
+d13b9fe3-a7ef-4731-8d85-34481541f4a0
+X ∈ IT ∧ Y ∈ IT ⇒
+(max(values(X)) >= max(values(Y))) ∧ ¬(min(values(Y)) >= min(values(X))) ⇒ (min(values(X)) = 0)
