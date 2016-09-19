@@ -4,6 +4,28 @@ statement: |
   D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
   (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
 depends:
+  - 178ae964-5073-40f1-be5b-deda0a25f698
+  - 05604ff7-7b13-4713-aeba-f40a8508435d
+  - 10466834-cc46-42d9-a50a-ff6b8fb2c987
+  - 12bae5ee-a526-43de-a1b4-3512ad05cc2a
+  - 6804cdc8-15e2-445d-adba-7dea1a0d88b6
+  - 640f1265-c13d-4d0f-9748-04d6f8d4e3dc
+  - a9aa3354-7bb7-4889-93d2-9ce0a87f3804
+  - dd263127-2073-4aa4-a6bf-23ad10790d15
+  - 060f1c61-b5a7-48db-836e-1482fa57d9c4
+  - d13b9fe3-a7ef-4731-8d85-34481541f4a0                                                                                  |---
+  - 119d4570-f297-4986-a2be-3ad1841f4a07
+  - fbe2983b-c112-4787-80e4-2c20c32c6c40
+  - 482d6186-b0d0-4ac9-83d5-05b7fe2c9bf0
+  - dfb4af87-7874-42d4-b1a9-0d21bb4a614b
+  - 8fdcc4c6-d504-4f64-b75a-33ee62d01a9b
+  - e269db78-4832-4e8b-aab0-5fe8107baee1
+  - f61297e2-0d3c-49e7-832d-6af87fbfe49f
+  - 7db1a99f-73a7-40b4-8d08-6b2a73dbda3e
+  - d9f9f968-7425-4670-bff2-9daf6bb3d448
+  - 696eb2bd-3e4f-4f53-a5cf-7fbedd2f5e02
+  - 53f687e1-11d3-4d6f-a104-73fefa74c81e
+  - b0fb1895-3562-48ac-9250-17ed3649f5f4
 ---
 
 STATEMENT
