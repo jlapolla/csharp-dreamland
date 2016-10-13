@@ -1,0 +1,107 @@
+---
+uuid: d13b9fe3-a7ef-4731-8d85-34481541f4a0
+statement: |
+  X ∈ IT ∧ Y ∈ IT ⇒
+  (max(values(X)) >= max(values(Y))) ∧ ¬(min(values(Y)) >= min(values(X))) ⇒ (min(values(X)) = 0)
+depends:
+  - 53f687e1-11d3-4d6f-a104-73fefa74c81e
+  - 696eb2bd-3e4f-4f53-a5cf-7fbedd2f5e02
+  - d9f9f968-7425-4670-bff2-9daf6bb3d448
+  - 7db1a99f-73a7-40b4-8d08-6b2a73dbda3e
+  - 178ae964-5073-40f1-be5b-deda0a25f698
+  - 05604ff7-7b13-4713-aeba-f40a8508435d
+  - a9aa3354-7bb7-4889-93d2-9ce0a87f3804
+  - 9149fc5b-ec59-4510-8f6d-5dac5d7c8dde
+---
+
+STATEMENT
+
+X ∈ IT ∧ Y ∈ IT ⇒
+(max(values(X)) >= max(values(Y))) ∧ ¬(min(values(Y)) >= min(values(X))) ⇒ (min(values(X)) = 0)
+
+LOCAL VARIABLES
+
+XMAX = max(values(X))
+XMIN = min(values(X))
+YMAX = max(values(Y))
+YMIN = min(values(Y))
+
+PROOF
+
+*******************************************************************************
+(max(values(X)) >= max(values(Y))) ∧ ¬(min(values(Y)) >= min(values(X))) ⇒ (min(values(X)) = 0)
+
+Substitute local variables
+
+(max(values(X)) >= max(values(Y))) ∧ ¬(min(values(Y)) >= min(values(X))) ⇒ (min(values(X)) = 0)
+(XMAX           >= YMAX          ) ∧ ¬(YMIN           >= XMIN          ) ⇒ (XMIN           = 0)
+(XMAX >= YMAX) ∧ ¬(YMIN >= XMIN) ⇒ (XMIN = 0)
+
+*******************************************************************************
+(XMAX >= YMAX) ∧ ¬(YMIN >= XMIN) ⇒ (XMIN = 0)
+
+178ae964-5073-40f1-be5b-deda0a25f698
+P ⇒ Q ⇔ ¬P ∨ Q
+
+  P ⇔ (XMAX >= YMAX) ∧ ¬(YMIN >= XMIN)
+  Q ⇔ (XMIN = 0)
+
+(XMAX >= YMAX) ∧ ¬(YMIN >= XMIN) ⇒ (XMIN = 0)
+  (XMAX >= YMAX) ∧ ¬(YMIN >= XMIN)  ⇒ (XMIN = 0)
+ ((XMAX >= YMAX) ∧ ¬(YMIN >= XMIN)) ⇒ (XMIN = 0)
+¬((XMAX >= YMAX) ∧ ¬(YMIN >= XMIN)) ∨ (XMIN = 0)
+
+*******************************************************************************
+¬((XMAX >= YMAX) ∧ ¬(YMIN >= XMIN)) ∨ (XMIN = 0)
+
+05604ff7-7b13-4713-aeba-f40a8508435d
+¬(P ∧ Q) ⇔ ¬P ∨ ¬Q
+
+  P ⇔ (XMAX >= YMAX)
+  Q ⇔ ¬(YMIN >= XMIN)
+
+¬((XMAX >= YMAX) ∧ ¬(YMIN >= XMIN)) ∨ (XMIN = 0)
+¬((XMAX >= YMAX) ∧  ¬(YMIN >= XMIN)) ∨ (XMIN = 0)
+¬((XMAX >= YMAX) ∧  ¬(YMIN >= XMIN))
+ ¬(XMAX >= YMAX) ∨ ¬¬(YMIN >= XMIN)
+ ¬(XMAX >= YMAX) ∨ ¬¬(YMIN >= XMIN)  ∨ (XMIN = 0)
+¬(XMAX >= YMAX) ∨ ¬¬(YMIN >= XMIN) ∨ (XMIN = 0)
+
+*******************************************************************************
+¬(XMAX >= YMAX) ∨ ¬¬(YMIN >= XMIN) ∨ (XMIN = 0)
+
+a9aa3354-7bb7-4889-93d2-9ce0a87f3804
+¬¬P ⇔ P
+
+  P ⇔ (YMIN >= XMIN)
+
+¬(XMAX >= YMAX) ∨ ¬¬(YMIN >= XMIN) ∨ (XMIN = 0)
+                  ¬¬(YMIN >= XMIN)
+                    (YMIN >= XMIN)
+¬(XMAX >= YMAX) ∨   (YMIN >= XMIN) ∨ (XMIN = 0)
+¬(XMAX >= YMAX) ∨ (YMIN >= XMIN) ∨ (XMIN = 0)
+
+*******************************************************************************
+¬(XMAX >= YMAX) ∨ (YMIN >= XMIN) ∨ (XMIN = 0)
+
+Substitute local variables
+
+¬(XMAX >= YMAX) ∨ (YMIN >= XMIN) ∨ (XMIN = 0)
+¬(XMAX           >= YMAX          ) ∨ (YMIN           >= XMIN          ) ∨ (XMIN           = 0)
+¬(max(values(X)) >= max(values(Y))) ∨ (min(values(Y)) >= min(values(X))) ∨ (min(values(X)) = 0)
+
+*******************************************************************************
+¬(max(values(X)) >= max(values(Y))) ∨ (min(values(Y)) >= min(values(X))) ∨ (min(values(X)) = 0)
+
+9149fc5b-ec59-4510-8f6d-5dac5d7c8dde
+X ∈ IT ∧ Y ∈ IT ⇒
+¬(max(values(X)) >= max(values(Y))) ∨ (min(values(Y)) >= min(values(X))) ∨ (min(values(X)) = 0)
+
+  X ⇔ X
+  Y ⇔ Y
+
+¬(max(values(X)) >= max(values(Y))) ∨ (min(values(Y)) >= min(values(X))) ∨ (min(values(X)) = 0)
+t
+
+*******************************************************************************
+t

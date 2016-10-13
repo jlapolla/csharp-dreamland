@@ -88,3 +88,7 @@ D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
 d13b9fe3-a7ef-4731-8d85-34481541f4a0
 X ∈ IT ∧ Y ∈ IT ⇒
 (max(values(X)) >= max(values(Y))) ∧ ¬(min(values(Y)) >= min(values(X))) ⇒ (min(values(X)) = 0)
+
+9149fc5b-ec59-4510-8f6d-5dac5d7c8dde
+X ∈ IT ∧ Y ∈ IT ⇒
+¬(max(values(X)) >= max(values(Y))) ∨ (min(values(Y)) >= min(values(X))) ∨ (min(values(X)) = 0)
