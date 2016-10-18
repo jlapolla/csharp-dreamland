@@ -1,16 +1,74 @@
+/*
+ * Define integral type range characteristics
+ *
+ * TYPEXIncludesTYPEY ⇔ (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D)))
+ *   D ⇔ TYPEX
+ *   S ⇔ TYPEY
+ *
+ * TYPEXOverlapsTYPEY ⇔ (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D)))
+ *   D ⇔ TYPEX
+ *   S ⇔ TYPEY
+ */
+
+#define SByteIncludesSByte
+
+#define ByteOverlapsSByte
+#define ByteIncludesByte
+
+#define Int16IncludesSByte
+#define Int16IncludesByte
+#define Int16IncludesInt16
+
+#define UInt16OverlapsSByte
+#define UInt16IncludesByte
+#define UInt16OverlapsInt16
+#define UInt16IncludesUInt16
+
+#define Int32IncludesSByte
+#define Int32IncludesByte
+#define Int32IncludesInt16
+#define Int32IncludesUInt16
+#define Int32IncludesInt32
+
+#define UInt32OverlapsSByte
+#define UInt32IncludesByte
+#define UInt32OverlapsInt16
+#define UInt32IncludesUInt16
+#define UInt32OverlapsInt32
+#define UInt32IncludesUInt32
+
+#define Int64IncludesSByte
+#define Int64IncludesByte
+#define Int64IncludesInt16
+#define Int64IncludesUInt16
+#define Int64IncludesInt32
+#define Int64IncludesUInt32
+#define Int64IncludesInt64
+
+#define UInt64OverlapsSByte
+#define UInt64IncludesByte
+#define UInt64OverlapsInt16
+#define UInt64IncludesUInt16
+#define UInt64OverlapsInt32
+#define UInt64IncludesUInt32
+#define UInt64OverlapsInt64
+#define UInt64IncludesUInt64
+
+using System;
+
 namespace He4.Projects.SafeBits.Casts
 {
 
+  /// <remarks>
+  /// The source code of this class is generated from
+  /// CastProperties.Template.cs and CastProperties.Generate.pl. To
+  /// update the source code, update the CastProperties.Template.cs
+  /// file, then run CastProperties.Generate.pl.
+  /// </remarks>
   public static class CastProperties
   {
 
-#if false
-
-    /*
-     * Copy these templates and find / replace T1 and T2
-     */
-
-    public static bool IsValueCopy(Cast<T1, T2> cast)
+    public static bool IsValueCopy(Cast<SByte, SByte> cast)
     {
 
       bool result = false;
@@ -18,34 +76,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // T2.MaxValue >= T1.MaxValue && T1.MinValue >= T2.MinValue
-        result = (cast.Destination == ((T2) cast.Source));
-#elif false // T2.MaxValue >= T1.MaxValue && T1.MinValue < T2.MinValue
-        if (cast.Source >= T2.MinValue)
+#if SByteIncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ SByte
+         */
+        result = (cast.Destination == ((SByte) cast.Source));
+
+#elif SByteOverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ SByte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((T2) cast.Source));
+          result = (cast.Destination == ((SByte) cast.Source));
         }
-#elif false // T2.MaxValue < T1.MaxValue && T1.MinValue >= T2.MinValue
-        if (cast.Source <= T2.MaxValue)
+
+#elif SByteOverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ SByte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((T2) cast.Source));
+          result = (cast.Source == ((SByte) cast.Destination));
         }
-#elif false // T2.MaxValue < T1.MaxValue && T1.MinValue < T2.MinValue
-        result = (cast.Source == ((T1) cast.Destination));
+
+#elif SByteIncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ SByte
+         */
+        result = (cast.Source == ((SByte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between SByte and SByte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<T1, T2> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<SByte, SByte> cast)
     {
 
       bool result = false;
@@ -55,34 +143,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        T1 sourceBit = 1;
-        T2 destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -93,7 +195,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<T1, T2> cast)
+    public static bool IsOneFillBinaryCopy(Cast<SByte, SByte> cast)
     {
 
       bool result = false;
@@ -103,22 +205,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        T1 sourceBit = 1;
-        T2 destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -126,11 +235,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -140,9 +256,8 @@ namespace He4.Projects.SafeBits.Casts
 
       return result;
     }
-#endif
 
-    public static bool IsValueCopy(Cast<sbyte, sbyte> cast)
+    public static bool IsValueCopy(Cast<SByte, Byte> cast)
     {
 
       bool result = false;
@@ -150,34 +265,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // sbyte.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= sbyte.MinValue
-        result = (cast.Destination == ((sbyte) cast.Source));
-#elif false // sbyte.MaxValue >= sbyte.MaxValue && sbyte.MinValue < sbyte.MinValue
-        if (cast.Source >= sbyte.MinValue)
+#if ByteIncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ SByte
+         */
+        result = (cast.Destination == ((Byte) cast.Source));
+
+#elif ByteOverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ SByte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
+          result = (cast.Destination == ((Byte) cast.Source));
         }
-#elif false // sbyte.MaxValue < sbyte.MaxValue && sbyte.MinValue >= sbyte.MinValue
-        if (cast.Source <= sbyte.MaxValue)
+
+#elif SByteOverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Byte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
+          result = (cast.Source == ((SByte) cast.Destination));
         }
-#elif false // sbyte.MaxValue < sbyte.MaxValue && sbyte.MinValue < sbyte.MinValue
-        result = (cast.Source == ((sbyte) cast.Destination));
+
+#elif SByteIncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Byte
+         */
+        result = (cast.Source == ((SByte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between SByte and Byte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<sbyte, sbyte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<SByte, Byte> cast)
     {
 
       bool result = false;
@@ -187,22 +332,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -210,11 +362,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -225,7 +384,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<sbyte, sbyte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<SByte, Byte> cast)
     {
 
       bool result = false;
@@ -235,22 +394,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -258,11 +424,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -273,42 +446,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<sbyte, byte> cast)
+    public static bool IsValueCopy(Cast<SByte, Int16> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if Int16IncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ SByte
+         */
+        result = (cast.Destination == ((Int16) cast.Source));
 
-#if false // byte.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= byte.MinValue
-        result = (cast.Destination == ((byte) cast.Source));
-#elif true // byte.MaxValue >= sbyte.MaxValue && sbyte.MinValue < byte.MinValue
-        if (cast.Source >= byte.MinValue)
+#elif Int16OverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ SByte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Destination == ((Int16) cast.Source));
         }
-#elif false // byte.MaxValue < sbyte.MaxValue && sbyte.MinValue >= byte.MinValue
-        if (cast.Source <= byte.MaxValue)
+
+#elif SByteOverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Int16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Source == ((SByte) cast.Destination));
         }
-#elif false // byte.MaxValue < sbyte.MaxValue && sbyte.MinValue < byte.MinValue
-        result = (cast.Source == ((sbyte) cast.Destination));
+
+#elif SByteIncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Int16
+         */
+        result = (cast.Source == ((SByte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between SByte and Int16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<sbyte, byte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<SByte, Int16> cast)
     {
 
       bool result = false;
@@ -318,22 +521,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -341,11 +551,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -356,7 +573,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<sbyte, byte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<SByte, Int16> cast)
     {
 
       bool result = false;
@@ -366,22 +583,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -389,11 +613,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -404,42 +635,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<sbyte, short> cast)
+    public static bool IsValueCopy(Cast<SByte, UInt16> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if UInt16IncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ SByte
+         */
+        result = (cast.Destination == ((UInt16) cast.Source));
 
-#if true // short.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= short.MinValue
-        result = (cast.Destination == ((short) cast.Source));
-#elif false // short.MaxValue >= sbyte.MaxValue && sbyte.MinValue < short.MinValue
-        if (cast.Source >= short.MinValue)
+#elif UInt16OverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ SByte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Destination == ((UInt16) cast.Source));
         }
-#elif false // short.MaxValue < sbyte.MaxValue && sbyte.MinValue >= short.MinValue
-        if (cast.Source <= short.MaxValue)
+
+#elif SByteOverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ UInt16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Source == ((SByte) cast.Destination));
         }
-#elif false // short.MaxValue < sbyte.MaxValue && sbyte.MinValue < short.MinValue
-        result = (cast.Source == ((sbyte) cast.Destination));
+
+#elif SByteIncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ UInt16
+         */
+        result = (cast.Source == ((SByte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between SByte and UInt16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<sbyte, short> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<SByte, UInt16> cast)
     {
 
       bool result = false;
@@ -449,34 +710,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -487,7 +762,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<sbyte, short> cast)
+    public static bool IsOneFillBinaryCopy(Cast<SByte, UInt16> cast)
     {
 
       bool result = false;
@@ -497,22 +772,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -520,11 +802,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -535,42 +824,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<sbyte, ushort> cast)
+    public static bool IsValueCopy(Cast<SByte, Int32> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if Int32IncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ SByte
+         */
+        result = (cast.Destination == ((Int32) cast.Source));
 
-#if false // ushort.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= ushort.MinValue
-        result = (cast.Destination == ((ushort) cast.Source));
-#elif true // ushort.MaxValue >= sbyte.MaxValue && sbyte.MinValue < ushort.MinValue
-        if (cast.Source >= ushort.MinValue)
+#elif Int32OverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ SByte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Destination == ((Int32) cast.Source));
         }
-#elif false // ushort.MaxValue < sbyte.MaxValue && sbyte.MinValue >= ushort.MinValue
-        if (cast.Source <= ushort.MaxValue)
+
+#elif SByteOverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Int32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Source == ((SByte) cast.Destination));
         }
-#elif false // ushort.MaxValue < sbyte.MaxValue && sbyte.MinValue < ushort.MinValue
-        result = (cast.Source == ((sbyte) cast.Destination));
+
+#elif SByteIncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Int32
+         */
+        result = (cast.Source == ((SByte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between SByte and Int32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<sbyte, ushort> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<SByte, Int32> cast)
     {
 
       bool result = false;
@@ -580,34 +899,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -618,7 +951,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<sbyte, ushort> cast)
+    public static bool IsOneFillBinaryCopy(Cast<SByte, Int32> cast)
     {
 
       bool result = false;
@@ -628,22 +961,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -651,11 +991,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -666,42 +1013,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<sbyte, int> cast)
+    public static bool IsValueCopy(Cast<SByte, UInt32> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if UInt32IncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ SByte
+         */
+        result = (cast.Destination == ((UInt32) cast.Source));
 
-#if true // int.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= int.MinValue
-        result = (cast.Destination == ((int) cast.Source));
-#elif false // int.MaxValue >= sbyte.MaxValue && sbyte.MinValue < int.MinValue
-        if (cast.Source >= int.MinValue)
+#elif UInt32OverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ SByte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Destination == ((UInt32) cast.Source));
         }
-#elif false // int.MaxValue < sbyte.MaxValue && sbyte.MinValue >= int.MinValue
-        if (cast.Source <= int.MaxValue)
+
+#elif SByteOverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ UInt32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Source == ((SByte) cast.Destination));
         }
-#elif false // int.MaxValue < sbyte.MaxValue && sbyte.MinValue < int.MinValue
-        result = (cast.Source == ((sbyte) cast.Destination));
+
+#elif SByteIncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ UInt32
+         */
+        result = (cast.Source == ((SByte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between SByte and UInt32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<sbyte, int> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<SByte, UInt32> cast)
     {
 
       bool result = false;
@@ -711,34 +1088,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -749,7 +1140,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<sbyte, int> cast)
+    public static bool IsOneFillBinaryCopy(Cast<SByte, UInt32> cast)
     {
 
       bool result = false;
@@ -759,22 +1150,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -782,11 +1180,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -797,7 +1202,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<sbyte, uint> cast)
+    public static bool IsValueCopy(Cast<SByte, Int64> cast)
     {
 
       bool result = false;
@@ -805,34 +1210,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // uint.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= uint.MinValue
-        result = (cast.Destination == ((uint) cast.Source));
-#elif true // uint.MaxValue >= sbyte.MaxValue && sbyte.MinValue < uint.MinValue
-        if (cast.Source >= uint.MinValue)
+#if Int64IncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ SByte
+         */
+        result = (cast.Destination == ((Int64) cast.Source));
+
+#elif Int64OverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ SByte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Destination == ((Int64) cast.Source));
         }
-#elif false // uint.MaxValue < sbyte.MaxValue && sbyte.MinValue >= uint.MinValue
-        if (cast.Source <= uint.MaxValue)
+
+#elif SByteOverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Int64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Source == ((SByte) cast.Destination));
         }
-#elif false // uint.MaxValue < sbyte.MaxValue && sbyte.MinValue < uint.MinValue
-        result = (cast.Source == ((sbyte) cast.Destination));
+
+#elif SByteIncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Int64
+         */
+        result = (cast.Source == ((SByte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between SByte and Int64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<sbyte, uint> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<SByte, Int64> cast)
     {
 
       bool result = false;
@@ -842,34 +1277,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -880,7 +1329,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<sbyte, uint> cast)
+    public static bool IsOneFillBinaryCopy(Cast<SByte, Int64> cast)
     {
 
       bool result = false;
@@ -890,34 +1339,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -928,7 +1391,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<sbyte, long> cast)
+    public static bool IsValueCopy(Cast<SByte, UInt64> cast)
     {
 
       bool result = false;
@@ -936,34 +1399,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // long.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= long.MinValue
-        result = (cast.Destination == ((long) cast.Source));
-#elif false // long.MaxValue >= sbyte.MaxValue && sbyte.MinValue < long.MinValue
-        if (cast.Source >= long.MinValue)
+#if UInt64IncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ SByte
+         */
+        result = (cast.Destination == ((UInt64) cast.Source));
+
+#elif UInt64OverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ SByte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Destination == ((UInt64) cast.Source));
         }
-#elif false // long.MaxValue < sbyte.MaxValue && sbyte.MinValue >= long.MinValue
-        if (cast.Source <= long.MaxValue)
+
+#elif SByteOverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ UInt64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Source == ((SByte) cast.Destination));
         }
-#elif false // long.MaxValue < sbyte.MaxValue && sbyte.MinValue < long.MinValue
-        result = (cast.Source == ((sbyte) cast.Destination));
+
+#elif SByteIncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ UInt64
+         */
+        result = (cast.Source == ((SByte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between SByte and UInt64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<sbyte, long> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<SByte, UInt64> cast)
     {
 
       bool result = false;
@@ -973,22 +1466,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -996,11 +1496,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -1011,7 +1518,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<sbyte, long> cast)
+    public static bool IsOneFillBinaryCopy(Cast<SByte, UInt64> cast)
     {
 
       bool result = false;
@@ -1021,34 +1528,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        SByte sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -1059,7 +1580,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<sbyte, ulong> cast)
+    public static bool IsValueCopy(Cast<Byte, SByte> cast)
     {
 
       bool result = false;
@@ -1067,34 +1588,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // ulong.MaxValue >= sbyte.MaxValue && sbyte.MinValue >= ulong.MinValue
-        result = (cast.Destination == ((ulong) cast.Source));
-#elif true // ulong.MaxValue >= sbyte.MaxValue && sbyte.MinValue < ulong.MinValue
-        if (cast.Source >= ulong.MinValue)
+#if SByteIncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Byte
+         */
+        result = (cast.Destination == ((SByte) cast.Source));
+
+#elif SByteOverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Byte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Destination == ((SByte) cast.Source));
         }
-#elif false // ulong.MaxValue < sbyte.MaxValue && sbyte.MinValue >= ulong.MinValue
-        if (cast.Source <= ulong.MaxValue)
+
+#elif ByteOverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ SByte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Source == ((Byte) cast.Destination));
         }
-#elif false // ulong.MaxValue < sbyte.MaxValue && sbyte.MinValue < ulong.MinValue
-        result = (cast.Source == ((sbyte) cast.Destination));
+
+#elif ByteIncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ SByte
+         */
+        result = (cast.Source == ((Byte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Byte and SByte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<sbyte, ulong> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Byte, SByte> cast)
     {
 
       bool result = false;
@@ -1104,22 +1655,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -1127,11 +1685,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -1142,7 +1707,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<sbyte, ulong> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Byte, SByte> cast)
     {
 
       bool result = false;
@@ -1152,34 +1717,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        sbyte sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -1190,7 +1769,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<byte, sbyte> cast)
+    public static bool IsValueCopy(Cast<Byte, Byte> cast)
     {
 
       bool result = false;
@@ -1198,34 +1777,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // sbyte.MaxValue >= byte.MaxValue && byte.MinValue >= sbyte.MinValue
-        result = (cast.Destination == ((sbyte) cast.Source));
-#elif false // sbyte.MaxValue >= byte.MaxValue && byte.MinValue < sbyte.MinValue
-        if (cast.Source >= sbyte.MinValue)
+#if ByteIncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Byte
+         */
+        result = (cast.Destination == ((Byte) cast.Source));
+
+#elif ByteOverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Byte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
+          result = (cast.Destination == ((Byte) cast.Source));
         }
-#elif true // sbyte.MaxValue < byte.MaxValue && byte.MinValue >= sbyte.MinValue
-        if (cast.Source <= sbyte.MaxValue)
+
+#elif ByteOverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Byte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
+          result = (cast.Source == ((Byte) cast.Destination));
         }
-#elif false // sbyte.MaxValue < byte.MaxValue && byte.MinValue < sbyte.MinValue
-        result = (cast.Source == ((byte) cast.Destination));
+
+#elif ByteIncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Byte
+         */
+        result = (cast.Source == ((Byte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Byte and Byte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<byte, sbyte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Byte, Byte> cast)
     {
 
       bool result = false;
@@ -1235,22 +1844,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -1258,11 +1874,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -1273,7 +1896,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<byte, sbyte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Byte, Byte> cast)
     {
 
       bool result = false;
@@ -1283,34 +1906,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -1321,7 +1958,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<byte, byte> cast)
+    public static bool IsValueCopy(Cast<Byte, Int16> cast)
     {
 
       bool result = false;
@@ -1329,34 +1966,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // byte.MaxValue >= byte.MaxValue && byte.MinValue >= byte.MinValue
-        result = (cast.Destination == ((byte) cast.Source));
-#elif false // byte.MaxValue >= byte.MaxValue && byte.MinValue < byte.MinValue
-        if (cast.Source >= byte.MinValue)
+#if Int16IncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Byte
+         */
+        result = (cast.Destination == ((Int16) cast.Source));
+
+#elif Int16OverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Byte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Destination == ((Int16) cast.Source));
         }
-#elif false // byte.MaxValue < byte.MaxValue && byte.MinValue >= byte.MinValue
-        if (cast.Source <= byte.MaxValue)
+
+#elif ByteOverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Int16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Source == ((Byte) cast.Destination));
         }
-#elif false // byte.MaxValue < byte.MaxValue && byte.MinValue < byte.MinValue
-        result = (cast.Source == ((byte) cast.Destination));
+
+#elif ByteIncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Int16
+         */
+        result = (cast.Source == ((Byte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Byte and Int16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<byte, byte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Byte, Int16> cast)
     {
 
       bool result = false;
@@ -1366,22 +2033,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -1389,11 +2063,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -1404,7 +2085,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<byte, byte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Byte, Int16> cast)
     {
 
       bool result = false;
@@ -1414,22 +2095,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -1437,11 +2125,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -1452,42 +2147,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<byte, short> cast)
+    public static bool IsValueCopy(Cast<Byte, UInt16> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if UInt16IncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Byte
+         */
+        result = (cast.Destination == ((UInt16) cast.Source));
 
-#if true // short.MaxValue >= byte.MaxValue && byte.MinValue >= short.MinValue
-        result = (cast.Destination == ((short) cast.Source));
-#elif false // short.MaxValue >= byte.MaxValue && byte.MinValue < short.MinValue
-        if (cast.Source >= short.MinValue)
+#elif UInt16OverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Byte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Destination == ((UInt16) cast.Source));
         }
-#elif false // short.MaxValue < byte.MaxValue && byte.MinValue >= short.MinValue
-        if (cast.Source <= short.MaxValue)
+
+#elif ByteOverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ UInt16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Source == ((Byte) cast.Destination));
         }
-#elif false // short.MaxValue < byte.MaxValue && byte.MinValue < short.MinValue
-        result = (cast.Source == ((byte) cast.Destination));
+
+#elif ByteIncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ UInt16
+         */
+        result = (cast.Source == ((Byte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Byte and UInt16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<byte, short> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Byte, UInt16> cast)
     {
 
       bool result = false;
@@ -1497,22 +2222,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -1520,11 +2252,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -1535,7 +2274,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<byte, short> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Byte, UInt16> cast)
     {
 
       bool result = false;
@@ -1545,22 +2284,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -1568,11 +2314,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -1583,42 +2336,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<byte, ushort> cast)
+    public static bool IsValueCopy(Cast<Byte, Int32> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if Int32IncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Byte
+         */
+        result = (cast.Destination == ((Int32) cast.Source));
 
-#if true // ushort.MaxValue >= byte.MaxValue && byte.MinValue >= ushort.MinValue
-        result = (cast.Destination == ((ushort) cast.Source));
-#elif false // ushort.MaxValue >= byte.MaxValue && byte.MinValue < ushort.MinValue
-        if (cast.Source >= ushort.MinValue)
+#elif Int32OverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Byte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Destination == ((Int32) cast.Source));
         }
-#elif false // ushort.MaxValue < byte.MaxValue && byte.MinValue >= ushort.MinValue
-        if (cast.Source <= ushort.MaxValue)
+
+#elif ByteOverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Int32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Source == ((Byte) cast.Destination));
         }
-#elif false // ushort.MaxValue < byte.MaxValue && byte.MinValue < ushort.MinValue
-        result = (cast.Source == ((byte) cast.Destination));
+
+#elif ByteIncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Int32
+         */
+        result = (cast.Source == ((Byte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Byte and Int32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<byte, ushort> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Byte, Int32> cast)
     {
 
       bool result = false;
@@ -1628,34 +2411,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -1666,7 +2463,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<byte, ushort> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Byte, Int32> cast)
     {
 
       bool result = false;
@@ -1676,22 +2473,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -1699,11 +2503,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -1714,42 +2525,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<byte, int> cast)
+    public static bool IsValueCopy(Cast<Byte, UInt32> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if UInt32IncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Byte
+         */
+        result = (cast.Destination == ((UInt32) cast.Source));
 
-#if true // int.MaxValue >= byte.MaxValue && byte.MinValue >= int.MinValue
-        result = (cast.Destination == ((int) cast.Source));
-#elif false // int.MaxValue >= byte.MaxValue && byte.MinValue < int.MinValue
-        if (cast.Source >= int.MinValue)
+#elif UInt32OverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Byte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Destination == ((UInt32) cast.Source));
         }
-#elif false // int.MaxValue < byte.MaxValue && byte.MinValue >= int.MinValue
-        if (cast.Source <= int.MaxValue)
+
+#elif ByteOverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ UInt32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Source == ((Byte) cast.Destination));
         }
-#elif false // int.MaxValue < byte.MaxValue && byte.MinValue < int.MinValue
-        result = (cast.Source == ((byte) cast.Destination));
+
+#elif ByteIncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ UInt32
+         */
+        result = (cast.Source == ((Byte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Byte and UInt32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<byte, int> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Byte, UInt32> cast)
     {
 
       bool result = false;
@@ -1759,22 +2600,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -1782,11 +2630,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -1797,7 +2652,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<byte, int> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Byte, UInt32> cast)
     {
 
       bool result = false;
@@ -1807,34 +2662,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -1845,7 +2714,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<byte, uint> cast)
+    public static bool IsValueCopy(Cast<Byte, Int64> cast)
     {
 
       bool result = false;
@@ -1853,34 +2722,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // uint.MaxValue >= byte.MaxValue && byte.MinValue >= uint.MinValue
-        result = (cast.Destination == ((uint) cast.Source));
-#elif false // uint.MaxValue >= byte.MaxValue && byte.MinValue < uint.MinValue
-        if (cast.Source >= uint.MinValue)
+#if Int64IncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Byte
+         */
+        result = (cast.Destination == ((Int64) cast.Source));
+
+#elif Int64OverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Byte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Destination == ((Int64) cast.Source));
         }
-#elif false // uint.MaxValue < byte.MaxValue && byte.MinValue >= uint.MinValue
-        if (cast.Source <= uint.MaxValue)
+
+#elif ByteOverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Int64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Source == ((Byte) cast.Destination));
         }
-#elif false // uint.MaxValue < byte.MaxValue && byte.MinValue < uint.MinValue
-        result = (cast.Source == ((byte) cast.Destination));
+
+#elif ByteIncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Int64
+         */
+        result = (cast.Source == ((Byte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Byte and Int64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<byte, uint> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Byte, Int64> cast)
     {
 
       bool result = false;
@@ -1890,22 +2789,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -1913,11 +2819,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -1928,7 +2841,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<byte, uint> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Byte, Int64> cast)
     {
 
       bool result = false;
@@ -1938,22 +2851,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -1961,11 +2881,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -1976,42 +2903,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<byte, long> cast)
+    public static bool IsValueCopy(Cast<Byte, UInt64> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if UInt64IncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Byte
+         */
+        result = (cast.Destination == ((UInt64) cast.Source));
 
-#if true // long.MaxValue >= byte.MaxValue && byte.MinValue >= long.MinValue
-        result = (cast.Destination == ((long) cast.Source));
-#elif false // long.MaxValue >= byte.MaxValue && byte.MinValue < long.MinValue
-        if (cast.Source >= long.MinValue)
+#elif UInt64OverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Byte
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Destination == ((UInt64) cast.Source));
         }
-#elif false // long.MaxValue < byte.MaxValue && byte.MinValue >= long.MinValue
-        if (cast.Source <= long.MaxValue)
+
+#elif ByteOverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ UInt64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Source == ((Byte) cast.Destination));
         }
-#elif false // long.MaxValue < byte.MaxValue && byte.MinValue < long.MinValue
-        result = (cast.Source == ((byte) cast.Destination));
+
+#elif ByteIncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ UInt64
+         */
+        result = (cast.Source == ((Byte) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Byte and UInt64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<byte, long> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Byte, UInt64> cast)
     {
 
       bool result = false;
@@ -2021,22 +2978,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -2044,11 +3008,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -2059,7 +3030,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<byte, long> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Byte, UInt64> cast)
     {
 
       bool result = false;
@@ -2069,22 +3040,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Byte sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -2092,11 +3070,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -2107,7 +3092,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<byte, ulong> cast)
+    public static bool IsValueCopy(Cast<Int16, SByte> cast)
     {
 
       bool result = false;
@@ -2115,82 +3100,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // ulong.MaxValue >= byte.MaxValue && byte.MinValue >= ulong.MinValue
-        result = (cast.Destination == ((ulong) cast.Source));
-#elif false // ulong.MaxValue >= byte.MaxValue && byte.MinValue < ulong.MinValue
-        if (cast.Source >= ulong.MinValue)
-        {
+#if SByteIncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Int16
+         */
+        result = (cast.Destination == ((SByte) cast.Source));
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
-        }
-#elif false // ulong.MaxValue < byte.MaxValue && byte.MinValue >= ulong.MinValue
-        if (cast.Source <= ulong.MaxValue)
+#elif SByteOverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Int16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Destination == ((SByte) cast.Source));
         }
-#elif false // ulong.MaxValue < byte.MaxValue && byte.MinValue < ulong.MinValue
-        result = (cast.Source == ((byte) cast.Destination));
-#else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
-#endif
-      }
-
-      return result;
-    }
-
-    public static bool IsZeroFillBinaryCopy(Cast<byte, ulong> cast)
-    {
-
-      bool result = false;
-
-      if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
-      {
-
-        result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        ulong destinationBit = 1;
-
-        for (var i = 0; i < destinationLimit; i++)
+#elif Int16OverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ SByte
+         */
+        if (cast.Destination >= 0)
         {
-
-          if (i < sourceLimit)
-          {
-
-            if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
-            {
-
-              result = false;
-              break;
-            }
 
-            sourceBit <<= 1;
-          }
-          else
-          {
+          result = (cast.Source == ((Int16) cast.Destination));
+        }
 
-            if ((cast.Destination & destinationBit) != 0)
-            {
+#elif Int16IncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ SByte
+         */
+        result = (cast.Source == ((Int16) cast.Destination));
 
-              result = false;
-              break;
-            }
-          }
+#else
+#error Relation between Int16 and SByte is undefined.
 
-          destinationBit <<= 1;
-        }
+#endif
       }
 
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<byte, ulong> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int16, SByte> cast)
     {
 
       bool result = false;
@@ -2200,22 +3167,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        byte sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -2223,57 +3197,29 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
           destinationBit <<= 1;
-        }
-      }
-
-      return result;
-    }
-
-    public static bool IsValueCopy(Cast<short, sbyte> cast)
-    {
-
-      bool result = false;
-
-      if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
-      {
-
-#if false // sbyte.MaxValue >= short.MaxValue && short.MinValue >= sbyte.MinValue
-        result = (cast.Destination == ((sbyte) cast.Source));
-#elif false // sbyte.MaxValue >= short.MaxValue && short.MinValue < sbyte.MinValue
-        if (cast.Source >= sbyte.MinValue)
-        {
-
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
-        }
-#elif false // sbyte.MaxValue < short.MaxValue && short.MinValue >= sbyte.MinValue
-        if (cast.Source <= sbyte.MaxValue)
-        {
-
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
         }
-#elif true // sbyte.MaxValue < short.MaxValue && short.MinValue < sbyte.MinValue
-        result = (cast.Source == ((short) cast.Destination));
-#else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
-#endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<short, sbyte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int16, SByte> cast)
     {
 
       bool result = false;
@@ -2283,22 +3229,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -2306,11 +3259,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) != 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -2321,90 +3281,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<short, sbyte> cast)
+    public static bool IsValueCopy(Cast<Int16, Byte> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
-
-        result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        sbyte destinationBit = 1;
+#if ByteIncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Int16
+         */
+        result = (cast.Destination == ((Byte) cast.Source));
 
-        for (var i = 0; i < destinationLimit; i++)
+#elif ByteOverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Int16
+         */
+        if (cast.Source >= 0)
         {
-
-          if (i < sourceLimit)
-          {
-
-            if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
-            {
-
-              result = false;
-              break;
-            }
-
-            sourceBit <<= 1;
-          }
-          else
-          {
-
-            if ((cast.Destination & destinationBit) == 0)
-            {
 
-              result = false;
-              break;
-            }
-          }
-
-          destinationBit <<= 1;
+          result = (cast.Destination == ((Byte) cast.Source));
         }
-      }
-
-      return result;
-    }
 
-    public static bool IsValueCopy(Cast<short, byte> cast)
-    {
-
-      bool result = false;
-
-      if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
-      {
-
-#if false // byte.MaxValue >= short.MaxValue && short.MinValue >= byte.MinValue
-        result = (cast.Destination == ((byte) cast.Source));
-#elif false // byte.MaxValue >= short.MaxValue && short.MinValue < byte.MinValue
-        if (cast.Source >= byte.MinValue)
+#elif Int16OverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Byte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Source == ((Int16) cast.Destination));
         }
-#elif false // byte.MaxValue < short.MaxValue && short.MinValue >= byte.MinValue
-        if (cast.Source <= byte.MaxValue)
-        {
+
+#elif Int16IncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Byte
+         */
+        result = (cast.Source == ((Int16) cast.Destination));
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
-        }
-#elif true // byte.MaxValue < short.MaxValue && short.MinValue < byte.MinValue
-        result = (cast.Source == ((short) cast.Destination));
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int16 and Byte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<short, byte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int16, Byte> cast)
     {
 
       bool result = false;
@@ -2414,22 +3356,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -2437,11 +3386,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -2452,7 +3408,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<short, byte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int16, Byte> cast)
     {
 
       bool result = false;
@@ -2462,34 +3418,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -2500,7 +3470,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<short, short> cast)
+    public static bool IsValueCopy(Cast<Int16, Int16> cast)
     {
 
       bool result = false;
@@ -2508,34 +3478,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // short.MaxValue >= short.MaxValue && short.MinValue >= short.MinValue
-        result = (cast.Destination == ((short) cast.Source));
-#elif false // short.MaxValue >= short.MaxValue && short.MinValue < short.MinValue
-        if (cast.Source >= short.MinValue)
+#if Int16IncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Int16
+         */
+        result = (cast.Destination == ((Int16) cast.Source));
+
+#elif Int16OverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Int16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Destination == ((Int16) cast.Source));
         }
-#elif false // short.MaxValue < short.MaxValue && short.MinValue >= short.MinValue
-        if (cast.Source <= short.MaxValue)
+
+#elif Int16OverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Int16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Source == ((Int16) cast.Destination));
         }
-#elif false // short.MaxValue < short.MaxValue && short.MinValue < short.MinValue
-        result = (cast.Source == ((short) cast.Destination));
+
+#elif Int16IncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Int16
+         */
+        result = (cast.Source == ((Int16) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int16 and Int16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<short, short> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int16, Int16> cast)
     {
 
       bool result = false;
@@ -2545,34 +3545,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -2583,7 +3597,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<short, short> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int16, Int16> cast)
     {
 
       bool result = false;
@@ -2593,22 +3607,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -2616,11 +3637,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -2631,42 +3659,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<short, ushort> cast)
+    public static bool IsValueCopy(Cast<Int16, UInt16> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if UInt16IncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Int16
+         */
+        result = (cast.Destination == ((UInt16) cast.Source));
 
-#if false // ushort.MaxValue >= short.MaxValue && short.MinValue >= ushort.MinValue
-        result = (cast.Destination == ((ushort) cast.Source));
-#elif true // ushort.MaxValue >= short.MaxValue && short.MinValue < ushort.MinValue
-        if (cast.Source >= ushort.MinValue)
+#elif UInt16OverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Int16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Destination == ((UInt16) cast.Source));
         }
-#elif false // ushort.MaxValue < short.MaxValue && short.MinValue >= ushort.MinValue
-        if (cast.Source <= ushort.MaxValue)
+
+#elif Int16OverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ UInt16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Source == ((Int16) cast.Destination));
         }
-#elif false // ushort.MaxValue < short.MaxValue && short.MinValue < ushort.MinValue
-        result = (cast.Source == ((short) cast.Destination));
+
+#elif Int16IncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ UInt16
+         */
+        result = (cast.Source == ((Int16) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int16 and UInt16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<short, ushort> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int16, UInt16> cast)
     {
 
       bool result = false;
@@ -2676,22 +3734,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -2699,11 +3764,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -2714,7 +3786,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<short, ushort> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int16, UInt16> cast)
     {
 
       bool result = false;
@@ -2724,34 +3796,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -2762,7 +3848,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<short, int> cast)
+    public static bool IsValueCopy(Cast<Int16, Int32> cast)
     {
 
       bool result = false;
@@ -2770,34 +3856,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // int.MaxValue >= short.MaxValue && short.MinValue >= int.MinValue
-        result = (cast.Destination == ((int) cast.Source));
-#elif false // int.MaxValue >= short.MaxValue && short.MinValue < int.MinValue
-        if (cast.Source >= int.MinValue)
+#if Int32IncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Int16
+         */
+        result = (cast.Destination == ((Int32) cast.Source));
+
+#elif Int32OverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Int16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Destination == ((Int32) cast.Source));
         }
-#elif false // int.MaxValue < short.MaxValue && short.MinValue >= int.MinValue
-        if (cast.Source <= int.MaxValue)
+
+#elif Int16OverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Int32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Source == ((Int16) cast.Destination));
         }
-#elif false // int.MaxValue < short.MaxValue && short.MinValue < int.MinValue
-        result = (cast.Source == ((short) cast.Destination));
+
+#elif Int16IncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Int32
+         */
+        result = (cast.Source == ((Int16) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int16 and Int32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<short, int> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int16, Int32> cast)
     {
 
       bool result = false;
@@ -2807,34 +3923,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -2845,7 +3975,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<short, int> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int16, Int32> cast)
     {
 
       bool result = false;
@@ -2855,22 +3985,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -2878,11 +4015,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -2893,42 +4037,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<short, uint> cast)
+    public static bool IsValueCopy(Cast<Int16, UInt32> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if UInt32IncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Int16
+         */
+        result = (cast.Destination == ((UInt32) cast.Source));
 
-#if false // uint.MaxValue >= short.MaxValue && short.MinValue >= uint.MinValue
-        result = (cast.Destination == ((uint) cast.Source));
-#elif true // uint.MaxValue >= short.MaxValue && short.MinValue < uint.MinValue
-        if (cast.Source >= uint.MinValue)
+#elif UInt32OverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Int16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Destination == ((UInt32) cast.Source));
         }
-#elif false // uint.MaxValue < short.MaxValue && short.MinValue >= uint.MinValue
-        if (cast.Source <= uint.MaxValue)
+
+#elif Int16OverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ UInt32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Source == ((Int16) cast.Destination));
         }
-#elif false // uint.MaxValue < short.MaxValue && short.MinValue < uint.MinValue
-        result = (cast.Source == ((short) cast.Destination));
+
+#elif Int16IncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ UInt32
+         */
+        result = (cast.Source == ((Int16) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int16 and UInt32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<short, uint> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int16, UInt32> cast)
     {
 
       bool result = false;
@@ -2938,22 +4112,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -2961,11 +4142,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -2976,7 +4164,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<short, uint> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int16, UInt32> cast)
     {
 
       bool result = false;
@@ -2986,34 +4174,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -3024,7 +4226,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<short, long> cast)
+    public static bool IsValueCopy(Cast<Int16, Int64> cast)
     {
 
       bool result = false;
@@ -3032,34 +4234,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // long.MaxValue >= short.MaxValue && short.MinValue >= long.MinValue
-        result = (cast.Destination == ((long) cast.Source));
-#elif false // long.MaxValue >= short.MaxValue && short.MinValue < long.MinValue
-        if (cast.Source >= long.MinValue)
+#if Int64IncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Int16
+         */
+        result = (cast.Destination == ((Int64) cast.Source));
+
+#elif Int64OverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Int16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Destination == ((Int64) cast.Source));
         }
-#elif false // long.MaxValue < short.MaxValue && short.MinValue >= long.MinValue
-        if (cast.Source <= long.MaxValue)
+
+#elif Int16OverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Int64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Source == ((Int16) cast.Destination));
         }
-#elif false // long.MaxValue < short.MaxValue && short.MinValue < long.MinValue
-        result = (cast.Source == ((short) cast.Destination));
+
+#elif Int16IncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Int64
+         */
+        result = (cast.Source == ((Int16) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int16 and Int64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<short, long> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int16, Int64> cast)
     {
 
       bool result = false;
@@ -3069,34 +4301,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -3107,7 +4353,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<short, long> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int16, Int64> cast)
     {
 
       bool result = false;
@@ -3117,22 +4363,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -3140,11 +4393,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -3155,42 +4415,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<short, ulong> cast)
+    public static bool IsValueCopy(Cast<Int16, UInt64> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if UInt64IncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Int16
+         */
+        result = (cast.Destination == ((UInt64) cast.Source));
 
-#if false // ulong.MaxValue >= short.MaxValue && short.MinValue >= ulong.MinValue
-        result = (cast.Destination == ((ulong) cast.Source));
-#elif true // ulong.MaxValue >= short.MaxValue && short.MinValue < ulong.MinValue
-        if (cast.Source >= ulong.MinValue)
+#elif UInt64OverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Int16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Destination == ((UInt64) cast.Source));
         }
-#elif false // ulong.MaxValue < short.MaxValue && short.MinValue >= ulong.MinValue
-        if (cast.Source <= ulong.MaxValue)
+
+#elif Int16OverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ UInt64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Source == ((Int16) cast.Destination));
         }
-#elif false // ulong.MaxValue < short.MaxValue && short.MinValue < ulong.MinValue
-        result = (cast.Source == ((short) cast.Destination));
+
+#elif Int16IncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ UInt64
+         */
+        result = (cast.Source == ((Int16) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int16 and UInt64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<short, ulong> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int16, UInt64> cast)
     {
 
       bool result = false;
@@ -3200,22 +4490,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -3223,11 +4520,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -3238,7 +4542,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<short, ulong> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int16, UInt64> cast)
     {
 
       bool result = false;
@@ -3248,34 +4552,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        short sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int16 sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -3286,7 +4604,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ushort, sbyte> cast)
+    public static bool IsValueCopy(Cast<UInt16, SByte> cast)
     {
 
       bool result = false;
@@ -3294,34 +4612,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // sbyte.MaxValue >= ushort.MaxValue && ushort.MinValue >= sbyte.MinValue
-        result = (cast.Destination == ((sbyte) cast.Source));
-#elif false // sbyte.MaxValue >= ushort.MaxValue && ushort.MinValue < sbyte.MinValue
-        if (cast.Source >= sbyte.MinValue)
+#if SByteIncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ UInt16
+         */
+        result = (cast.Destination == ((SByte) cast.Source));
+
+#elif SByteOverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ UInt16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
+          result = (cast.Destination == ((SByte) cast.Source));
         }
-#elif true // sbyte.MaxValue < ushort.MaxValue && ushort.MinValue >= sbyte.MinValue
-        if (cast.Source <= sbyte.MaxValue)
+
+#elif UInt16OverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ SByte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
+          result = (cast.Source == ((UInt16) cast.Destination));
         }
-#elif false // sbyte.MaxValue < ushort.MaxValue && ushort.MinValue < sbyte.MinValue
-        result = (cast.Source == ((ushort) cast.Destination));
+
+#elif UInt16IncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ SByte
+         */
+        result = (cast.Source == ((UInt16) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt16 and SByte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ushort, sbyte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt16, SByte> cast)
     {
 
       bool result = false;
@@ -3331,34 +4679,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -3369,7 +4731,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ushort, sbyte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt16, SByte> cast)
     {
 
       bool result = false;
@@ -3379,22 +4741,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -3402,11 +4771,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -3417,42 +4793,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ushort, byte> cast)
+    public static bool IsValueCopy(Cast<UInt16, Byte> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if ByteIncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ UInt16
+         */
+        result = (cast.Destination == ((Byte) cast.Source));
 
-#if false // byte.MaxValue >= ushort.MaxValue && ushort.MinValue >= byte.MinValue
-        result = (cast.Destination == ((byte) cast.Source));
-#elif false // byte.MaxValue >= ushort.MaxValue && ushort.MinValue < byte.MinValue
-        if (cast.Source >= byte.MinValue)
+#elif ByteOverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ UInt16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Destination == ((Byte) cast.Source));
         }
-#elif true // byte.MaxValue < ushort.MaxValue && ushort.MinValue >= byte.MinValue
-        if (cast.Source <= byte.MaxValue)
+
+#elif UInt16OverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Byte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Source == ((UInt16) cast.Destination));
         }
-#elif false // byte.MaxValue < ushort.MaxValue && ushort.MinValue < byte.MinValue
-        result = (cast.Source == ((ushort) cast.Destination));
+
+#elif UInt16IncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Byte
+         */
+        result = (cast.Source == ((UInt16) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt16 and Byte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ushort, byte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt16, Byte> cast)
     {
 
       bool result = false;
@@ -3462,22 +4868,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -3485,11 +4898,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -3500,7 +4920,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ushort, byte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt16, Byte> cast)
     {
 
       bool result = false;
@@ -3510,34 +4930,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -3548,7 +4982,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ushort, short> cast)
+    public static bool IsValueCopy(Cast<UInt16, Int16> cast)
     {
 
       bool result = false;
@@ -3556,34 +4990,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // short.MaxValue >= ushort.MaxValue && ushort.MinValue >= short.MinValue
-        result = (cast.Destination == ((short) cast.Source));
-#elif false // short.MaxValue >= ushort.MaxValue && ushort.MinValue < short.MinValue
-        if (cast.Source >= short.MinValue)
+#if Int16IncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ UInt16
+         */
+        result = (cast.Destination == ((Int16) cast.Source));
+
+#elif Int16OverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ UInt16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Destination == ((Int16) cast.Source));
         }
-#elif true // short.MaxValue < ushort.MaxValue && ushort.MinValue >= short.MinValue
-        if (cast.Source <= short.MaxValue)
+
+#elif UInt16OverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Int16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Source == ((UInt16) cast.Destination));
         }
-#elif false // short.MaxValue < ushort.MaxValue && ushort.MinValue < short.MinValue
-        result = (cast.Source == ((ushort) cast.Destination));
+
+#elif UInt16IncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Int16
+         */
+        result = (cast.Source == ((UInt16) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt16 and Int16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ushort, short> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt16, Int16> cast)
     {
 
       bool result = false;
@@ -3593,34 +5057,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -3631,7 +5109,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ushort, short> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt16, Int16> cast)
     {
 
       bool result = false;
@@ -3641,22 +5119,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -3664,11 +5149,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -3679,42 +5171,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ushort, ushort> cast)
+    public static bool IsValueCopy(Cast<UInt16, UInt16> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if UInt16IncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ UInt16
+         */
+        result = (cast.Destination == ((UInt16) cast.Source));
 
-#if true // ushort.MaxValue >= ushort.MaxValue && ushort.MinValue >= ushort.MinValue
-        result = (cast.Destination == ((ushort) cast.Source));
-#elif false // ushort.MaxValue >= ushort.MaxValue && ushort.MinValue < ushort.MinValue
-        if (cast.Source >= ushort.MinValue)
+#elif UInt16OverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ UInt16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Destination == ((UInt16) cast.Source));
         }
-#elif false // ushort.MaxValue < ushort.MaxValue && ushort.MinValue >= ushort.MinValue
-        if (cast.Source <= ushort.MaxValue)
+
+#elif UInt16OverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ UInt16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Source == ((UInt16) cast.Destination));
         }
-#elif false // ushort.MaxValue < ushort.MaxValue && ushort.MinValue < ushort.MinValue
-        result = (cast.Source == ((ushort) cast.Destination));
+
+#elif UInt16IncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ UInt16
+         */
+        result = (cast.Source == ((UInt16) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt16 and UInt16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ushort, ushort> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt16, UInt16> cast)
     {
 
       bool result = false;
@@ -3724,22 +5246,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -3747,11 +5276,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -3762,7 +5298,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ushort, ushort> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt16, UInt16> cast)
     {
 
       bool result = false;
@@ -3772,34 +5308,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -3810,7 +5360,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ushort, int> cast)
+    public static bool IsValueCopy(Cast<UInt16, Int32> cast)
     {
 
       bool result = false;
@@ -3818,34 +5368,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // int.MaxValue >= ushort.MaxValue && ushort.MinValue >= int.MinValue
-        result = (cast.Destination == ((int) cast.Source));
-#elif false // int.MaxValue >= ushort.MaxValue && ushort.MinValue < int.MinValue
-        if (cast.Source >= int.MinValue)
+#if Int32IncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ UInt16
+         */
+        result = (cast.Destination == ((Int32) cast.Source));
+
+#elif Int32OverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ UInt16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Destination == ((Int32) cast.Source));
         }
-#elif false // int.MaxValue < ushort.MaxValue && ushort.MinValue >= int.MinValue
-        if (cast.Source <= int.MaxValue)
+
+#elif UInt16OverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Int32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Source == ((UInt16) cast.Destination));
         }
-#elif false // int.MaxValue < ushort.MaxValue && ushort.MinValue < int.MinValue
-        result = (cast.Source == ((ushort) cast.Destination));
+
+#elif UInt16IncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Int32
+         */
+        result = (cast.Source == ((UInt16) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt16 and Int32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ushort, int> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt16, Int32> cast)
     {
 
       bool result = false;
@@ -3855,34 +5435,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -3893,7 +5487,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ushort, int> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt16, Int32> cast)
     {
 
       bool result = false;
@@ -3903,22 +5497,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -3926,11 +5527,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -3941,42 +5549,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ushort, uint> cast)
+    public static bool IsValueCopy(Cast<UInt16, UInt32> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if UInt32IncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ UInt16
+         */
+        result = (cast.Destination == ((UInt32) cast.Source));
 
-#if true // uint.MaxValue >= ushort.MaxValue && ushort.MinValue >= uint.MinValue
-        result = (cast.Destination == ((uint) cast.Source));
-#elif false // uint.MaxValue >= ushort.MaxValue && ushort.MinValue < uint.MinValue
-        if (cast.Source >= uint.MinValue)
+#elif UInt32OverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ UInt16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Destination == ((UInt32) cast.Source));
         }
-#elif false // uint.MaxValue < ushort.MaxValue && ushort.MinValue >= uint.MinValue
-        if (cast.Source <= uint.MaxValue)
+
+#elif UInt16OverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ UInt32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Source == ((UInt16) cast.Destination));
         }
-#elif false // uint.MaxValue < ushort.MaxValue && ushort.MinValue < uint.MinValue
-        result = (cast.Source == ((ushort) cast.Destination));
+
+#elif UInt16IncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ UInt32
+         */
+        result = (cast.Source == ((UInt16) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt16 and UInt32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ushort, uint> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt16, UInt32> cast)
     {
 
       bool result = false;
@@ -3986,22 +5624,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -4009,11 +5654,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -4024,7 +5676,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ushort, uint> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt16, UInt32> cast)
     {
 
       bool result = false;
@@ -4034,34 +5686,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -4072,7 +5738,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ushort, long> cast)
+    public static bool IsValueCopy(Cast<UInt16, Int64> cast)
     {
 
       bool result = false;
@@ -4080,34 +5746,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // long.MaxValue >= ushort.MaxValue && ushort.MinValue >= long.MinValue
-        result = (cast.Destination == ((long) cast.Source));
-#elif false // long.MaxValue >= ushort.MaxValue && ushort.MinValue < long.MinValue
-        if (cast.Source >= long.MinValue)
+#if Int64IncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ UInt16
+         */
+        result = (cast.Destination == ((Int64) cast.Source));
+
+#elif Int64OverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ UInt16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Destination == ((Int64) cast.Source));
         }
-#elif false // long.MaxValue < ushort.MaxValue && ushort.MinValue >= long.MinValue
-        if (cast.Source <= long.MaxValue)
+
+#elif UInt16OverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Int64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Source == ((UInt16) cast.Destination));
         }
-#elif false // long.MaxValue < ushort.MaxValue && ushort.MinValue < long.MinValue
-        result = (cast.Source == ((ushort) cast.Destination));
+
+#elif UInt16IncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Int64
+         */
+        result = (cast.Source == ((UInt16) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt16 and Int64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ushort, long> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt16, Int64> cast)
     {
 
       bool result = false;
@@ -4117,34 +5813,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -4155,7 +5865,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ushort, long> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt16, Int64> cast)
     {
 
       bool result = false;
@@ -4165,22 +5875,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -4188,11 +5905,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -4203,42 +5927,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ushort, ulong> cast)
+    public static bool IsValueCopy(Cast<UInt16, UInt64> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if UInt64IncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ UInt16
+         */
+        result = (cast.Destination == ((UInt64) cast.Source));
 
-#if true // ulong.MaxValue >= ushort.MaxValue && ushort.MinValue >= ulong.MinValue
-        result = (cast.Destination == ((ulong) cast.Source));
-#elif false // ulong.MaxValue >= ushort.MaxValue && ushort.MinValue < ulong.MinValue
-        if (cast.Source >= ulong.MinValue)
+#elif UInt64OverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ UInt16
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Destination == ((UInt64) cast.Source));
         }
-#elif false // ulong.MaxValue < ushort.MaxValue && ushort.MinValue >= ulong.MinValue
-        if (cast.Source <= ulong.MaxValue)
+
+#elif UInt16OverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ UInt64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Source == ((UInt16) cast.Destination));
         }
-#elif false // ulong.MaxValue < ushort.MaxValue && ushort.MinValue < ulong.MinValue
-        result = (cast.Source == ((ushort) cast.Destination));
+
+#elif UInt16IncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ UInt64
+         */
+        result = (cast.Source == ((UInt16) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt16 and UInt64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ushort, ulong> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt16, UInt64> cast)
     {
 
       bool result = false;
@@ -4248,22 +6002,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -4271,11 +6032,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -4286,7 +6054,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ushort, ulong> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt16, UInt64> cast)
     {
 
       bool result = false;
@@ -4296,34 +6064,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ushort sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt16 sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -4334,7 +6116,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<int, sbyte> cast)
+    public static bool IsValueCopy(Cast<Int32, SByte> cast)
     {
 
       bool result = false;
@@ -4342,34 +6124,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // sbyte.MaxValue >= int.MaxValue && int.MinValue >= sbyte.MinValue
-        result = (cast.Destination == ((sbyte) cast.Source));
-#elif false // sbyte.MaxValue >= int.MaxValue && int.MinValue < sbyte.MinValue
-        if (cast.Source >= sbyte.MinValue)
+#if SByteIncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Int32
+         */
+        result = (cast.Destination == ((SByte) cast.Source));
+
+#elif SByteOverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Int32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
+          result = (cast.Destination == ((SByte) cast.Source));
         }
-#elif false // sbyte.MaxValue < int.MaxValue && int.MinValue >= sbyte.MinValue
-        if (cast.Source <= sbyte.MaxValue)
+
+#elif Int32OverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ SByte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
+          result = (cast.Source == ((Int32) cast.Destination));
         }
-#elif true // sbyte.MaxValue < int.MaxValue && int.MinValue < sbyte.MinValue
-        result = (cast.Source == ((int) cast.Destination));
+
+#elif Int32IncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ SByte
+         */
+        result = (cast.Source == ((Int32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int32 and SByte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<int, sbyte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int32, SByte> cast)
     {
 
       bool result = false;
@@ -4379,34 +6191,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -4417,7 +6243,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<int, sbyte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int32, SByte> cast)
     {
 
       bool result = false;
@@ -4427,22 +6253,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -4450,11 +6283,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -4465,42 +6305,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<int, byte> cast)
+    public static bool IsValueCopy(Cast<Int32, Byte> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if ByteIncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Int32
+         */
+        result = (cast.Destination == ((Byte) cast.Source));
 
-#if false // byte.MaxValue >= int.MaxValue && int.MinValue >= byte.MinValue
-        result = (cast.Destination == ((byte) cast.Source));
-#elif false // byte.MaxValue >= int.MaxValue && int.MinValue < byte.MinValue
-        if (cast.Source >= byte.MinValue)
+#elif ByteOverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Int32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Destination == ((Byte) cast.Source));
         }
-#elif false // byte.MaxValue < int.MaxValue && int.MinValue >= byte.MinValue
-        if (cast.Source <= byte.MaxValue)
+
+#elif Int32OverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Byte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Source == ((Int32) cast.Destination));
         }
-#elif true // byte.MaxValue < int.MaxValue && int.MinValue < byte.MinValue
-        result = (cast.Source == ((int) cast.Destination));
+
+#elif Int32IncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Byte
+         */
+        result = (cast.Source == ((Int32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int32 and Byte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<int, byte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int32, Byte> cast)
     {
 
       bool result = false;
@@ -4510,22 +6380,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -4533,11 +6410,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -4548,7 +6432,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<int, byte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int32, Byte> cast)
     {
 
       bool result = false;
@@ -4558,34 +6442,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -4596,7 +6494,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<int, short> cast)
+    public static bool IsValueCopy(Cast<Int32, Int16> cast)
     {
 
       bool result = false;
@@ -4604,34 +6502,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // short.MaxValue >= int.MaxValue && int.MinValue >= short.MinValue
-        result = (cast.Destination == ((short) cast.Source));
-#elif false // short.MaxValue >= int.MaxValue && int.MinValue < short.MinValue
-        if (cast.Source >= short.MinValue)
+#if Int16IncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Int32
+         */
+        result = (cast.Destination == ((Int16) cast.Source));
+
+#elif Int16OverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Int32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Destination == ((Int16) cast.Source));
         }
-#elif false // short.MaxValue < int.MaxValue && int.MinValue >= short.MinValue
-        if (cast.Source <= short.MaxValue)
+
+#elif Int32OverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Int16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Source == ((Int32) cast.Destination));
         }
-#elif true // short.MaxValue < int.MaxValue && int.MinValue < short.MinValue
-        result = (cast.Source == ((int) cast.Destination));
+
+#elif Int32IncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Int16
+         */
+        result = (cast.Source == ((Int32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int32 and Int16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<int, short> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int32, Int16> cast)
     {
 
       bool result = false;
@@ -4641,34 +6569,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -4679,7 +6621,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<int, short> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int32, Int16> cast)
     {
 
       bool result = false;
@@ -4689,22 +6631,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -4712,11 +6661,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -4727,42 +6683,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<int, ushort> cast)
+    public static bool IsValueCopy(Cast<Int32, UInt16> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if UInt16IncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Int32
+         */
+        result = (cast.Destination == ((UInt16) cast.Source));
 
-#if false // ushort.MaxValue >= int.MaxValue && int.MinValue >= ushort.MinValue
-        result = (cast.Destination == ((ushort) cast.Source));
-#elif false // ushort.MaxValue >= int.MaxValue && int.MinValue < ushort.MinValue
-        if (cast.Source >= ushort.MinValue)
+#elif UInt16OverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Int32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Destination == ((UInt16) cast.Source));
         }
-#elif false // ushort.MaxValue < int.MaxValue && int.MinValue >= ushort.MinValue
-        if (cast.Source <= ushort.MaxValue)
+
+#elif Int32OverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ UInt16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Source == ((Int32) cast.Destination));
         }
-#elif true // ushort.MaxValue < int.MaxValue && int.MinValue < ushort.MinValue
-        result = (cast.Source == ((int) cast.Destination));
+
+#elif Int32IncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ UInt16
+         */
+        result = (cast.Source == ((Int32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int32 and UInt16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<int, ushort> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int32, UInt16> cast)
     {
 
       bool result = false;
@@ -4772,22 +6758,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -4795,11 +6788,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -4810,7 +6810,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<int, ushort> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int32, UInt16> cast)
     {
 
       bool result = false;
@@ -4820,34 +6820,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -4858,7 +6872,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<int, int> cast)
+    public static bool IsValueCopy(Cast<Int32, Int32> cast)
     {
 
       bool result = false;
@@ -4866,34 +6880,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // int.MaxValue >= int.MaxValue && int.MinValue >= int.MinValue
-        result = (cast.Destination == ((int) cast.Source));
-#elif false // int.MaxValue >= int.MaxValue && int.MinValue < int.MinValue
-        if (cast.Source >= int.MinValue)
+#if Int32IncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Int32
+         */
+        result = (cast.Destination == ((Int32) cast.Source));
+
+#elif Int32OverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Int32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Destination == ((Int32) cast.Source));
         }
-#elif false // int.MaxValue < int.MaxValue && int.MinValue >= int.MinValue
-        if (cast.Source <= int.MaxValue)
+
+#elif Int32OverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Int32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Source == ((Int32) cast.Destination));
         }
-#elif false // int.MaxValue < int.MaxValue && int.MinValue < int.MinValue
-        result = (cast.Source == ((int) cast.Destination));
+
+#elif Int32IncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Int32
+         */
+        result = (cast.Source == ((Int32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int32 and Int32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<int, int> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int32, Int32> cast)
     {
 
       bool result = false;
@@ -4903,34 +6947,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -4941,7 +6999,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<int, int> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int32, Int32> cast)
     {
 
       bool result = false;
@@ -4951,22 +7009,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -4974,11 +7039,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -4989,42 +7061,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<int, uint> cast)
+    public static bool IsValueCopy(Cast<Int32, UInt32> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if UInt32IncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Int32
+         */
+        result = (cast.Destination == ((UInt32) cast.Source));
 
-#if false // uint.MaxValue >= int.MaxValue && int.MinValue >= uint.MinValue
-        result = (cast.Destination == ((uint) cast.Source));
-#elif true // uint.MaxValue >= int.MaxValue && int.MinValue < uint.MinValue
-        if (cast.Source >= uint.MinValue)
+#elif UInt32OverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Int32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Destination == ((UInt32) cast.Source));
         }
-#elif false // uint.MaxValue < int.MaxValue && int.MinValue >= uint.MinValue
-        if (cast.Source <= uint.MaxValue)
+
+#elif Int32OverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ UInt32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Source == ((Int32) cast.Destination));
         }
-#elif false // uint.MaxValue < int.MaxValue && int.MinValue < uint.MinValue
-        result = (cast.Source == ((int) cast.Destination));
+
+#elif Int32IncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ UInt32
+         */
+        result = (cast.Source == ((Int32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int32 and UInt32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<int, uint> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int32, UInt32> cast)
     {
 
       bool result = false;
@@ -5034,22 +7136,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -5057,11 +7166,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -5072,7 +7188,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<int, uint> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int32, UInt32> cast)
     {
 
       bool result = false;
@@ -5082,34 +7198,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -5120,7 +7250,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<int, long> cast)
+    public static bool IsValueCopy(Cast<Int32, Int64> cast)
     {
 
       bool result = false;
@@ -5128,34 +7258,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // long.MaxValue >= int.MaxValue && int.MinValue >= long.MinValue
-        result = (cast.Destination == ((long) cast.Source));
-#elif false // long.MaxValue >= int.MaxValue && int.MinValue < long.MinValue
-        if (cast.Source >= long.MinValue)
+#if Int64IncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Int32
+         */
+        result = (cast.Destination == ((Int64) cast.Source));
+
+#elif Int64OverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Int32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Destination == ((Int64) cast.Source));
         }
-#elif false // long.MaxValue < int.MaxValue && int.MinValue >= long.MinValue
-        if (cast.Source <= long.MaxValue)
+
+#elif Int32OverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Int64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Source == ((Int32) cast.Destination));
         }
-#elif false // long.MaxValue < int.MaxValue && int.MinValue < long.MinValue
-        result = (cast.Source == ((int) cast.Destination));
+
+#elif Int32IncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Int64
+         */
+        result = (cast.Source == ((Int32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int32 and Int64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<int, long> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int32, Int64> cast)
     {
 
       bool result = false;
@@ -5165,34 +7325,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -5203,7 +7377,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<int, long> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int32, Int64> cast)
     {
 
       bool result = false;
@@ -5213,22 +7387,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -5236,11 +7417,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -5251,42 +7439,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<int, ulong> cast)
+    public static bool IsValueCopy(Cast<Int32, UInt64> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if UInt64IncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Int32
+         */
+        result = (cast.Destination == ((UInt64) cast.Source));
 
-#if false // ulong.MaxValue >= int.MaxValue && int.MinValue >= ulong.MinValue
-        result = (cast.Destination == ((ulong) cast.Source));
-#elif true // ulong.MaxValue >= int.MaxValue && int.MinValue < ulong.MinValue
-        if (cast.Source >= ulong.MinValue)
+#elif UInt64OverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Int32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Destination == ((UInt64) cast.Source));
         }
-#elif false // ulong.MaxValue < int.MaxValue && int.MinValue >= ulong.MinValue
-        if (cast.Source <= ulong.MaxValue)
+
+#elif Int32OverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ UInt64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Source == ((Int32) cast.Destination));
         }
-#elif false // ulong.MaxValue < int.MaxValue && int.MinValue < ulong.MinValue
-        result = (cast.Source == ((int) cast.Destination));
+
+#elif Int32IncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ UInt64
+         */
+        result = (cast.Source == ((Int32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int32 and UInt64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<int, ulong> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int32, UInt64> cast)
     {
 
       bool result = false;
@@ -5296,22 +7514,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -5319,11 +7544,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -5334,7 +7566,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<int, ulong> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int32, UInt64> cast)
     {
 
       bool result = false;
@@ -5344,34 +7576,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        int sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int32 sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -5382,7 +7628,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<uint, sbyte> cast)
+    public static bool IsValueCopy(Cast<UInt32, SByte> cast)
     {
 
       bool result = false;
@@ -5390,34 +7636,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // sbyte.MaxValue >= uint.MaxValue && uint.MinValue >= sbyte.MinValue
-        result = (cast.Destination == ((sbyte) cast.Source));
-#elif false // sbyte.MaxValue >= uint.MaxValue && uint.MinValue < sbyte.MinValue
-        if (cast.Source >= sbyte.MinValue)
+#if SByteIncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ UInt32
+         */
+        result = (cast.Destination == ((SByte) cast.Source));
+
+#elif SByteOverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ UInt32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
+          result = (cast.Destination == ((SByte) cast.Source));
         }
-#elif true // sbyte.MaxValue < uint.MaxValue && uint.MinValue >= sbyte.MinValue
-        if (cast.Source <= sbyte.MaxValue)
+
+#elif UInt32OverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ SByte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
+          result = (cast.Source == ((UInt32) cast.Destination));
         }
-#elif false // sbyte.MaxValue < uint.MaxValue && uint.MinValue < sbyte.MinValue
-        result = (cast.Source == ((uint) cast.Destination));
+
+#elif UInt32IncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ SByte
+         */
+        result = (cast.Source == ((UInt32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt32 and SByte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<uint, sbyte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt32, SByte> cast)
     {
 
       bool result = false;
@@ -5427,22 +7703,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -5450,11 +7733,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -5465,7 +7755,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<uint, sbyte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt32, SByte> cast)
     {
 
       bool result = false;
@@ -5475,34 +7765,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -5513,7 +7817,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<uint, byte> cast)
+    public static bool IsValueCopy(Cast<UInt32, Byte> cast)
     {
 
       bool result = false;
@@ -5521,34 +7825,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // byte.MaxValue >= uint.MaxValue && uint.MinValue >= byte.MinValue
-        result = (cast.Destination == ((byte) cast.Source));
-#elif false // byte.MaxValue >= uint.MaxValue && uint.MinValue < byte.MinValue
-        if (cast.Source >= byte.MinValue)
+#if ByteIncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ UInt32
+         */
+        result = (cast.Destination == ((Byte) cast.Source));
+
+#elif ByteOverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ UInt32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Destination == ((Byte) cast.Source));
         }
-#elif true // byte.MaxValue < uint.MaxValue && uint.MinValue >= byte.MinValue
-        if (cast.Source <= byte.MaxValue)
+
+#elif UInt32OverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Byte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Source == ((UInt32) cast.Destination));
         }
-#elif false // byte.MaxValue < uint.MaxValue && uint.MinValue < byte.MinValue
-        result = (cast.Source == ((uint) cast.Destination));
+
+#elif UInt32IncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Byte
+         */
+        result = (cast.Source == ((UInt32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt32 and Byte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<uint, byte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt32, Byte> cast)
     {
 
       bool result = false;
@@ -5558,34 +7892,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -5596,7 +7944,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<uint, byte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt32, Byte> cast)
     {
 
       bool result = false;
@@ -5606,22 +7954,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -5629,11 +7984,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -5644,42 +8006,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<uint, short> cast)
+    public static bool IsValueCopy(Cast<UInt32, Int16> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if Int16IncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ UInt32
+         */
+        result = (cast.Destination == ((Int16) cast.Source));
 
-#if false // short.MaxValue >= uint.MaxValue && uint.MinValue >= short.MinValue
-        result = (cast.Destination == ((short) cast.Source));
-#elif false // short.MaxValue >= uint.MaxValue && uint.MinValue < short.MinValue
-        if (cast.Source >= short.MinValue)
+#elif Int16OverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ UInt32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Destination == ((Int16) cast.Source));
         }
-#elif true // short.MaxValue < uint.MaxValue && uint.MinValue >= short.MinValue
-        if (cast.Source <= short.MaxValue)
+
+#elif UInt32OverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Int16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Source == ((UInt32) cast.Destination));
         }
-#elif false // short.MaxValue < uint.MaxValue && uint.MinValue < short.MinValue
-        result = (cast.Source == ((uint) cast.Destination));
+
+#elif UInt32IncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Int16
+         */
+        result = (cast.Source == ((UInt32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt32 and Int16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<uint, short> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt32, Int16> cast)
     {
 
       bool result = false;
@@ -5689,22 +8081,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -5712,11 +8111,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -5727,7 +8133,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<uint, short> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt32, Int16> cast)
     {
 
       bool result = false;
@@ -5737,34 +8143,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -5775,7 +8195,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<uint, ushort> cast)
+    public static bool IsValueCopy(Cast<UInt32, UInt16> cast)
     {
 
       bool result = false;
@@ -5783,34 +8203,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // ushort.MaxValue >= uint.MaxValue && uint.MinValue >= ushort.MinValue
-        result = (cast.Destination == ((ushort) cast.Source));
-#elif false // ushort.MaxValue >= uint.MaxValue && uint.MinValue < ushort.MinValue
-        if (cast.Source >= ushort.MinValue)
+#if UInt16IncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ UInt32
+         */
+        result = (cast.Destination == ((UInt16) cast.Source));
+
+#elif UInt16OverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ UInt32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Destination == ((UInt16) cast.Source));
         }
-#elif true // ushort.MaxValue < uint.MaxValue && uint.MinValue >= ushort.MinValue
-        if (cast.Source <= ushort.MaxValue)
+
+#elif UInt32OverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ UInt16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Source == ((UInt32) cast.Destination));
         }
-#elif false // ushort.MaxValue < uint.MaxValue && uint.MinValue < ushort.MinValue
-        result = (cast.Source == ((uint) cast.Destination));
+
+#elif UInt32IncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ UInt16
+         */
+        result = (cast.Source == ((UInt32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt32 and UInt16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<uint, ushort> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt32, UInt16> cast)
     {
 
       bool result = false;
@@ -5820,34 +8270,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -5858,7 +8322,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<uint, ushort> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt32, UInt16> cast)
     {
 
       bool result = false;
@@ -5868,22 +8332,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -5891,11 +8362,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -5906,42 +8384,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<uint, int> cast)
+    public static bool IsValueCopy(Cast<UInt32, Int32> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if Int32IncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ UInt32
+         */
+        result = (cast.Destination == ((Int32) cast.Source));
 
-#if false // int.MaxValue >= uint.MaxValue && uint.MinValue >= int.MinValue
-        result = (cast.Destination == ((int) cast.Source));
-#elif false // int.MaxValue >= uint.MaxValue && uint.MinValue < int.MinValue
-        if (cast.Source >= int.MinValue)
+#elif Int32OverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ UInt32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Destination == ((Int32) cast.Source));
         }
-#elif true // int.MaxValue < uint.MaxValue && uint.MinValue >= int.MinValue
-        if (cast.Source <= int.MaxValue)
+
+#elif UInt32OverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Int32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Source == ((UInt32) cast.Destination));
         }
-#elif false // int.MaxValue < uint.MaxValue && uint.MinValue < int.MinValue
-        result = (cast.Source == ((uint) cast.Destination));
+
+#elif UInt32IncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Int32
+         */
+        result = (cast.Source == ((UInt32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt32 and Int32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<uint, int> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt32, Int32> cast)
     {
 
       bool result = false;
@@ -5951,22 +8459,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -5974,11 +8489,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -5989,7 +8511,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<uint, int> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt32, Int32> cast)
     {
 
       bool result = false;
@@ -5999,34 +8521,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -6037,7 +8573,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<uint, uint> cast)
+    public static bool IsValueCopy(Cast<UInt32, UInt32> cast)
     {
 
       bool result = false;
@@ -6045,34 +8581,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // uint.MaxValue >= uint.MaxValue && uint.MinValue >= uint.MinValue
-        result = (cast.Destination == ((uint) cast.Source));
-#elif false // uint.MaxValue >= uint.MaxValue && uint.MinValue < uint.MinValue
-        if (cast.Source >= uint.MinValue)
+#if UInt32IncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ UInt32
+         */
+        result = (cast.Destination == ((UInt32) cast.Source));
+
+#elif UInt32OverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ UInt32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Destination == ((UInt32) cast.Source));
         }
-#elif false // uint.MaxValue < uint.MaxValue && uint.MinValue >= uint.MinValue
-        if (cast.Source <= uint.MaxValue)
+
+#elif UInt32OverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ UInt32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Source == ((UInt32) cast.Destination));
         }
-#elif false // uint.MaxValue < uint.MaxValue && uint.MinValue < uint.MinValue
-        result = (cast.Source == ((uint) cast.Destination));
+
+#elif UInt32IncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ UInt32
+         */
+        result = (cast.Source == ((UInt32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt32 and UInt32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<uint, uint> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt32, UInt32> cast)
     {
 
       bool result = false;
@@ -6082,34 +8648,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -6120,7 +8700,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<uint, uint> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt32, UInt32> cast)
     {
 
       bool result = false;
@@ -6130,22 +8710,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -6153,11 +8740,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -6168,42 +8762,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<uint, long> cast)
+    public static bool IsValueCopy(Cast<UInt32, Int64> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if Int64IncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ UInt32
+         */
+        result = (cast.Destination == ((Int64) cast.Source));
 
-#if true // long.MaxValue >= uint.MaxValue && uint.MinValue >= long.MinValue
-        result = (cast.Destination == ((long) cast.Source));
-#elif false // long.MaxValue >= uint.MaxValue && uint.MinValue < long.MinValue
-        if (cast.Source >= long.MinValue)
+#elif Int64OverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ UInt32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Destination == ((Int64) cast.Source));
         }
-#elif false // long.MaxValue < uint.MaxValue && uint.MinValue >= long.MinValue
-        if (cast.Source <= long.MaxValue)
+
+#elif UInt32OverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Int64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Source == ((UInt32) cast.Destination));
         }
-#elif false // long.MaxValue < uint.MaxValue && uint.MinValue < long.MinValue
-        result = (cast.Source == ((uint) cast.Destination));
+
+#elif UInt32IncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Int64
+         */
+        result = (cast.Source == ((UInt32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt32 and Int64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<uint, long> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt32, Int64> cast)
     {
 
       bool result = false;
@@ -6213,22 +8837,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -6236,11 +8867,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -6251,7 +8889,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<uint, long> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt32, Int64> cast)
     {
 
       bool result = false;
@@ -6261,34 +8899,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -6299,7 +8951,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<uint, ulong> cast)
+    public static bool IsValueCopy(Cast<UInt32, UInt64> cast)
     {
 
       bool result = false;
@@ -6307,34 +8959,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // ulong.MaxValue >= uint.MaxValue && uint.MinValue >= ulong.MinValue
-        result = (cast.Destination == ((ulong) cast.Source));
-#elif false // ulong.MaxValue >= uint.MaxValue && uint.MinValue < ulong.MinValue
-        if (cast.Source >= ulong.MinValue)
+#if UInt64IncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ UInt32
+         */
+        result = (cast.Destination == ((UInt64) cast.Source));
+
+#elif UInt64OverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ UInt32
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Destination == ((UInt64) cast.Source));
         }
-#elif false // ulong.MaxValue < uint.MaxValue && uint.MinValue >= ulong.MinValue
-        if (cast.Source <= ulong.MaxValue)
+
+#elif UInt32OverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ UInt64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Source == ((UInt32) cast.Destination));
         }
-#elif false // ulong.MaxValue < uint.MaxValue && uint.MinValue < ulong.MinValue
-        result = (cast.Source == ((uint) cast.Destination));
+
+#elif UInt32IncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ UInt64
+         */
+        result = (cast.Source == ((UInt32) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt32 and UInt64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<uint, ulong> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt32, UInt64> cast)
     {
 
       bool result = false;
@@ -6344,34 +9026,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -6382,7 +9078,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<uint, ulong> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt32, UInt64> cast)
     {
 
       bool result = false;
@@ -6392,22 +9088,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        uint sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt32 sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -6415,11 +9118,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -6430,42 +9140,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<long, sbyte> cast)
+    public static bool IsValueCopy(Cast<Int64, SByte> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if SByteIncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Int64
+         */
+        result = (cast.Destination == ((SByte) cast.Source));
 
-#if false // sbyte.MaxValue >= long.MaxValue && long.MinValue >= sbyte.MinValue
-        result = (cast.Destination == ((sbyte) cast.Source));
-#elif false // sbyte.MaxValue >= long.MaxValue && long.MinValue < sbyte.MinValue
-        if (cast.Source >= sbyte.MinValue)
+#elif SByteOverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ Int64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
+          result = (cast.Destination == ((SByte) cast.Source));
         }
-#elif false // sbyte.MaxValue < long.MaxValue && long.MinValue >= sbyte.MinValue
-        if (cast.Source <= sbyte.MaxValue)
+
+#elif Int64OverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ SByte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
+          result = (cast.Source == ((Int64) cast.Destination));
         }
-#elif true // sbyte.MaxValue < long.MaxValue && long.MinValue < sbyte.MinValue
-        result = (cast.Source == ((long) cast.Destination));
+
+#elif Int64IncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ SByte
+         */
+        result = (cast.Source == ((Int64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int64 and SByte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<long, sbyte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int64, SByte> cast)
     {
 
       bool result = false;
@@ -6475,22 +9215,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -6498,11 +9245,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -6513,7 +9267,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<long, sbyte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int64, SByte> cast)
     {
 
       bool result = false;
@@ -6523,34 +9277,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -6561,7 +9329,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<long, byte> cast)
+    public static bool IsValueCopy(Cast<Int64, Byte> cast)
     {
 
       bool result = false;
@@ -6569,34 +9337,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // byte.MaxValue >= long.MaxValue && long.MinValue >= byte.MinValue
-        result = (cast.Destination == ((byte) cast.Source));
-#elif false // byte.MaxValue >= long.MaxValue && long.MinValue < byte.MinValue
-        if (cast.Source >= byte.MinValue)
+#if ByteIncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Int64
+         */
+        result = (cast.Destination == ((Byte) cast.Source));
+
+#elif ByteOverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ Int64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Destination == ((Byte) cast.Source));
         }
-#elif false // byte.MaxValue < long.MaxValue && long.MinValue >= byte.MinValue
-        if (cast.Source <= byte.MaxValue)
+
+#elif Int64OverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Byte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Source == ((Int64) cast.Destination));
         }
-#elif true // byte.MaxValue < long.MaxValue && long.MinValue < byte.MinValue
-        result = (cast.Source == ((long) cast.Destination));
+
+#elif Int64IncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Byte
+         */
+        result = (cast.Source == ((Int64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int64 and Byte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<long, byte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int64, Byte> cast)
     {
 
       bool result = false;
@@ -6606,34 +9404,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -6644,7 +9456,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<long, byte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int64, Byte> cast)
     {
 
       bool result = false;
@@ -6654,22 +9466,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -6677,11 +9496,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -6692,42 +9518,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<long, short> cast)
+    public static bool IsValueCopy(Cast<Int64, Int16> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if Int16IncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Int64
+         */
+        result = (cast.Destination == ((Int16) cast.Source));
 
-#if false // short.MaxValue >= long.MaxValue && long.MinValue >= short.MinValue
-        result = (cast.Destination == ((short) cast.Source));
-#elif false // short.MaxValue >= long.MaxValue && long.MinValue < short.MinValue
-        if (cast.Source >= short.MinValue)
+#elif Int16OverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ Int64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Destination == ((Int16) cast.Source));
         }
-#elif false // short.MaxValue < long.MaxValue && long.MinValue >= short.MinValue
-        if (cast.Source <= short.MaxValue)
+
+#elif Int64OverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Int16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Source == ((Int64) cast.Destination));
         }
-#elif true // short.MaxValue < long.MaxValue && long.MinValue < short.MinValue
-        result = (cast.Source == ((long) cast.Destination));
+
+#elif Int64IncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Int16
+         */
+        result = (cast.Source == ((Int64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int64 and Int16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<long, short> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int64, Int16> cast)
     {
 
       bool result = false;
@@ -6737,22 +9593,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -6760,11 +9623,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -6775,7 +9645,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<long, short> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int64, Int16> cast)
     {
 
       bool result = false;
@@ -6785,34 +9655,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -6823,7 +9707,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<long, ushort> cast)
+    public static bool IsValueCopy(Cast<Int64, UInt16> cast)
     {
 
       bool result = false;
@@ -6831,34 +9715,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // ushort.MaxValue >= long.MaxValue && long.MinValue >= ushort.MinValue
-        result = (cast.Destination == ((ushort) cast.Source));
-#elif false // ushort.MaxValue >= long.MaxValue && long.MinValue < ushort.MinValue
-        if (cast.Source >= ushort.MinValue)
+#if UInt16IncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Int64
+         */
+        result = (cast.Destination == ((UInt16) cast.Source));
+
+#elif UInt16OverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ Int64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Destination == ((UInt16) cast.Source));
         }
-#elif false // ushort.MaxValue < long.MaxValue && long.MinValue >= ushort.MinValue
-        if (cast.Source <= ushort.MaxValue)
+
+#elif Int64OverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ UInt16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Source == ((Int64) cast.Destination));
         }
-#elif true // ushort.MaxValue < long.MaxValue && long.MinValue < ushort.MinValue
-        result = (cast.Source == ((long) cast.Destination));
+
+#elif Int64IncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ UInt16
+         */
+        result = (cast.Source == ((Int64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int64 and UInt16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<long, ushort> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int64, UInt16> cast)
     {
 
       bool result = false;
@@ -6868,34 +9782,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -6906,7 +9834,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<long, ushort> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int64, UInt16> cast)
     {
 
       bool result = false;
@@ -6916,22 +9844,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -6939,11 +9874,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -6954,42 +9896,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<long, int> cast)
+    public static bool IsValueCopy(Cast<Int64, Int32> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if Int32IncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Int64
+         */
+        result = (cast.Destination == ((Int32) cast.Source));
 
-#if false // int.MaxValue >= long.MaxValue && long.MinValue >= int.MinValue
-        result = (cast.Destination == ((int) cast.Source));
-#elif false // int.MaxValue >= long.MaxValue && long.MinValue < int.MinValue
-        if (cast.Source >= int.MinValue)
+#elif Int32OverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ Int64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Destination == ((Int32) cast.Source));
         }
-#elif false // int.MaxValue < long.MaxValue && long.MinValue >= int.MinValue
-        if (cast.Source <= int.MaxValue)
+
+#elif Int64OverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Int32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Source == ((Int64) cast.Destination));
         }
-#elif true // int.MaxValue < long.MaxValue && long.MinValue < int.MinValue
-        result = (cast.Source == ((long) cast.Destination));
+
+#elif Int64IncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Int32
+         */
+        result = (cast.Source == ((Int64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int64 and Int32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<long, int> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int64, Int32> cast)
     {
 
       bool result = false;
@@ -6999,22 +9971,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -7022,11 +10001,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -7037,7 +10023,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<long, int> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int64, Int32> cast)
     {
 
       bool result = false;
@@ -7047,34 +10033,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -7085,7 +10085,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<long, uint> cast)
+    public static bool IsValueCopy(Cast<Int64, UInt32> cast)
     {
 
       bool result = false;
@@ -7093,34 +10093,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // uint.MaxValue >= long.MaxValue && long.MinValue >= uint.MinValue
-        result = (cast.Destination == ((uint) cast.Source));
-#elif false // uint.MaxValue >= long.MaxValue && long.MinValue < uint.MinValue
-        if (cast.Source >= uint.MinValue)
+#if UInt32IncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Int64
+         */
+        result = (cast.Destination == ((UInt32) cast.Source));
+
+#elif UInt32OverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ Int64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Destination == ((UInt32) cast.Source));
         }
-#elif false // uint.MaxValue < long.MaxValue && long.MinValue >= uint.MinValue
-        if (cast.Source <= uint.MaxValue)
+
+#elif Int64OverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ UInt32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Source == ((Int64) cast.Destination));
         }
-#elif true // uint.MaxValue < long.MaxValue && long.MinValue < uint.MinValue
-        result = (cast.Source == ((long) cast.Destination));
+
+#elif Int64IncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ UInt32
+         */
+        result = (cast.Source == ((Int64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int64 and UInt32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<long, uint> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int64, UInt32> cast)
     {
 
       bool result = false;
@@ -7130,34 +10160,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -7168,7 +10212,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<long, uint> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int64, UInt32> cast)
     {
 
       bool result = false;
@@ -7178,22 +10222,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -7201,11 +10252,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -7216,42 +10274,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<long, long> cast)
+    public static bool IsValueCopy(Cast<Int64, Int64> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if Int64IncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Int64
+         */
+        result = (cast.Destination == ((Int64) cast.Source));
 
-#if true // long.MaxValue >= long.MaxValue && long.MinValue >= long.MinValue
-        result = (cast.Destination == ((long) cast.Source));
-#elif false // long.MaxValue >= long.MaxValue && long.MinValue < long.MinValue
-        if (cast.Source >= long.MinValue)
+#elif Int64OverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Int64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Destination == ((Int64) cast.Source));
         }
-#elif false // long.MaxValue < long.MaxValue && long.MinValue >= long.MinValue
-        if (cast.Source <= long.MaxValue)
+
+#elif Int64OverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Int64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Source == ((Int64) cast.Destination));
         }
-#elif false // long.MaxValue < long.MaxValue && long.MinValue < long.MinValue
-        result = (cast.Source == ((long) cast.Destination));
+
+#elif Int64IncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ Int64
+         */
+        result = (cast.Source == ((Int64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int64 and Int64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<long, long> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int64, Int64> cast)
     {
 
       bool result = false;
@@ -7261,22 +10349,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -7284,11 +10379,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -7299,7 +10401,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<long, long> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int64, Int64> cast)
     {
 
       bool result = false;
@@ -7309,34 +10411,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -7347,7 +10463,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<long, ulong> cast)
+    public static bool IsValueCopy(Cast<Int64, UInt64> cast)
     {
 
       bool result = false;
@@ -7355,34 +10471,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // ulong.MaxValue >= long.MaxValue && long.MinValue >= ulong.MinValue
-        result = (cast.Destination == ((ulong) cast.Source));
-#elif true // ulong.MaxValue >= long.MaxValue && long.MinValue < ulong.MinValue
-        if (cast.Source >= ulong.MinValue)
+#if UInt64IncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Int64
+         */
+        result = (cast.Destination == ((UInt64) cast.Source));
+
+#elif UInt64OverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Int64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Destination == ((UInt64) cast.Source));
         }
-#elif false // ulong.MaxValue < long.MaxValue && long.MinValue >= ulong.MinValue
-        if (cast.Source <= ulong.MaxValue)
+
+#elif Int64OverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ UInt64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Source == ((Int64) cast.Destination));
         }
-#elif false // ulong.MaxValue < long.MaxValue && long.MinValue < ulong.MinValue
-        result = (cast.Source == ((long) cast.Destination));
+
+#elif Int64IncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ UInt64
+         */
+        result = (cast.Source == ((Int64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between Int64 and UInt64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<long, ulong> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<Int64, UInt64> cast)
     {
 
       bool result = false;
@@ -7392,34 +10538,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -7430,7 +10590,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<long, ulong> cast)
+    public static bool IsOneFillBinaryCopy(Cast<Int64, UInt64> cast)
     {
 
       bool result = false;
@@ -7440,22 +10600,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        long sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        Int64 sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -7463,11 +10630,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -7478,42 +10652,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ulong, sbyte> cast)
+    public static bool IsValueCopy(Cast<UInt64, SByte> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if SByteIncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ UInt64
+         */
+        result = (cast.Destination == ((SByte) cast.Source));
 
-#if false // sbyte.MaxValue >= ulong.MaxValue && ulong.MinValue >= sbyte.MinValue
-        result = (cast.Destination == ((sbyte) cast.Source));
-#elif false // sbyte.MaxValue >= ulong.MaxValue && ulong.MinValue < sbyte.MinValue
-        if (cast.Source >= sbyte.MinValue)
+#elif SByteOverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ SByte
+         *   S ⇔ UInt64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
+          result = (cast.Destination == ((SByte) cast.Source));
         }
-#elif true // sbyte.MaxValue < ulong.MaxValue && ulong.MinValue >= sbyte.MinValue
-        if (cast.Source <= (ulong) sbyte.MaxValue)
+
+#elif UInt64OverlapsSByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ SByte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((sbyte) cast.Source));
+          result = (cast.Source == ((UInt64) cast.Destination));
         }
-#elif false // sbyte.MaxValue < ulong.MaxValue && ulong.MinValue < sbyte.MinValue
-        result = (cast.Source == ((ulong) cast.Destination));
+
+#elif UInt64IncludesSByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ SByte
+         */
+        result = (cast.Source == ((UInt64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt64 and SByte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ulong, sbyte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt64, SByte> cast)
     {
 
       bool result = false;
@@ -7523,22 +10727,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -7546,11 +10757,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -7561,7 +10779,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ulong, sbyte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt64, SByte> cast)
     {
 
       bool result = false;
@@ -7571,34 +10789,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        sbyte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        SByte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -7609,7 +10841,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ulong, byte> cast)
+    public static bool IsValueCopy(Cast<UInt64, Byte> cast)
     {
 
       bool result = false;
@@ -7617,34 +10849,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // byte.MaxValue >= ulong.MaxValue && ulong.MinValue >= byte.MinValue
-        result = (cast.Destination == ((byte) cast.Source));
-#elif false // byte.MaxValue >= ulong.MaxValue && ulong.MinValue < byte.MinValue
-        if (cast.Source >= byte.MinValue)
+#if ByteIncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ UInt64
+         */
+        result = (cast.Destination == ((Byte) cast.Source));
+
+#elif ByteOverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Byte
+         *   S ⇔ UInt64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Destination == ((Byte) cast.Source));
         }
-#elif true // byte.MaxValue < ulong.MaxValue && ulong.MinValue >= byte.MinValue
-        if (cast.Source <= byte.MaxValue)
+
+#elif UInt64OverlapsByte
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Byte
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((byte) cast.Source));
+          result = (cast.Source == ((UInt64) cast.Destination));
         }
-#elif false // byte.MaxValue < ulong.MaxValue && ulong.MinValue < byte.MinValue
-        result = (cast.Source == ((ulong) cast.Destination));
+
+#elif UInt64IncludesByte
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Byte
+         */
+        result = (cast.Source == ((UInt64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt64 and Byte is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ulong, byte> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt64, Byte> cast)
     {
 
       bool result = false;
@@ -7654,34 +10916,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -7692,7 +10968,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ulong, byte> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt64, Byte> cast)
     {
 
       bool result = false;
@@ -7702,22 +10978,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        byte destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        Byte destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -7725,11 +11008,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -7740,42 +11030,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ulong, short> cast)
+    public static bool IsValueCopy(Cast<UInt64, Int16> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if Int16IncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ UInt64
+         */
+        result = (cast.Destination == ((Int16) cast.Source));
 
-#if false // short.MaxValue >= ulong.MaxValue && ulong.MinValue >= short.MinValue
-        result = (cast.Destination == ((short) cast.Source));
-#elif false // short.MaxValue >= ulong.MaxValue && ulong.MinValue < short.MinValue
-        if (cast.Source >= short.MinValue)
+#elif Int16OverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int16
+         *   S ⇔ UInt64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Destination == ((Int16) cast.Source));
         }
-#elif true // short.MaxValue < ulong.MaxValue && ulong.MinValue >= short.MinValue
-        if (cast.Source <= (ulong) short.MaxValue)
+
+#elif UInt64OverlapsInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Int16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((short) cast.Source));
+          result = (cast.Source == ((UInt64) cast.Destination));
         }
-#elif false // short.MaxValue < ulong.MaxValue && ulong.MinValue < short.MinValue
-        result = (cast.Source == ((ulong) cast.Destination));
+
+#elif UInt64IncludesInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Int16
+         */
+        result = (cast.Source == ((UInt64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt64 and Int16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ulong, short> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt64, Int16> cast)
     {
 
       bool result = false;
@@ -7785,22 +11105,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -7808,11 +11135,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -7823,7 +11157,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ulong, short> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt64, Int16> cast)
     {
 
       bool result = false;
@@ -7833,34 +11167,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        short destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        Int16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -7871,7 +11219,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ulong, ushort> cast)
+    public static bool IsValueCopy(Cast<UInt64, UInt16> cast)
     {
 
       bool result = false;
@@ -7879,34 +11227,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // ushort.MaxValue >= ulong.MaxValue && ulong.MinValue >= ushort.MinValue
-        result = (cast.Destination == ((ushort) cast.Source));
-#elif false // ushort.MaxValue >= ulong.MaxValue && ulong.MinValue < ushort.MinValue
-        if (cast.Source >= ushort.MinValue)
+#if UInt16IncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ UInt64
+         */
+        result = (cast.Destination == ((UInt16) cast.Source));
+
+#elif UInt16OverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt16
+         *   S ⇔ UInt64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Destination == ((UInt16) cast.Source));
         }
-#elif true // ushort.MaxValue < ulong.MaxValue && ulong.MinValue >= ushort.MinValue
-        if (cast.Source <= ushort.MaxValue)
+
+#elif UInt64OverlapsUInt16
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ UInt16
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ushort) cast.Source));
+          result = (cast.Source == ((UInt64) cast.Destination));
         }
-#elif false // ushort.MaxValue < ulong.MaxValue && ulong.MinValue < ushort.MinValue
-        result = (cast.Source == ((ulong) cast.Destination));
+
+#elif UInt64IncludesUInt16
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ UInt16
+         */
+        result = (cast.Source == ((UInt64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt64 and UInt16 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ulong, ushort> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt64, UInt16> cast)
     {
 
       bool result = false;
@@ -7916,34 +11294,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -7954,7 +11346,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ulong, ushort> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt64, UInt16> cast)
     {
 
       bool result = false;
@@ -7964,22 +11356,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        ushort destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        UInt16 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -7987,11 +11386,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -8002,42 +11408,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ulong, int> cast)
+    public static bool IsValueCopy(Cast<UInt64, Int32> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if Int32IncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ UInt64
+         */
+        result = (cast.Destination == ((Int32) cast.Source));
 
-#if false // int.MaxValue >= ulong.MaxValue && ulong.MinValue >= int.MinValue
-        result = (cast.Destination == ((int) cast.Source));
-#elif false // int.MaxValue >= ulong.MaxValue && ulong.MinValue < int.MinValue
-        if (cast.Source >= int.MinValue)
+#elif Int32OverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int32
+         *   S ⇔ UInt64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Destination == ((Int32) cast.Source));
         }
-#elif true // int.MaxValue < ulong.MaxValue && ulong.MinValue >= int.MinValue
-        if (cast.Source <= int.MaxValue)
+
+#elif UInt64OverlapsInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Int32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((int) cast.Source));
+          result = (cast.Source == ((UInt64) cast.Destination));
         }
-#elif false // int.MaxValue < ulong.MaxValue && ulong.MinValue < int.MinValue
-        result = (cast.Source == ((ulong) cast.Destination));
+
+#elif UInt64IncludesInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Int32
+         */
+        result = (cast.Source == ((UInt64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt64 and Int32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ulong, int> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt64, Int32> cast)
     {
 
       bool result = false;
@@ -8047,22 +11483,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -8070,11 +11513,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -8085,7 +11535,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ulong, int> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt64, Int32> cast)
     {
 
       bool result = false;
@@ -8095,34 +11545,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        int destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        Int32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -8133,7 +11597,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ulong, uint> cast)
+    public static bool IsValueCopy(Cast<UInt64, UInt32> cast)
     {
 
       bool result = false;
@@ -8141,34 +11605,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if false // uint.MaxValue >= ulong.MaxValue && ulong.MinValue >= uint.MinValue
-        result = (cast.Destination == ((uint) cast.Source));
-#elif false // uint.MaxValue >= ulong.MaxValue && ulong.MinValue < uint.MinValue
-        if (cast.Source >= uint.MinValue)
+#if UInt32IncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ UInt64
+         */
+        result = (cast.Destination == ((UInt32) cast.Source));
+
+#elif UInt32OverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt32
+         *   S ⇔ UInt64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Destination == ((UInt32) cast.Source));
         }
-#elif true // uint.MaxValue < ulong.MaxValue && ulong.MinValue >= uint.MinValue
-        if (cast.Source <= uint.MaxValue)
+
+#elif UInt64OverlapsUInt32
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ UInt32
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((uint) cast.Source));
+          result = (cast.Source == ((UInt64) cast.Destination));
         }
-#elif false // uint.MaxValue < ulong.MaxValue && ulong.MinValue < uint.MinValue
-        result = (cast.Source == ((ulong) cast.Destination));
+
+#elif UInt64IncludesUInt32
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ UInt32
+         */
+        result = (cast.Source == ((UInt64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt64 and UInt32 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ulong, uint> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt64, UInt32> cast)
     {
 
       bool result = false;
@@ -8178,34 +11672,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -8216,7 +11724,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ulong, uint> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt64, UInt32> cast)
     {
 
       bool result = false;
@@ -8226,22 +11734,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        uint destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        UInt32 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -8249,11 +11764,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
-            if ((cast.Destination & destinationBit) == 0)
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -8264,42 +11786,72 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ulong, long> cast)
+    public static bool IsValueCopy(Cast<UInt64, Int64> cast)
     {
 
       bool result = false;
 
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
+
+#if Int64IncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ UInt64
+         */
+        result = (cast.Destination == ((Int64) cast.Source));
 
-#if false // long.MaxValue >= ulong.MaxValue && ulong.MinValue >= long.MinValue
-        result = (cast.Destination == ((long) cast.Source));
-#elif false // long.MaxValue >= ulong.MaxValue && ulong.MinValue < long.MinValue
-        if (cast.Source >= long.MinValue)
+#elif Int64OverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ Int64
+         *   S ⇔ UInt64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Destination == ((Int64) cast.Source));
         }
-#elif true // long.MaxValue < ulong.MaxValue && ulong.MinValue >= long.MinValue
-        if (cast.Source <= long.MaxValue)
+
+#elif UInt64OverlapsInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Int64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((long) cast.Source));
+          result = (cast.Source == ((UInt64) cast.Destination));
         }
-#elif false // long.MaxValue < ulong.MaxValue && ulong.MinValue < long.MinValue
-        result = (cast.Source == ((ulong) cast.Destination));
+
+#elif UInt64IncludesInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ Int64
+         */
+        result = (cast.Source == ((UInt64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt64 and Int64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ulong, long> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt64, Int64> cast)
     {
 
       bool result = false;
@@ -8309,22 +11861,29 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
+
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
 
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
@@ -8332,11 +11891,18 @@ namespace He4.Projects.SafeBits.Casts
           else
           {
 
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
+
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -8347,7 +11913,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ulong, long> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt64, Int64> cast)
     {
 
       bool result = false;
@@ -8357,34 +11923,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        long destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        Int64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
@@ -8395,7 +11975,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsValueCopy(Cast<ulong, ulong> cast)
+    public static bool IsValueCopy(Cast<UInt64, UInt64> cast)
     {
 
       bool result = false;
@@ -8403,34 +11983,64 @@ namespace He4.Projects.SafeBits.Casts
       if (!(cast.IsCompileTimeError || cast.IsRunTimeError))
       {
 
-#if true // ulong.MaxValue >= ulong.MaxValue && ulong.MinValue >= ulong.MinValue
-        result = (cast.Destination == ((ulong) cast.Source));
-#elif false // ulong.MaxValue >= ulong.MaxValue && ulong.MinValue < ulong.MinValue
-        if (cast.Source >= ulong.MinValue)
+#if UInt64IncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ UInt64
+         */
+        result = (cast.Destination == ((UInt64) cast.Source));
+
+#elif UInt64OverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ UInt64
+         */
+        if (cast.Source >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Destination == ((UInt64) cast.Source));
         }
-#elif false // ulong.MaxValue < ulong.MaxValue && ulong.MinValue >= ulong.MinValue
-        if (cast.Source <= ulong.MaxValue)
+
+#elif UInt64OverlapsUInt64
+        /*
+         * 9088a52d-d371-4363-9009-2f7f58abde72
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ ¬(min(values(S)) >= min(values(D))) ∧ (s >= 0) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ UInt64
+         */
+        if (cast.Destination >= 0)
         {
 
-          // Cast will succeed
-          result = (cast.Destination == ((ulong) cast.Source));
+          result = (cast.Source == ((UInt64) cast.Destination));
         }
-#elif false // ulong.MaxValue < ulong.MaxValue && ulong.MinValue < ulong.MinValue
-        result = (cast.Source == ((ulong) cast.Destination));
+
+#elif UInt64IncludesUInt64
+        /*
+         * 5c9244e4-8bcb-4779-b65d-8986ce67d6a7
+         * D ∈ IT ∧ S ∈ IT ∧ s ∈ values(S) ⇒
+         * (max(values(D)) >= max(values(S))) ∧ (min(values(S)) >= min(values(D))) ⇒ s ∈ values(D)
+         *   D ⇔ UInt64
+         *   S ⇔ UInt64
+         */
+        result = (cast.Source == ((UInt64) cast.Destination));
+
 #else
-        // Force a compile time error
-        You must select one of these branches by replacing "false" with "true"
+#error Relation between UInt64 and UInt64 is undefined.
+
 #endif
       }
 
       return result;
     }
 
-    public static bool IsZeroFillBinaryCopy(Cast<ulong, ulong> cast)
+    public static bool IsZeroFillBinaryCopy(Cast<UInt64, UInt64> cast)
     {
 
       bool result = false;
@@ -8440,34 +12050,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
+
+          // Assert
+          // i < destinationLimit
 
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
             if ((cast.Destination & destinationBit) != 0)
             {
 
               result = false;
-              break;
+              break; // Destination does not have zero-filled high bits
             }
           }
 
@@ -8478,7 +12102,7 @@ namespace He4.Projects.SafeBits.Casts
       return result;
     }
 
-    public static bool IsOneFillBinaryCopy(Cast<ulong, ulong> cast)
+    public static bool IsOneFillBinaryCopy(Cast<UInt64, UInt64> cast)
     {
 
       bool result = false;
@@ -8488,34 +12112,48 @@ namespace He4.Projects.SafeBits.Casts
 
         result = true;
 
-        System.Int32 sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
-        System.Int32 destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
-        ulong sourceBit = 1;
-        ulong destinationBit = 1;
+        int sourceLimit = 8 * TypeProperties.SizeOf(cast.SourceType);
+        int destinationLimit = 8 * TypeProperties.SizeOf(cast.DestinationType);
+        UInt64 sourceBit = 1;
+        UInt64 destinationBit = 1;
 
         for (var i = 0; i < destinationLimit; i++)
         {
 
+          // Assert
+          // i < destinationLimit
+
           if (i < sourceLimit)
           {
 
+            // Assert
+            // i < destinationLimit
+            // i < sourceLimit
+
             if (((cast.Source & sourceBit) == 0) != ((cast.Destination & destinationBit) == 0))
             {
 
               result = false;
-              break;
+              break; // Bitwise mismatch
             }
 
             sourceBit <<= 1;
           }
           else
           {
+
+            // Assert
+            // i < destinationLimit
+            // i >= sourceLimit
+            //
+            // Conclusion
+            // destinationLimit > sourceLimit
 
-            if ((cast.Destination & destinationBit) == 0)
+            if ((cast.Destination & destinationBit) != 1)
             {
 
               result = false;
-              break;
+              break; // Destination does not have one-filled high bits
             }
           }
 
