@@ -2,9 +2,19 @@
 
 use strict;
 use warnings;
+use File::Spec;
 
-my $defaultInputRecordSeparator = $/;
-my $defaultOutputRecordSeparator = $\;
+sub GetPortableName
+{
+
+  my $name = shift;
+
+  # Get script directory name
+  # http://stackoverflow.com/a/90721/6815417
+  my($scriptFileVolume, $scriptFileDirectory, $scriptFileName) = File::Spec->splitpath(__FILE__);
+
+  return File::Spec->catpath($scriptFileVolume, $scriptFileDirectory, $name);
+}
 
 my $integralTypes = ["SByte", "Byte", "Int16", "UInt16", "Int32", "UInt32", "Int64", "UInt64"];
 
@@ -14,7 +24,7 @@ $\ = "\r\n";
 
 # Read template into memory
 
-open(my $templateFileHandle, "<:encoding(UTF-8)", "CastProperties.Template.cs") or die $!;
+open(my $templateFileHandle, "<:encoding(UTF-8)", GetPortableName("CastProperties.Template.cs")) or die $!;
 
 my $templateFileLines = [];
 @$templateFileLines = <$templateFileHandle>;
@@ -24,7 +34,7 @@ close($templateFileHandle) or die $!;
 
 # Read head of main file into memory
 
-open(my $headFileHandle, "<:encoding(UTF-8)", "CastProperties.cs") or die $!;
+open(my $headFileHandle, "<:encoding(UTF-8)", GetPortableName("CastProperties.cs")) or die $!;
 
 my $headFileLines = [];
 my $curlyCount = 0;
@@ -52,7 +62,7 @@ close($headFileHandle) or die $!;
 
 # Overwrite main file
 
-open(my $mainFileHandle, ">:encoding(UTF-8)", "CastProperties.cs") or die $!;
+open(my $mainFileHandle, ">:encoding(UTF-8)", GetPortableName("CastProperties.cs")) or die $!;
 
 for my $line (@$headFileLines)
 {
