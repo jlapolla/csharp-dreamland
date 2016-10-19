@@ -59,7 +59,28 @@ using System;
 namespace He4.Projects.SafeBits.Casts
 {
 
-  public abstract class Cast<TSource, TDestination>
+  public interface ICast
+  {
+
+    bool IsUncheckedCast { get; }
+    bool IsExplicitCast { get; }
+    bool IsValueCopy { get; }
+    bool IsZeroFillBinaryCopy { get; }
+    bool IsOneFillBinaryCopy { get; }
+    bool IsCompileTimeError { get; }
+    bool IsValueCompatible { get; }
+    Exception Exception { get; }
+    Type SourceType { get; }
+    Type DestinationType { get; }
+    bool IsSourceTypeSigned { get; }
+    bool IsDestinationTypeSigned { get; }
+    bool IsResizeShrink { get; }
+    bool IsResizeNone { get; }
+    bool IsResizeGrow { get; }
+    bool IsRunTimeError { get; }
+  }
+
+  public abstract class Cast<TSource, TDestination> : ICast
   {
 
     protected abstract void Evaluate();

@@ -37,6 +37,7 @@ close($templateFileHandle) or die $!;
 open(my $headFileHandle, "<:encoding(UTF-8)", GetPortableName("IntegralCasts.All.cs")) or die $!;
 
 my $headFileLines = [];
+my $classCount = 0;
 
 while (my $line = <$headFileHandle>)
 {
@@ -47,7 +48,13 @@ while (my $line = <$headFileHandle>)
   if ($line =~ /^  \}\s*$/)
   {
 
-    last;
+    $classCount++;
+
+    if ($classCount == 2)
+    {
+
+      last;
+    }
   }
 }
 
