@@ -43,14 +43,14 @@
     <Compile Include="..\..\..\src\He4\Projects\SafeBits\TypeProperties.cs">
       <Link>He4\Projects\SafeBits\TypeProperties.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\src\He4\Projects\SafeBits\IntegralCasts.cs">
-      <Link>He4\Projects\SafeBits\IntegralCasts.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\src\He4\Projects\SafeBits\Random2.cs">
       <Link>He4\Projects\SafeBits\Random2.cs</Link>
     </Compile>
     <Compile Include="..\..\..\src\He4\Projects\SafeBits\IRandom.cs">
       <Link>He4\Projects\SafeBits\IRandom.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\He4\Projects\SafeBits\Casts\IntegralCasts.All.cs">
+      <Link>He4\Projects\SafeBits\Casts\IntegralCasts.All.cs</Link>
     </Compile>
   </ItemGroup>
 </Project>
