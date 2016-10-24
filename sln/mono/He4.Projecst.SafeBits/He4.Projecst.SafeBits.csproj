@@ -52,5 +52,8 @@
     <Compile Include="..\..\..\src\He4\Projects\SafeBits\Casts\IntegralCasts.All.cs">
       <Link>He4\Projects\SafeBits\Casts\IntegralCasts.All.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\src\He4\Projects\SafeBits\Casts\RandomCastSource.cs">
+      <Link>He4\Projects\SafeBits\Casts\RandomCastSource.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>
