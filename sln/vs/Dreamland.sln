@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "He4.Projects.WinFormsScroll
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "He4.Reflection", "He4.Reflection\He4.Reflection.csproj", "{A6A38F21-6CEA-4307-947D-66B991A78214}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "He4.Reflection.Tests", "He4.Reflection.Tests\He4.Reflection.Tests.csproj", "{BCE8E62E-FF8E-4B0B-A985-05B3EF509933}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A6A38F21-6CEA-4307-947D-66B991A78214}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6A38F21-6CEA-4307-947D-66B991A78214}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6A38F21-6CEA-4307-947D-66B991A78214}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCE8E62E-FF8E-4B0B-A985-05B3EF509933}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCE8E62E-FF8E-4B0B-A985-05B3EF509933}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCE8E62E-FF8E-4B0B-A985-05B3EF509933}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCE8E62E-FF8E-4B0B-A985-05B3EF509933}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -82,7 +82,7 @@ namespace He4.Reflection
       if (!typeof(TMember).IsAssignableFrom(property.PropertyType))
       {
 
-        throw new Exception(property + " must conform to " + typeof(TMember) + ".");
+        throw new Exception(typeof(TTarget) + "." + property.Name + " must conform to " + typeof(TMember) + ".");
       }
 
       instance.Method = property.GetGetMethod();
@@ -90,20 +90,8 @@ namespace He4.Reflection
       if (instance.Method == null)
       {
 
-        throw new Exception(property + " must have a public get accessor.");
+        throw new Exception(typeof(TTarget) + "." + property.Name + " must have a public get accessor.");
       }
-    }
-
-    private static void SetupWithField(ReadableMemberAccessor<TTarget, TMember> instance, FieldInfo field)
-    {
-
-      if (!typeof(TMember).IsAssignableFrom(field.FieldType))
-      {
-
-        throw new Exception(field + " must conform to " + typeof(TMember) + ".");
-      }
-
-      instance.Field = field;
     }
 
     private static void SetupWithMethod(ReadableMemberAccessor<TTarget, TMember> instance, MethodInfo method)
@@ -112,16 +100,22 @@ namespace He4.Reflection
       if (!typeof(TMember).IsAssignableFrom(method.ReturnType))
       {
 
-        throw new Exception(method + " return type must conform to " + typeof(TMember) + ".");
-      }
-
-      if (method.GetParameters().Length != 0)
-      {
-
-        throw new Exception(method + " must have no arguments.");
+        throw new Exception(typeof(TTarget) + "." + method.Name + " return type must conform to " + typeof(TMember) + ".");
       }
 
       instance.Method = method;
+    }
+
+    private static void SetupWithField(ReadableMemberAccessor<TTarget, TMember> instance, FieldInfo field)
+    {
+
+      if (!typeof(TMember).IsAssignableFrom(field.FieldType))
+      {
+
+        throw new Exception(typeof(TTarget) + "." + field.Name + " must conform to " + typeof(TMember) + ".");
+      }
+
+      instance.Field = field;
     }
 
     protected static void Setup(ReadableMemberAccessor<TTarget, TMember> instance, string memberName)
@@ -141,7 +135,7 @@ namespace He4.Reflection
           break;
         }
 
-        MethodInfo method = targetType.GetMethod(memberName, DefaultBindingFlags);
+        MethodInfo method = targetType.GetMethod(memberName, DefaultBindingFlags, Type.DefaultBinder, Type.EmptyTypes, new ParameterModifier[0]);
 
         if (method != null)
         {
@@ -159,7 +153,7 @@ namespace He4.Reflection
           break;
         }
 
-        throw new Exception("Member \"" + memberName + "\" not found in " + targetType + ".");
+        throw new Exception("\"" + memberName + "\" must be a public, non-static property, zero-argument method, or field of " + targetType + ".");
       }
     }
 
