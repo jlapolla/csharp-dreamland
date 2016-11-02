@@ -31,9 +31,7 @@ namespace He4.Reflection
           if (Method != null)
           {
 
-            object[] parameters = new object[1];
-            parameters[0] = value;
-            Method.Invoke(Target, parameters);
+            Method.Invoke(Target, new object[1] { value });
             break;
           }
 
@@ -80,7 +78,7 @@ namespace He4.Reflection
       if (!property.PropertyType.IsAssignableFrom(typeof(TMember)))
       {
 
-        throw new Exception(property + " must be assignable from " + typeof(TMember) + ".");
+        throw new Exception(typeof(TTarget) + "." + property.Name + " must be assignable from " + typeof(TMember) + ".");
       }
 
       instance.Method = property.GetSetMethod();
@@ -88,8 +86,14 @@ namespace He4.Reflection
       if (instance.Method == null)
       {
 
-        throw new Exception(property + " must have a public set accessor.");
+        throw new Exception(typeof(TTarget) + "." + property.Name + " must have a public set accessor.");
       }
+    }
+
+    private static void SetupWithMethod(WritableMemberAccessor<TTarget, TMember> instance, MethodInfo method)
+    {
+
+      instance.Method = method;
     }
 
     private static void SetupWithField(WritableMemberAccessor<TTarget, TMember> instance, FieldInfo field)
@@ -98,33 +102,10 @@ namespace He4.Reflection
       if (!field.FieldType.IsAssignableFrom(typeof(TMember)))
       {
 
-        throw new Exception(field + " must be assignable from " + typeof(TMember) + ".");
+        throw new Exception(typeof(TTarget) + "." + field.Name + " must be assignable from " + typeof(TMember) + ".");
       }
 
       instance.Field = field;
-    }
-
-    private static void SetupWithMethod(WritableMemberAccessor<TTarget, TMember> instance, MethodInfo method)
-    {
-
-      ParameterInfo[] parameters = method.GetParameters();
-
-      if (parameters.Length == 1)
-      {
-
-        if (!parameters[0].ParameterType.IsAssignableFrom(typeof(TMember)))
-        {
-
-          throw new Exception(method + " argument must be assignable from " + typeof(TMember) + ".");
-        }
-      }
-      else
-      {
-
-        throw new Exception(method + " must have one argument.");
-      }
-
-      instance.Method = method;
     }
 
     protected static void Setup(WritableMemberAccessor<TTarget, TMember> instance, string memberName)
@@ -144,7 +125,7 @@ namespace He4.Reflection
           break;
         }
 
-        MethodInfo method = targetType.GetMethod(memberName, DefaultBindingFlags);
+        MethodInfo method = targetType.GetMethod(memberName, DefaultBindingFlags, Type.DefaultBinder, new Type[1] { typeof(TMember) }, new ParameterModifier[1] { new ParameterModifier(1) });
 
         if (method != null)
         {
@@ -162,7 +143,7 @@ namespace He4.Reflection
           break;
         }
 
-        throw new Exception("Member \"" + memberName + "\" not found in " + targetType + ".");
+        throw new Exception("\"" + memberName + "\" must be a public, non-static property, one-argument method, or field of " + targetType + " which is assignable from " + typeof(TMember) + ".");
       }
     }
 
