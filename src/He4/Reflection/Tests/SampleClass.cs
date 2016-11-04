@@ -158,6 +158,19 @@ namespace He4.Reflection.Tests
       PrivateValue = value;
     }
 
+    /* Combo get / set overloaded functions */
+    public ValueType ComboValue()
+    {
+
+      return Value;
+    }
+
+    public void ComboValue(ValueType value)
+    {
+
+      Value = value;
+    }
+
     /* Creation */
     public static SampleClass Make()
     {
