@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{50495676-F803-4683-960B-E30A3C6FF080}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>He4.Reflection.Tests</RootNamespace>
+    <AssemblyName>He4.Reflection.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;NUNIT;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="He4\" />
+    <Folder Include="He4\Reflection\" />
+    <Folder Include="He4\Reflection\Tests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\src\He4\Reflection\Tests\ReadableMemberAccessorTest.cs">
+      <Link>He4\Reflection\Tests\ReadableMemberAccessorTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\He4\Reflection\Tests\SampleClass.cs">
+      <Link>He4\Reflection\Tests\SampleClass.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\He4\Reflection\Tests\WritableMemberAccessorTest.cs">
+      <Link>He4\Reflection\Tests\WritableMemberAccessorTest.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\He4.Reflection\He4.Reflection.csproj">
+      <Project>{6527CB54-66D4-448C-AEE8-84DCDEE0003F}</Project>
+      <Name>He4.Reflection</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

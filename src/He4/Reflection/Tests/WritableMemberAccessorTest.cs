@@ -1,16 +1,28 @@
+#if NUNIT
+using NUnit.Framework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 using System;
 
 namespace He4.Reflection.Tests
 {
 
+#if NUNIT
+  [TestFixture]
+#else
   [TestClass]
+#endif
   public class WritableMemberAccessorTest
   {
 
     /* Basic tests */
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void MakeThrowsWhenMemberDoesNotExist()
     {
 
@@ -31,7 +43,11 @@ namespace He4.Reflection.Tests
       Assert.IsTrue(throwsError);
     }
 
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void MakeThrowsWhenMemberIsNotPublic()
     {
 
@@ -52,7 +68,11 @@ namespace He4.Reflection.Tests
       Assert.IsTrue(throwsError);
     }
 
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void MakeThrowsWhenMemberIsStatic()
     {
 
@@ -74,7 +94,11 @@ namespace He4.Reflection.Tests
     }
 
     /* Property tests */
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void MakeThrowsWhenPropertyIsNotAssignable()
     {
 
@@ -95,7 +119,11 @@ namespace He4.Reflection.Tests
       Assert.IsTrue(throwsError);
     }
 
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void MakeThrowsWhenPropertyDoesNotHavePublicSetAccessor()
     {
 
@@ -116,7 +144,11 @@ namespace He4.Reflection.Tests
       Assert.IsTrue(throwsError);
     }
 
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void WorksWithReadablePublicProperty()
     {
 
@@ -134,7 +166,11 @@ namespace He4.Reflection.Tests
       Assert.AreEqual(2, target.Value);
     }
 
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void WorksWithContravarianceInProperties()
     {
 
@@ -153,7 +189,11 @@ namespace He4.Reflection.Tests
     }
 
     /* Method tests */
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void MakeThrowsWhenMethodArgumentTypeIsNotAssignable()
     {
 
@@ -174,7 +214,11 @@ namespace He4.Reflection.Tests
       Assert.IsTrue(throwsError);
     }
 
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void MakeThrowsWhenMethodHasExtraArguments()
     {
 
@@ -195,7 +239,11 @@ namespace He4.Reflection.Tests
       Assert.IsTrue(throwsError);
     }
 
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void WorksWithOneArgumentMethods()
     {
 
@@ -213,7 +261,11 @@ namespace He4.Reflection.Tests
       Assert.AreEqual(2, target.Value);
     }
 
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void WorksWithContravarianceInMethods()
     {
 
@@ -232,7 +284,11 @@ namespace He4.Reflection.Tests
     }
 
     /* Field tests */
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void MakeThrowsWhenFieldIsNotAssignable()
     {
 
@@ -253,7 +309,11 @@ namespace He4.Reflection.Tests
       Assert.IsTrue(throwsError);
     }
 
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void WorksWithFields()
     {
 
@@ -271,7 +331,11 @@ namespace He4.Reflection.Tests
       Assert.AreEqual(2, target.Value);
     }
 
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void WorksWithContravarianceInFields()
     {
 
@@ -290,7 +354,11 @@ namespace He4.Reflection.Tests
     }
 
     /* Other tests */
+#if NUNIT
+    [Test]
+#else
     [TestMethod]
+#endif
     public void MakeDuplicatesTemplateBinding()
     {
 
