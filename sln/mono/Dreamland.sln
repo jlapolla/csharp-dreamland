@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "He4.Reflection", "He4.Refle
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "He4.Reflection.Tests", "He4.Reflection.Tests\He4.Reflection.Tests.csproj", "{50495676-F803-4683-960B-E30A3C6FF080}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "He4", "He4\He4.csproj", "{DD59ED0E-3DD6-4C4F-A906-DCA4B9E0B2B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "He4.Tests", "He4.Tests\He4.Tests.csproj", "{C5F0484E-6643-49AA-9BD8-A877A110D2D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,14 @@ Global
 		{6527CB54-66D4-448C-AEE8-84DCDEE0003F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6527CB54-66D4-448C-AEE8-84DCDEE0003F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6527CB54-66D4-448C-AEE8-84DCDEE0003F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5F0484E-6643-49AA-9BD8-A877A110D2D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5F0484E-6643-49AA-9BD8-A877A110D2D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5F0484E-6643-49AA-9BD8-A877A110D2D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5F0484E-6643-49AA-9BD8-A877A110D2D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD59ED0E-3DD6-4C4F-A906-DCA4B9E0B2B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD59ED0E-3DD6-4C4F-A906-DCA4B9E0B2B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD59ED0E-3DD6-4C4F-A906-DCA4B9E0B2B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD59ED0E-3DD6-4C4F-A906-DCA4B9E0B2B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
