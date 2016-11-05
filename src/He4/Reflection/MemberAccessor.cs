@@ -70,9 +70,7 @@ namespace He4.Reflection
     public static MemberAccessor<TTarget, TMember> Make(string memberName)
     {
 
-      var instance = new MemberAccessor<TTarget, TMember>();
-      Setup(instance, memberName, memberName);
-      return instance;
+      return Make(memberName, memberName);
     }
 
     public static MemberAccessor<TTarget, TMember> Make(string readableMemberName, string writableMemberName)
