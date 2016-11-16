@@ -25,8 +25,106 @@ namespace He4.Tests
     public void MakeIntializesValue()
     {
 
-      var hash = HashCodeCombiner.Make(1009, 9176);
-      Assert.AreEqual(1009, hash.Value);
+      var hash = HashCodeCombiner.Make(17, 31);
+
+      Assert.AreEqual(17, hash.Value);
+      Assert.AreEqual(31, hash.Factor);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void PutWorksWithSameValues()
+    {
+
+      var hash1 = HashCodeCombiner.Make();
+      var hash2 = HashCodeCombiner.Make();
+
+      int hashCode = hash1.Value;
+
+      hash1.Put(32);
+      hash2.Put(32);
+
+      Assert.AreEqual(hash1.Value, hash2.Value);
+      Assert.AreNotEqual(hashCode, hash1.Value);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void PutWorksWithDifferentValues()
+    {
+
+      var hash1 = HashCodeCombiner.Make();
+      var hash2 = HashCodeCombiner.Make();
+
+      int hashCode = hash1.Value;
+
+      hash1.Put(32);
+      hash2.Put(31);
+
+      Assert.AreNotEqual(hash1.Value, hash2.Value);
+      Assert.AreNotEqual(hashCode, hash1.Value);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void PutWorksWithNullValues()
+    {
+
+      var hash1 = HashCodeCombiner.Make();
+      var hash2 = HashCodeCombiner.Make();
+
+      int hashCode = hash1.Value;
+
+      hash1.Put(null);
+      hash2.Put(null);
+
+      Assert.AreEqual(hash1.Value, hash2.Value);
+      Assert.AreNotEqual(hashCode, hash1.Value);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void PutGivesDifferentResultsForDifferentNumberOfNulls()
+    {
+
+      var hash1 = HashCodeCombiner.Make();
+      var hash2 = HashCodeCombiner.Make();
+
+      int hashCode = hash1.Value;
+
+      hash1.Put(null);
+      hash1.Put(null);
+      hash2.Put(null);
+
+      Assert.AreNotEqual(hash1.Value, hash2.Value);
+      Assert.AreNotEqual(hashCode, hash1.Value);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void PutHandlesIntegerOverflow()
+    {
+
+      var hash = HashCodeCombiner.Make(2147483647, 1);
+
+      hash.Put(10);
+
+      Assert.AreEqual(-2147483639, hash.Value);
     }
   }
 }
