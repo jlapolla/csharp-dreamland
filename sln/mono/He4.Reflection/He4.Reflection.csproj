@@ -51,5 +51,17 @@
     <Compile Include="..\..\..\src\He4\Reflection\MemberAccessor.cs">
       <Link>He4\Reflection\MemberAccessor.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\src\He4\Reflection\ConfigurableEqualityComparer.cs">
+      <Link>He4\Reflection\ConfigurableEqualityComparer.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\He4\He4.csproj">
+      <Project>{DD59ED0E-3DD6-4C4F-A906-DCA4B9E0B2B6}</Project>
+      <Name>He4</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
 </Project>
