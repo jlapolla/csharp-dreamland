@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
 using System;
+using System.Collections.Generic;
 
 namespace He4.Tests
 {
@@ -16,6 +17,22 @@ namespace He4.Tests
 #endif
   public class HashCodeCombinerTest
   {
+
+    private class CustomEqualityComparer : EqualityComparer<int>
+    {
+
+      public override bool Equals(int left, int right)
+      {
+
+        return Default.Equals(left, right);
+      }
+
+      public override int GetHashCode(int obj)
+      {
+
+        return 10;
+      }
+    }
 
 #if NUNIT
     [Test]
@@ -117,12 +134,34 @@ namespace He4.Tests
 #else
     [TestMethod]
 #endif
+    public void GenericPutUsesProvidedEqualityComparer()
+    {
+
+      var hash1 = HashCodeCombiner.Make(0, 1);
+      var hash2 = HashCodeCombiner.Make(0, 1);
+
+      int hashCode = hash1.Value;
+
+      hash1.Put<int>(32, new CustomEqualityComparer());
+      hash2.Put(32);
+
+      Assert.AreEqual(10, hash1.Value);
+      Assert.AreNotEqual(hash1.Value, hash2.Value);
+      Assert.AreNotEqual(hashCode, hash1.Value);
+      Assert.AreNotEqual(hashCode, hash2.Value);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
     public void PutHandlesIntegerOverflow()
     {
 
       var hash = HashCodeCombiner.Make(2147483647, 1);
 
-      hash.Put(10);
+      hash.Put<int>(32, new CustomEqualityComparer());
 
       Assert.AreEqual(-2147483639, hash.Value);
     }

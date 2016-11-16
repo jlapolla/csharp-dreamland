@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace He4
 {
@@ -9,6 +10,18 @@ namespace He4
     public int Value { get; set; }
 
     public int Factor { get; set; }
+
+    private void PutHashCode(int hashCode)
+    {
+
+      // Adding an "unchecked" block here is unnecessary. The calculation will
+      // be unchecked by default because expressions that contain non-constant
+      // terms are unchecked by default at compile time and run time.
+      //
+      // https://msdn.microsoft.com/en-us/library/a569z7k8.aspx
+
+      Value = (Value * Factor) + hashCode;
+    }
 
     public void Put(object field)
     {
@@ -21,13 +34,21 @@ namespace He4
         hashCode = field.GetHashCode();
       }
 
-      // Adding an "unchecked" block here is unnecessary. The calculation will
-      // be unchecked by default because expressions that contain non-constant
-      // terms are unchecked by default at compile time and run time.
-      //
-      // https://msdn.microsoft.com/en-us/library/a569z7k8.aspx
+      PutHashCode(hashCode);
+    }
 
-      Value = (Value * Factor) + hashCode;
+    public void Put<T>(T field, IEqualityComparer<T> comparer)
+    {
+
+      int hashCode = 0;
+
+      if (field != null)
+      {
+
+        hashCode = comparer.GetHashCode(field);
+      }
+
+      PutHashCode(hashCode);
     }
 
     public bool Equals(HashCodeCombiner other)
