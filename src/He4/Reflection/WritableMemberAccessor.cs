@@ -7,7 +7,7 @@ namespace He4.Reflection
   public class WritableMemberAccessor<TTarget, TMember> : IWritableMemberAccessor<TMember>
   {
 
-    private const BindingFlags DefaultBindingFlags = BindingFlags.Instance | BindingFlags.Public;
+    protected const BindingFlags DefaultBindingFlags = BindingFlags.Instance | BindingFlags.Public;
     protected FieldInfo Field;
     protected MethodInfo Method;
 
