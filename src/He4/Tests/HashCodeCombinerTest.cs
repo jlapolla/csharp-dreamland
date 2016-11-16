@@ -126,5 +126,85 @@ namespace He4.Tests
 
       Assert.AreEqual(-2147483639, hash.Value);
     }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void TypedEqualsWorks()
+    {
+
+      var hash1 = HashCodeCombiner.Make(1, 2);
+      var hash2 = HashCodeCombiner.Make(1, 2);
+      var hash3 = HashCodeCombiner.Make(2, 1);
+
+      Assert.IsTrue(hash1.Equals(hash2));
+      Assert.IsFalse(hash1.Equals(hash3));
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void ObjectEqualsWorks()
+    {
+
+      var hash1 = HashCodeCombiner.Make(1, 2);
+      var hash2 = HashCodeCombiner.Make(1, 2);
+      var hash3 = HashCodeCombiner.Make(2, 1);
+
+      Assert.IsTrue(hash1.Equals((object) hash2));
+      Assert.IsFalse(hash1.Equals((object) hash3));
+      Assert.IsFalse(hash1.Equals((object) 32));
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void GetHashCodeWorks()
+    {
+      var hash1 = HashCodeCombiner.Make(1, 2);
+      var hash2 = HashCodeCombiner.Make(1, 2);
+      var hash3 = HashCodeCombiner.Make(2, 1);
+
+      Assert.AreEqual(hash1.GetHashCode(), hash2.GetHashCode());
+      Assert.AreNotEqual(hash1.GetHashCode(), hash3.GetHashCode());
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void EqualityOperatorWorks()
+    {
+
+      var hash1 = HashCodeCombiner.Make(1, 2);
+      var hash2 = HashCodeCombiner.Make(1, 2);
+      var hash3 = HashCodeCombiner.Make(2, 1);
+
+      Assert.IsTrue(hash1 == hash2);
+      Assert.IsFalse(hash1 == hash3);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void InequalityOperatorWorks()
+    {
+
+      var hash1 = HashCodeCombiner.Make(1, 2);
+      var hash2 = HashCodeCombiner.Make(1, 2);
+      var hash3 = HashCodeCombiner.Make(2, 1);
+
+      Assert.IsFalse(hash1 != hash2);
+      Assert.IsTrue(hash1 != hash3);
+    }
   }
 }

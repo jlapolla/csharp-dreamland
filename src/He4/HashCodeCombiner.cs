@@ -1,7 +1,9 @@
+using System;
+
 namespace He4
 {
 
-  public struct HashCodeCombiner
+  public struct HashCodeCombiner : IEquatable<HashCodeCombiner>
   {
 
     public int Value { get; set; }
@@ -26,6 +28,49 @@ namespace He4
       // https://msdn.microsoft.com/en-us/library/a569z7k8.aspx
 
       Value = (Value * Factor) + hashCode;
+    }
+
+    public bool Equals(HashCodeCombiner other)
+    {
+
+      return Value.Equals(other.Value) && Factor.Equals(other.Factor);
+    }
+
+    public override bool Equals(object other)
+    {
+
+      bool result = false;
+
+      if (other is HashCodeCombiner)
+      {
+
+        result = Equals((HashCodeCombiner) other);
+      }
+
+      return result;
+    }
+
+    public override int GetHashCode()
+    {
+
+      var hash = HashCodeCombiner.Make();
+
+      hash.Put(Value);
+      hash.Put(Factor);
+
+      return hash.Value;
+    }
+
+    public static bool operator ==(HashCodeCombiner left, HashCodeCombiner right)
+    {
+
+      return left.Equals(right);
+    }
+
+    public static bool operator !=(HashCodeCombiner left, HashCodeCombiner right)
+    {
+
+      return !left.Equals(right);
     }
 
     public static HashCodeCombiner Make()
