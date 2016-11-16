@@ -134,6 +134,28 @@ namespace He4.Tests
 #else
     [TestMethod]
 #endif
+    public void PutUsesProvidedEqualityComparer()
+    {
+
+      var hash1 = HashCodeCombiner.Make(0, 1);
+      var hash2 = HashCodeCombiner.Make(0, 1);
+
+      int hashCode = hash1.Value;
+
+      hash1.Put((object) 32, new CustomEqualityComparer());
+      hash2.Put(32);
+
+      Assert.AreEqual(10, hash1.Value);
+      Assert.AreNotEqual(hash1.Value, hash2.Value);
+      Assert.AreNotEqual(hashCode, hash1.Value);
+      Assert.AreNotEqual(hashCode, hash2.Value);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
     public void GenericPutUsesProvidedEqualityComparer()
     {
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace He4
@@ -32,6 +33,20 @@ namespace He4
       {
 
         hashCode = field.GetHashCode();
+      }
+
+      PutHashCode(hashCode);
+    }
+
+    public void Put(object field, IEqualityComparer comparer)
+    {
+
+      int hashCode = 0;
+
+      if (field != null)
+      {
+
+        hashCode = comparer.GetHashCode(field);
       }
 
       PutHashCode(hashCode);
