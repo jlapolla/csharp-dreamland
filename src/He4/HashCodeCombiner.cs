@@ -15,9 +15,10 @@ namespace He4
     private void PutHashCode(int hashCode)
     {
 
-      // Adding an "unchecked" block here is unnecessary. The calculation will
-      // be unchecked by default because expressions that contain non-constant
-      // terms are unchecked by default at compile time and run time.
+      // Adding an "unchecked" block here is unnecessary. The calculation is
+      // unchecked by default because it contains non-constant terms.
+      // Expressions that contain non-constant terms are unchecked by default
+      // at compile time and run time.
       //
       // https://msdn.microsoft.com/en-us/library/a569z7k8.aspx
 
