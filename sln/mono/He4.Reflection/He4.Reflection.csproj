@@ -54,6 +54,9 @@
     <Compile Include="..\..\..\src\He4\Reflection\ConfigurableEqualityComparer.cs">
       <Link>He4\Reflection\ConfigurableEqualityComparer.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\src\He4\Reflection\ReadablePropertyAccessor.cs">
+      <Link>He4\Reflection\ReadablePropertyAccessor.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\He4\He4.csproj">
