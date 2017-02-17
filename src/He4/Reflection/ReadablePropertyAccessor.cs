@@ -7,7 +7,7 @@ namespace He4.Reflection
   public class ReadablePropertyAccessor<TTarget, TMember> : ReadableMemberAccessor<TTarget, TMember>
   {
 
-    protected MethodInfo Method;
+    protected MethodInfo PropertyGetMethod;
 
     /// <summary>
     /// Overrides ReadableMemberAccessor<TTarget, TMember>.Member.
@@ -18,7 +18,7 @@ namespace He4.Reflection
       get
       {
 
-        return (TMember) Method.Invoke(Target, null);
+        return (TMember) PropertyGetMethod.Invoke(Target, null);
       }
     }
 
@@ -47,9 +47,9 @@ namespace He4.Reflection
         throw new Exception(typeof(TTarget) + "." + property.Name + " must conform to " + typeof(TMember) + ".");
       }
 
-      instance.Method = property.GetGetMethod();
+      instance.PropertyGetMethod = property.GetGetMethod();
 
-      if (instance.Method == null)
+      if (instance.PropertyGetMethod == null)
       {
 
         throw new Exception(typeof(TTarget) + "." + property.Name + " must have a public get accessor.");
@@ -59,7 +59,7 @@ namespace He4.Reflection
     protected static void Setup(ReadablePropertyAccessor<TTarget, TMember> instance, ReadablePropertyAccessor<TTarget, TMember> template)
     {
 
-      instance.Method = template.Method;
+      instance.PropertyGetMethod = template.PropertyGetMethod;
     }
 
     protected ReadablePropertyAccessor()
