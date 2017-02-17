@@ -64,7 +64,42 @@ namespace He4.Reflection
     {
 
       var instance = new ReadableMemberAccessor<TTarget, TMember>();
-      Setup(instance, memberName);
+
+      Type targetType = typeof(TTarget);
+
+      while (true)
+      {
+
+        PropertyInfo property = targetType.GetProperty(memberName, DefaultBindingFlags);
+
+        if (property != null)
+        {
+
+          SetupWithProperty(instance, property);
+          break;
+        }
+
+        MethodInfo method = targetType.GetMethod(memberName, DefaultBindingFlags, Type.DefaultBinder, Type.EmptyTypes, new ParameterModifier[0]);
+
+        if (method != null)
+        {
+
+          SetupWithMethod(instance, method);
+          break;
+        }
+
+        FieldInfo field = targetType.GetField(memberName, DefaultBindingFlags);
+
+        if (field != null)
+        {
+
+          SetupWithField(instance, field);
+          break;
+        }
+
+        throw new Exception("\"" + memberName + "\" must be a public, non-static property, zero-argument method, or field of " + targetType + ".");
+      }
+
       return instance;
     }
 
@@ -116,45 +151,6 @@ namespace He4.Reflection
       }
 
       instance.Field = field;
-    }
-
-    protected static void Setup(ReadableMemberAccessor<TTarget, TMember> instance, string memberName)
-    {
-
-      Type targetType = typeof(TTarget);
-
-      while (true)
-      {
-
-        PropertyInfo property = targetType.GetProperty(memberName, DefaultBindingFlags);
-
-        if (property != null)
-        {
-
-          SetupWithProperty(instance, property);
-          break;
-        }
-
-        MethodInfo method = targetType.GetMethod(memberName, DefaultBindingFlags, Type.DefaultBinder, Type.EmptyTypes, new ParameterModifier[0]);
-
-        if (method != null)
-        {
-
-          SetupWithMethod(instance, method);
-          break;
-        }
-
-        FieldInfo field = targetType.GetField(memberName, DefaultBindingFlags);
-
-        if (field != null)
-        {
-
-          SetupWithField(instance, field);
-          break;
-        }
-
-        throw new Exception("\"" + memberName + "\" must be a public, non-static property, zero-argument method, or field of " + targetType + ".");
-      }
     }
 
     protected static void Setup(ReadableMemberAccessor<TTarget, TMember> instance, ReadableMemberAccessor<TTarget, TMember> template)
