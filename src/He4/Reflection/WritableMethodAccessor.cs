@@ -22,6 +22,21 @@ namespace He4.Reflection
       }
     }
 
+    public static new WritableMethodAccessor<TTarget, TMember> Make(string methodName)
+    {
+
+      Type targetType = typeof(TTarget);
+      MethodInfo method = targetType.GetMethod(methodName, DefaultBindingFlags, Type.DefaultBinder, new Type[1] { typeof(TMember) }, new ParameterModifier[1] { new ParameterModifier(1) });
+
+      if (method == null)
+      {
+
+        throw new Exception("\"" + methodName + "\" must be a public, non-static, one-argument method of " + targetType + " whose argument is assignable from " + typeof(TMember) + ".");
+      }
+
+      return Make(method);
+    }
+
     public static WritableMethodAccessor<TTarget, TMember> Make(MethodInfo method)
     {
 
