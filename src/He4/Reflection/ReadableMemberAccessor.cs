@@ -84,7 +84,7 @@ namespace He4.Reflection
         if (method != null)
         {
 
-          SetupWithMethod(instance, method);
+          instance = ReadableMethodAccessor<TTarget, TMember>.Make(method);
           break;
         }
 
@@ -109,18 +109,6 @@ namespace He4.Reflection
       var instance = new ReadableMemberAccessor<TTarget, TMember>();
       Setup(instance, template);
       return instance;
-    }
-
-    private static void SetupWithMethod(ReadableMemberAccessor<TTarget, TMember> instance, MethodInfo method)
-    {
-
-      if (!typeof(TMember).IsAssignableFrom(method.ReturnType))
-      {
-
-        throw new Exception(typeof(TTarget) + "." + method.Name + " return type must conform to " + typeof(TMember) + ".");
-      }
-
-      instance.Method = method;
     }
 
     private static void SetupWithField(ReadableMemberAccessor<TTarget, TMember> instance, FieldInfo field)
