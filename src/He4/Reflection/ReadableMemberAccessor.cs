@@ -75,7 +75,7 @@ namespace He4.Reflection
         if (property != null)
         {
 
-          SetupWithProperty(instance, property);
+          instance = ReadablePropertyAccessor<TTarget, TMember>.Make(property);
           break;
         }
 
@@ -109,24 +109,6 @@ namespace He4.Reflection
       var instance = new ReadableMemberAccessor<TTarget, TMember>();
       Setup(instance, template);
       return instance;
-    }
-
-    private static void SetupWithProperty(ReadableMemberAccessor<TTarget, TMember> instance, PropertyInfo property)
-    {
-
-      if (!typeof(TMember).IsAssignableFrom(property.PropertyType))
-      {
-
-        throw new Exception(typeof(TTarget) + "." + property.Name + " must conform to " + typeof(TMember) + ".");
-      }
-
-      instance.Method = property.GetGetMethod();
-
-      if (instance.Method == null)
-      {
-
-        throw new Exception(typeof(TTarget) + "." + property.Name + " must have a public get accessor.");
-      }
     }
 
     private static void SetupWithMethod(ReadableMemberAccessor<TTarget, TMember> instance, MethodInfo method)
