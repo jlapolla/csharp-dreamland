@@ -7,6 +7,40 @@ namespace He4.Reflection
   public class WritableFieldAccessor<TTarget, TMember> : WritableMemberAccessor<TTarget, TMember>
   {
 
+    protected FieldInfo Field;
+    protected MethodInfo Method;
+
+    /// <summary>
+    /// Overrides WritableMemberAccessor<TTarget, TMember>.Member.
+    /// </summary>
+    public override TMember Member
+    {
+
+      set
+      {
+
+        while (true)
+        {
+
+          if (Method != null)
+          {
+
+            Method.Invoke(Target, new object[1] { value });
+            break;
+          }
+
+          if (Field != null)
+          {
+
+            Field.SetValue(Target, value);
+            break;
+          }
+
+          break;
+        }
+      }
+    }
+
     public static WritableFieldAccessor<TTarget, TMember> Make(FieldInfo field)
     {
 

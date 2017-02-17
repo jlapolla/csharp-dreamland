@@ -4,12 +4,10 @@ using System.Reflection;
 namespace He4.Reflection
 {
 
-  public class WritableMemberAccessor<TTarget, TMember> : IWritableMemberAccessor<TMember>
+  public abstract class WritableMemberAccessor<TTarget, TMember> : IWritableMemberAccessor<TMember>
   {
 
     protected const BindingFlags DefaultBindingFlags = BindingFlags.Instance | BindingFlags.Public;
-    protected FieldInfo Field;
-    protected MethodInfo Method;
 
     /// <summary>
     /// Object that owns the member.
@@ -19,33 +17,7 @@ namespace He4.Reflection
     /// <summary>
     /// Implements IWritableMemberAccessor<T>.Member.
     /// </summary>
-    public TMember Member
-    {
-
-      set
-      {
-
-        while (true)
-        {
-
-          if (Method != null)
-          {
-
-            Method.Invoke(Target, new object[1] { value });
-            break;
-          }
-
-          if (Field != null)
-          {
-
-            Field.SetValue(Target, value);
-            break;
-          }
-
-          break;
-        }
-      }
-    }
+    public abstract TMember Member { set; }
 
     /// <summary>
     /// Implements IWritableMemberAccessor<T>.SetMember.
