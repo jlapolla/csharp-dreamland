@@ -93,129 +93,6 @@ namespace He4.Reflection.Tests
       Assert.IsTrue(throwsError);
     }
 
-    /* Property tests */
-#if NUNIT
-    [Test]
-#else
-    [TestMethod]
-#endif
-    public void MakeThrowsWhenPropertyDoesNotConform()
-    {
-
-      bool throwsError = false;
-
-      try
-      {
-
-        ReadableMemberAccessor<SampleClass, string>.Make("ValueProperty");
-      }
-      catch (Exception ex)
-      {
-
-        throwsError = true;
-        Assert.AreEqual("He4.Reflection.Tests.SampleClass.ValueProperty must conform to System.String.", ex.Message);
-      }
-
-      Assert.IsTrue(throwsError);
-    }
-
-#if NUNIT
-    [Test]
-#else
-    [TestMethod]
-#endif
-    public void MakeThrowsWhenPropertyDoesNotHavePublicGetAccessor()
-    {
-
-      bool throwsError = false;
-
-      try
-      {
-
-        ReadableMemberAccessor<SampleClass, ValueType>.Make("ValuePropertySetOnly");
-      }
-      catch (Exception ex)
-      {
-
-        throwsError = true;
-        Assert.AreEqual("He4.Reflection.Tests.SampleClass.ValuePropertySetOnly must have a public get accessor.", ex.Message);
-      }
-
-      Assert.IsTrue(throwsError);
-    }
-
-#if NUNIT
-    [Test]
-#else
-    [TestMethod]
-#endif
-    public void WorksWithReadablePublicProperty()
-    {
-
-      var target = SampleClass.Make();
-      var accessor = ReadableMemberAccessor<SampleClass, ValueType>.Make("ValuePropertyGetOnly");
-      accessor.Target = target;
-
-      target.Value = 0;
-      Assert.AreEqual(0, accessor.Member);
-      Assert.AreEqual(0, accessor.GetMember());
-      Assert.AreNotEqual(1, accessor.GetMember());
-
-      target.Value = 1;
-      Assert.AreEqual(1, accessor.Member);
-      Assert.AreEqual(1, accessor.GetMember());
-      Assert.AreNotEqual(0, accessor.GetMember());
-    }
-
-#if NUNIT
-    [Test]
-#else
-    [TestMethod]
-#endif
-    public void WorksWithCovarianceInProperties()
-    {
-
-      var target = SampleClass.Make();
-      var accessor = ReadableMemberAccessor<SampleClass, object>.Make("ValueProperty");
-      accessor.Target = target;
-
-      target.Value = 0;
-      Assert.AreEqual((object) 0, accessor.Member);
-      Assert.AreEqual((object) 0, accessor.GetMember());
-      Assert.AreNotEqual((object) 1, accessor.GetMember());
-
-      target.Value = 1;
-      Assert.AreEqual((object) 1, accessor.Member);
-      Assert.AreEqual((object) 1, accessor.GetMember());
-      Assert.AreNotEqual((object) 0, accessor.GetMember());
-    }
-
-    /* Method tests */
-#if NUNIT
-    [Test]
-#else
-    [TestMethod]
-#endif
-    public void MakeThrowsWhenMethodReturnTypeDoesNotConform()
-    {
-
-      bool throwsError = false;
-
-      try
-      {
-
-        ReadableMemberAccessor<SampleClass, string>.Make("GetValue");
-      }
-      catch (Exception ex)
-      {
-
-        throwsError = true;
-        Assert.AreEqual("He4.Reflection.Tests.SampleClass.GetValue return type must conform to System.String.", ex.Message);
-      }
-
-      Assert.IsTrue(throwsError);
-    }
-
 #if NUNIT
     [Test]
 #else
@@ -239,6 +116,30 @@ namespace He4.Reflection.Tests
       }
 
       Assert.IsTrue(throwsError);
+    }
+
+    /* Subclass tests */
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void WorksWithReadablePublicProperty()
+    {
+
+      var target = SampleClass.Make();
+      var accessor = ReadableMemberAccessor<SampleClass, ValueType>.Make("ValuePropertyGetOnly");
+      accessor.Target = target;
+
+      target.Value = 0;
+      Assert.AreEqual(0, accessor.Member);
+      Assert.AreEqual(0, accessor.GetMember());
+      Assert.AreNotEqual(1, accessor.GetMember());
+
+      target.Value = 1;
+      Assert.AreEqual(1, accessor.Member);
+      Assert.AreEqual(1, accessor.GetMember());
+      Assert.AreNotEqual(0, accessor.GetMember());
     }
 
 #if NUNIT
@@ -269,60 +170,36 @@ namespace He4.Reflection.Tests
 #else
     [TestMethod]
 #endif
-    public void WorksWithCovarianceInMethods()
-    {
-
-      var target = SampleClass.Make();
-      var accessor = ReadableMemberAccessor<SampleClass, object>.Make("GetValue");
-      accessor.Target = target;
-
-      target.Value = 0;
-      Assert.AreEqual((object) 0, accessor.Member);
-      Assert.AreEqual((object) 0, accessor.GetMember());
-      Assert.AreNotEqual((object) 1, accessor.GetMember());
-
-      target.Value = 1;
-      Assert.AreEqual((object) 1, accessor.Member);
-      Assert.AreEqual((object) 1, accessor.GetMember());
-      Assert.AreNotEqual((object) 0, accessor.GetMember());
-    }
-
-    /* Field tests */
-#if NUNIT
-    [Test]
-#else
-    [TestMethod]
-#endif
-    public void MakeThrowsWhenFieldDoesNotConform()
-    {
-
-      bool throwsError = false;
-
-      try
-      {
-
-        ReadableMemberAccessor<SampleClass, string>.Make("Value");
-      }
-      catch (Exception ex)
-      {
-
-        throwsError = true;
-        Assert.AreEqual("He4.Reflection.Tests.SampleClass.Value must conform to System.String.", ex.Message);
-      }
-
-      Assert.IsTrue(throwsError);
-    }
-
-#if NUNIT
-    [Test]
-#else
-    [TestMethod]
-#endif
-    public void WorksWithFields()
+    public void WorksWithPublicField()
     {
 
       var target = SampleClass.Make();
       var accessor = ReadableMemberAccessor<SampleClass, ValueType>.Make("Value");
+      accessor.Target = target;
+
+      target.Value = 0;
+      Assert.AreEqual(0, accessor.Member);
+      Assert.AreEqual(0, accessor.GetMember());
+      Assert.AreNotEqual(1, accessor.GetMember());
+
+      target.Value = 1;
+      Assert.AreEqual(1, accessor.Member);
+      Assert.AreEqual(1, accessor.GetMember());
+      Assert.AreNotEqual(0, accessor.GetMember());
+    }
+
+    /* Duplication tests */
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void MakeDuplicatesTemplatePropertyBinding()
+    {
+
+      var target = SampleClass.Make();
+      var accessor = ReadableMemberAccessor<SampleClass, ValueType>.Make(
+          ReadableMemberAccessor<SampleClass, ValueType>.Make("ValueProperty"));
       accessor.Target = target;
 
       target.Value = 0;
@@ -341,36 +218,36 @@ namespace He4.Reflection.Tests
 #else
     [TestMethod]
 #endif
-    public void WorksWithCovarianceInFields()
+    public void MakeDuplicatesTemplateMethodBinding()
     {
 
       var target = SampleClass.Make();
-      var accessor = ReadableMemberAccessor<SampleClass, object>.Make("Value");
+      var accessor = ReadableMemberAccessor<SampleClass, ValueType>.Make(
+          ReadableMemberAccessor<SampleClass, ValueType>.Make("GetValue"));
       accessor.Target = target;
 
       target.Value = 0;
-      Assert.AreEqual((object) 0, accessor.Member);
-      Assert.AreEqual((object) 0, accessor.GetMember());
-      Assert.AreNotEqual((object) 1, accessor.GetMember());
+      Assert.AreEqual(0, accessor.Member);
+      Assert.AreEqual(0, accessor.GetMember());
+      Assert.AreNotEqual(1, accessor.GetMember());
 
       target.Value = 1;
-      Assert.AreEqual((object) 1, accessor.Member);
-      Assert.AreEqual((object) 1, accessor.GetMember());
-      Assert.AreNotEqual((object) 0, accessor.GetMember());
+      Assert.AreEqual(1, accessor.Member);
+      Assert.AreEqual(1, accessor.GetMember());
+      Assert.AreNotEqual(0, accessor.GetMember());
     }
 
-    /* Other tests */
 #if NUNIT
     [Test]
 #else
     [TestMethod]
 #endif
-    public void MakeDuplicatesTemplateBinding()
+    public void MakeDuplicatesTemplateFieldBinding()
     {
 
       var target = SampleClass.Make();
       var accessor = ReadableMemberAccessor<SampleClass, ValueType>.Make(
-          ReadableMemberAccessor<SampleClass, ValueType>.Make("ValueProperty"));
+          ReadableMemberAccessor<SampleClass, ValueType>.Make("Value"));
       accessor.Target = target;
 
       target.Value = 0;

@@ -22,6 +22,21 @@ namespace He4.Reflection
       }
     }
 
+    public static new ReadablePropertyAccessor<TTarget, TMember> Make(string propertyName)
+    {
+
+      Type targetType = typeof(TTarget);
+      PropertyInfo property = targetType.GetProperty(propertyName, DefaultBindingFlags);
+
+      if (property == null)
+      {
+
+        throw new Exception("\"" + propertyName + "\" must be a public, non-static property of " + targetType + ".");
+      }
+
+      return Make(property);
+    }
+
     public static ReadablePropertyAccessor<TTarget, TMember> Make(PropertyInfo property)
     {
 
