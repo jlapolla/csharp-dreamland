@@ -7,6 +7,41 @@ namespace He4.Reflection
   public class ReadablePropertyAccessor<TTarget, TMember> : ReadableMemberAccessor<TTarget, TMember>
   {
 
+    /// <summary>
+    /// Overrides ReadableMemberAccessor<TTarget, TMember>.Member.
+    /// </summary>
+    public override TMember Member
+    {
+
+      get
+      {
+
+        TMember result = default(TMember);
+
+        while (true)
+        {
+
+          if (Method != null)
+          {
+
+            result = (TMember) Method.Invoke(Target, null);
+            break;
+          }
+
+          if (Field != null)
+          {
+
+            result = (TMember) Field.GetValue(Target);
+            break;
+          }
+
+          break;
+        }
+
+        return result;
+      }
+    }
+
     public static ReadablePropertyAccessor<TTarget, TMember> Make(PropertyInfo property)
     {
 

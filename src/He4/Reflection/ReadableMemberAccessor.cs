@@ -4,7 +4,7 @@ using System.Reflection;
 namespace He4.Reflection
 {
 
-  public class ReadableMemberAccessor<TTarget, TMember> : IReadableMemberAccessor<TMember>
+  public abstract class ReadableMemberAccessor<TTarget, TMember> : IReadableMemberAccessor<TMember>
   {
 
     protected const BindingFlags DefaultBindingFlags = BindingFlags.Instance | BindingFlags.Public;
@@ -19,37 +19,7 @@ namespace He4.Reflection
     /// <summary>
     /// Implements IReadableMemberAccessor<T>.Member.
     /// </summary>
-    public TMember Member
-    {
-
-      get
-      {
-
-        TMember result = default(TMember);
-
-        while (true)
-        {
-
-          if (Method != null)
-          {
-
-            result = (TMember) Method.Invoke(Target, null);
-            break;
-          }
-
-          if (Field != null)
-          {
-
-            result = (TMember) Field.GetValue(Target);
-            break;
-          }
-
-          break;
-        }
-
-        return result;
-      }
-    }
+    public abstract TMember Member { get; }
 
     /// <summary>
     /// Implements IReadableMemberAccessor<T>.GetMember.
