@@ -4,12 +4,10 @@ using System.Reflection;
 namespace He4.Reflection
 {
 
-  public class WritableMemberAccessor<TTarget, TMember> : IWritableMemberAccessor<TMember>
+  public abstract class WritableMemberAccessor<TTarget, TMember> : IWritableMemberAccessor<TMember>
   {
 
     protected const BindingFlags DefaultBindingFlags = BindingFlags.Instance | BindingFlags.Public;
-    protected FieldInfo Field;
-    protected MethodInfo Method;
 
     /// <summary>
     /// Object that owns the member.
@@ -19,33 +17,7 @@ namespace He4.Reflection
     /// <summary>
     /// Implements IWritableMemberAccessor<T>.Member.
     /// </summary>
-    public TMember Member
-    {
-
-      set
-      {
-
-        while (true)
-        {
-
-          if (Method != null)
-          {
-
-            Method.Invoke(Target, new object[1] { value });
-            break;
-          }
-
-          if (Field != null)
-          {
-
-            Field.SetValue(Target, value);
-            break;
-          }
-
-          break;
-        }
-      }
-    }
+    public abstract TMember Member { set; }
 
     /// <summary>
     /// Implements IWritableMemberAccessor<T>.SetMember.
@@ -59,57 +31,7 @@ namespace He4.Reflection
     public static WritableMemberAccessor<TTarget, TMember> Make(string memberName)
     {
 
-      var instance = new WritableMemberAccessor<TTarget, TMember>();
-      Setup(instance, memberName);
-      return instance;
-    }
-
-    public static WritableMemberAccessor<TTarget, TMember> Make(WritableMemberAccessor<TTarget, TMember> template)
-    {
-
-      var instance = new WritableMemberAccessor<TTarget, TMember>();
-      Setup(instance, template);
-      return instance;
-    }
-
-    private static void SetupWithProperty(WritableMemberAccessor<TTarget, TMember> instance, PropertyInfo property)
-    {
-
-      if (!property.PropertyType.IsAssignableFrom(typeof(TMember)))
-      {
-
-        throw new Exception(typeof(TTarget) + "." + property.Name + " must be assignable from " + typeof(TMember) + ".");
-      }
-
-      instance.Method = property.GetSetMethod();
-
-      if (instance.Method == null)
-      {
-
-        throw new Exception(typeof(TTarget) + "." + property.Name + " must have a public set accessor.");
-      }
-    }
-
-    private static void SetupWithMethod(WritableMemberAccessor<TTarget, TMember> instance, MethodInfo method)
-    {
-
-      instance.Method = method;
-    }
-
-    private static void SetupWithField(WritableMemberAccessor<TTarget, TMember> instance, FieldInfo field)
-    {
-
-      if (!field.FieldType.IsAssignableFrom(typeof(TMember)))
-      {
-
-        throw new Exception(typeof(TTarget) + "." + field.Name + " must be assignable from " + typeof(TMember) + ".");
-      }
-
-      instance.Field = field;
-    }
-
-    protected static void Setup(WritableMemberAccessor<TTarget, TMember> instance, string memberName)
-    {
+      WritableMemberAccessor<TTarget, TMember> instance = null;
 
       Type targetType = typeof(TTarget);
 
@@ -121,7 +43,7 @@ namespace He4.Reflection
         if (property != null)
         {
 
-          SetupWithProperty(instance, property);
+          instance = WritablePropertyAccessor<TTarget, TMember>.Make(property);
           break;
         }
 
@@ -130,7 +52,7 @@ namespace He4.Reflection
         if (method != null)
         {
 
-          SetupWithMethod(instance, method);
+          instance = WritableMethodAccessor<TTarget, TMember>.Make(method);
           break;
         }
 
@@ -139,19 +61,49 @@ namespace He4.Reflection
         if (field != null)
         {
 
-          SetupWithField(instance, field);
+          instance = WritableFieldAccessor<TTarget, TMember>.Make(field);
           break;
         }
 
         throw new Exception("\"" + memberName + "\" must be a public, non-static property, one-argument method, or field of " + targetType + " which is assignable from " + typeof(TMember) + ".");
       }
+
+      return instance;
     }
 
-    protected static void Setup(WritableMemberAccessor<TTarget, TMember> instance, WritableMemberAccessor<TTarget, TMember> template)
+    public static WritableMemberAccessor<TTarget, TMember> Make(WritableMemberAccessor<TTarget, TMember> template)
     {
 
-      instance.Field = template.Field;
-      instance.Method = template.Method;
+      WritableMemberAccessor<TTarget, TMember> instance = null;
+
+      while (true)
+      {
+
+        if (template is WritablePropertyAccessor<TTarget, TMember>)
+        {
+
+          instance = WritablePropertyAccessor<TTarget, TMember>.Make((WritablePropertyAccessor<TTarget, TMember>) template);
+          break;
+        }
+
+        if (template is WritableMethodAccessor<TTarget, TMember>)
+        {
+
+          instance = WritableMethodAccessor<TTarget, TMember>.Make((WritableMethodAccessor<TTarget, TMember>) template);
+          break;
+        }
+
+        if (template is WritableFieldAccessor<TTarget, TMember>)
+        {
+
+          instance = WritableFieldAccessor<TTarget, TMember>.Make((WritableFieldAccessor<TTarget, TMember>) template);
+          break;
+        }
+
+        throw new Exception("Unsupported subclass: " + template.GetType() + ".");
+      }
+
+      return instance;
     }
 
     protected WritableMemberAccessor()

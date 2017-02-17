@@ -63,6 +63,15 @@
     <Compile Include="..\..\..\src\He4\Reflection\Tests\ReadableFieldAccessorTest.cs">
       <Link>He4\Reflection\Tests\ReadableFieldAccessorTest.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\src\He4\Reflection\Tests\WritablePropertyAccessorTest.cs">
+      <Link>He4\Reflection\Tests\WritablePropertyAccessorTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\He4\Reflection\Tests\WritableMethodAccessorTest.cs">
+      <Link>He4\Reflection\Tests\WritableMethodAccessorTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\He4\Reflection\Tests\WritableFieldAccessorTest.cs">
+      <Link>He4\Reflection\Tests\WritableFieldAccessorTest.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\He4.Reflection\He4.Reflection.csproj">

@@ -93,133 +93,12 @@ namespace He4.Reflection.Tests
       Assert.IsTrue(throwsError);
     }
 
-    /* Property tests */
 #if NUNIT
     [Test]
 #else
     [TestMethod]
 #endif
-    public void MakeThrowsWhenPropertyIsNotAssignable()
-    {
-
-      bool throwsError = false;
-
-      try
-      {
-
-        WritableMemberAccessor<SampleClass, string>.Make("ValueProperty");
-      }
-      catch (Exception ex)
-      {
-
-        throwsError = true;
-        Assert.AreEqual("He4.Reflection.Tests.SampleClass.ValueProperty must be assignable from System.String.", ex.Message);
-      }
-
-      Assert.IsTrue(throwsError);
-    }
-
-#if NUNIT
-    [Test]
-#else
-    [TestMethod]
-#endif
-    public void MakeThrowsWhenPropertyDoesNotHavePublicSetAccessor()
-    {
-
-      bool throwsError = false;
-
-      try
-      {
-
-        WritableMemberAccessor<SampleClass, ValueType>.Make("ValuePropertyGetOnly");
-      }
-      catch (Exception ex)
-      {
-
-        throwsError = true;
-        Assert.AreEqual("He4.Reflection.Tests.SampleClass.ValuePropertyGetOnly must have a public set accessor.", ex.Message);
-      }
-
-      Assert.IsTrue(throwsError);
-    }
-
-#if NUNIT
-    [Test]
-#else
-    [TestMethod]
-#endif
-    public void WorksWithReadablePublicProperty()
-    {
-
-      var target = SampleClass.Make();
-      var accessor = WritableMemberAccessor<SampleClass, ValueType>.Make("ValuePropertySetOnly");
-      accessor.Target = target;
-
-      accessor.Member = 0;
-      Assert.AreEqual(0, target.Value);
-
-      accessor.SetMember(1);
-      Assert.AreEqual(1, target.Value);
-
-      accessor.Member = 2;
-      Assert.AreEqual(2, target.Value);
-    }
-
-#if NUNIT
-    [Test]
-#else
-    [TestMethod]
-#endif
-    public void WorksWithContravarianceInProperties()
-    {
-
-      var target = SampleClass.Make();
-      var accessor = WritableMemberAccessor<SampleClass, int>.Make("ValueProperty");
-      accessor.Target = target;
-
-      accessor.Member = 0;
-      Assert.AreEqual(0, target.Value);
-
-      accessor.SetMember(1);
-      Assert.AreEqual(1, target.Value);
-
-      accessor.Member = 2;
-      Assert.AreEqual(2, target.Value);
-    }
-
-    /* Method tests */
-#if NUNIT
-    [Test]
-#else
-    [TestMethod]
-#endif
-    public void MakeThrowsWhenMethodArgumentTypeIsNotAssignable()
-    {
-
-      bool throwsError = false;
-
-      try
-      {
-
-        WritableMemberAccessor<SampleClass, string>.Make("SetValue");
-      }
-      catch (Exception ex)
-      {
-
-        throwsError = true;
-        Assert.AreEqual("\"SetValue\" must be a public, non-static property, one-argument method, or field of He4.Reflection.Tests.SampleClass which is assignable from System.String.", ex.Message);
-      }
-
-      Assert.IsTrue(throwsError);
-    }
-
-#if NUNIT
-    [Test]
-#else
-    [TestMethod]
-#endif
-    public void MakeThrowsWhenMethodHasExtraArguments()
+    public void MakeThrowsWhenMethodHasMoreThanOneArgument()
     {
 
       bool throwsError = false;
@@ -237,6 +116,54 @@ namespace He4.Reflection.Tests
       }
 
       Assert.IsTrue(throwsError);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void MakeThrowsWhenMethodArgumenTypeDoesNotConform()
+    {
+
+      bool throwsError = false;
+
+      try
+      {
+
+        WritableMemberAccessor<SampleClass, object>.Make("SetValue");
+      }
+      catch (Exception ex)
+      {
+
+        throwsError = true;
+        Assert.AreEqual("\"SetValue\" must be a public, non-static property, one-argument method, or field of He4.Reflection.Tests.SampleClass which is assignable from System.Object.", ex.Message);
+      }
+
+      Assert.IsTrue(throwsError);
+    }
+
+    /* Subclass tests */
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void WorksWithWritablePublicProperty()
+    {
+
+      var target = SampleClass.Make();
+      var accessor = WritableMemberAccessor<SampleClass, ValueType>.Make("ValuePropertySetOnly");
+      accessor.Target = target;
+
+      accessor.Member = 0;
+      Assert.AreEqual(0, target.Value);
+
+      accessor.SetMember(1);
+      Assert.AreEqual(1, target.Value);
+
+      accessor.Member = 2;
+      Assert.AreEqual(2, target.Value);
     }
 
 #if NUNIT
@@ -266,54 +193,6 @@ namespace He4.Reflection.Tests
 #else
     [TestMethod]
 #endif
-    public void WorksWithContravarianceInMethods()
-    {
-
-      var target = SampleClass.Make();
-      var accessor = WritableMemberAccessor<SampleClass, int>.Make("SetValue");
-      accessor.Target = target;
-
-      accessor.Member = 0;
-      Assert.AreEqual(0, target.Value);
-
-      accessor.SetMember(1);
-      Assert.AreEqual(1, target.Value);
-
-      accessor.Member = 2;
-      Assert.AreEqual(2, target.Value);
-    }
-
-    /* Field tests */
-#if NUNIT
-    [Test]
-#else
-    [TestMethod]
-#endif
-    public void MakeThrowsWhenFieldIsNotAssignable()
-    {
-
-      bool throwsError = false;
-
-      try
-      {
-
-        WritableMemberAccessor<SampleClass, string>.Make("Value");
-      }
-      catch (Exception ex)
-      {
-
-        throwsError = true;
-        Assert.AreEqual("He4.Reflection.Tests.SampleClass.Value must be assignable from System.String.", ex.Message);
-      }
-
-      Assert.IsTrue(throwsError);
-    }
-
-#if NUNIT
-    [Test]
-#else
-    [TestMethod]
-#endif
     public void WorksWithFields()
     {
 
@@ -331,16 +210,18 @@ namespace He4.Reflection.Tests
       Assert.AreEqual(2, target.Value);
     }
 
+    /* Duplication tests */
 #if NUNIT
     [Test]
 #else
     [TestMethod]
 #endif
-    public void WorksWithContravarianceInFields()
+    public void MakeDuplicatesTemplatePropertyBinding()
     {
 
       var target = SampleClass.Make();
-      var accessor = WritableMemberAccessor<SampleClass, int>.Make("Value");
+      var accessor = WritableMemberAccessor<SampleClass, ValueType>.Make(
+          WritableMemberAccessor<SampleClass, ValueType>.Make("ValueProperty"));
       accessor.Target = target;
 
       accessor.Member = 0;
@@ -353,18 +234,40 @@ namespace He4.Reflection.Tests
       Assert.AreEqual(2, target.Value);
     }
 
-    /* Other tests */
 #if NUNIT
     [Test]
 #else
     [TestMethod]
 #endif
-    public void MakeDuplicatesTemplateBinding()
+    public void MakeDuplicatesTemplateMethodBinding()
     {
 
       var target = SampleClass.Make();
       var accessor = WritableMemberAccessor<SampleClass, ValueType>.Make(
-          WritableMemberAccessor<SampleClass, ValueType>.Make("ValueProperty"));
+          WritableMemberAccessor<SampleClass, ValueType>.Make("SetValue"));
+      accessor.Target = target;
+
+      accessor.Member = 0;
+      Assert.AreEqual(0, target.Value);
+
+      accessor.SetMember(1);
+      Assert.AreEqual(1, target.Value);
+
+      accessor.Member = 2;
+      Assert.AreEqual(2, target.Value);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void MakeDuplicatesTemplateFieldBinding()
+    {
+
+      var target = SampleClass.Make();
+      var accessor = WritableMemberAccessor<SampleClass, ValueType>.Make(
+          WritableMemberAccessor<SampleClass, ValueType>.Make("Value"));
       accessor.Target = target;
 
       accessor.Member = 0;
