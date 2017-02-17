@@ -15,6 +15,14 @@ namespace He4.Reflection
       return instance;
     }
 
+    public static ReadablePropertyAccessor<TTarget, TMember> Make(ReadablePropertyAccessor<TTarget, TMember> template)
+    {
+
+      var instance = new ReadablePropertyAccessor<TTarget, TMember>();
+      Setup(instance, template);
+      return instance;
+    }
+
     protected static void Setup(ReadablePropertyAccessor<TTarget, TMember> instance, PropertyInfo property)
     {
 
@@ -31,6 +39,13 @@ namespace He4.Reflection
 
         throw new Exception(typeof(TTarget) + "." + property.Name + " must have a public get accessor.");
       }
+    }
+
+    protected static void Setup(ReadablePropertyAccessor<TTarget, TMember> instance, ReadablePropertyAccessor<TTarget, TMember> template)
+    {
+
+      instance.Field = template.Field;
+      instance.Method = template.Method;
     }
 
     protected ReadablePropertyAccessor()

@@ -63,7 +63,7 @@ namespace He4.Reflection
     public static ReadableMemberAccessor<TTarget, TMember> Make(string memberName)
     {
 
-      var instance = new ReadableMemberAccessor<TTarget, TMember>();
+      ReadableMemberAccessor<TTarget, TMember> instance = null;
 
       Type targetType = typeof(TTarget);
 
@@ -106,16 +106,38 @@ namespace He4.Reflection
     public static ReadableMemberAccessor<TTarget, TMember> Make(ReadableMemberAccessor<TTarget, TMember> template)
     {
 
-      var instance = new ReadableMemberAccessor<TTarget, TMember>();
-      Setup(instance, template);
+      ReadableMemberAccessor<TTarget, TMember> instance = null;
+
+      while (true)
+      {
+
+        if (template is ReadablePropertyAccessor<TTarget, TMember>)
+        {
+
+          instance = ReadablePropertyAccessor<TTarget, TMember>.Make((ReadablePropertyAccessor<TTarget, TMember>) template);
+          break;
+        }
+
+        if (template is ReadableMethodAccessor<TTarget, TMember>)
+        {
+
+          instance = ReadableMethodAccessor<TTarget, TMember>.Make((ReadableMethodAccessor<TTarget, TMember>) template);
+          break;
+        }
+
+        if (template is ReadableFieldAccessor<TTarget, TMember>)
+        {
+
+          instance = ReadableFieldAccessor<TTarget, TMember>.Make((ReadableFieldAccessor<TTarget, TMember>) template);
+          break;
+        }
+
+#if DEBUG
+        throw new Exception("Unknown subclass: " + template.GetType() + ".");
+#endif
+      }
+
       return instance;
-    }
-
-    protected static void Setup(ReadableMemberAccessor<TTarget, TMember> instance, ReadableMemberAccessor<TTarget, TMember> template)
-    {
-
-      instance.Field = template.Field;
-      instance.Method = template.Method;
     }
 
     protected ReadableMemberAccessor()

@@ -15,6 +15,14 @@ namespace He4.Reflection
       return instance;
     }
 
+    public static ReadableMethodAccessor<TTarget, TMember> Make(ReadableMethodAccessor<TTarget, TMember> template)
+    {
+
+      var instance = new ReadableMethodAccessor<TTarget, TMember>();
+      Setup(instance, template);
+      return instance;
+    }
+
     protected static void Setup(ReadableMethodAccessor<TTarget, TMember> instance, MethodInfo method)
     {
 
@@ -25,6 +33,13 @@ namespace He4.Reflection
       }
 
       instance.Method = method;
+    }
+
+    protected static void Setup(ReadableMethodAccessor<TTarget, TMember> instance, ReadableMethodAccessor<TTarget, TMember> template)
+    {
+
+      instance.Field = template.Field;
+      instance.Method = template.Method;
     }
 
     protected ReadableMethodAccessor()

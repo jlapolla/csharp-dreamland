@@ -15,6 +15,14 @@ namespace He4.Reflection
       return instance;
     }
 
+    public static ReadableFieldAccessor<TTarget, TMember> Make(ReadableFieldAccessor<TTarget, TMember> template)
+    {
+
+      var instance = new ReadableFieldAccessor<TTarget, TMember>();
+      Setup(instance, template);
+      return instance;
+    }
+
     protected static void Setup(ReadableFieldAccessor<TTarget, TMember> instance, FieldInfo field)
     {
 
@@ -25,6 +33,13 @@ namespace He4.Reflection
       }
 
       instance.Field = field;
+    }
+
+    protected static void Setup(ReadableFieldAccessor<TTarget, TMember> instance, ReadableFieldAccessor<TTarget, TMember> template)
+    {
+
+      instance.Field = template.Field;
+      instance.Method = template.Method;
     }
 
     protected ReadableFieldAccessor()
