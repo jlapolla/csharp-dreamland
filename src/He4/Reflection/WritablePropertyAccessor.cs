@@ -7,8 +7,7 @@ namespace He4.Reflection
   public class WritablePropertyAccessor<TTarget, TMember> : WritableMemberAccessor<TTarget, TMember>
   {
 
-    protected FieldInfo Field;
-    protected MethodInfo Method;
+    protected MethodInfo PropertySetMethod;
 
     /// <summary>
     /// Overrides WritableMemberAccessor<TTarget, TMember>.Member.
@@ -19,25 +18,7 @@ namespace He4.Reflection
       set
       {
 
-        while (true)
-        {
-
-          if (Method != null)
-          {
-
-            Method.Invoke(Target, new object[1] { value });
-            break;
-          }
-
-          if (Field != null)
-          {
-
-            Field.SetValue(Target, value);
-            break;
-          }
-
-          break;
-        }
+        PropertySetMethod.Invoke(Target, new object[1] { value });
       }
     }
 
@@ -52,9 +33,9 @@ namespace He4.Reflection
         throw new Exception(typeof(TTarget) + "." + property.Name + " must be assignable from " + typeof(TMember) + ".");
       }
 
-      instance.Method = property.GetSetMethod();
+      instance.PropertySetMethod = property.GetSetMethod();
 
-      if (instance.Method == null)
+      if (instance.PropertySetMethod == null)
       {
 
         throw new Exception(typeof(TTarget) + "." + property.Name + " must have a public set accessor.");
@@ -68,8 +49,7 @@ namespace He4.Reflection
 
       var instance = new WritablePropertyAccessor<TTarget, TMember>();
 
-      instance.Field = template.Field;
-      instance.Method = template.Method;
+      instance.PropertySetMethod = template.PropertySetMethod;
 
       return instance;
     }

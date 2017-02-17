@@ -8,7 +8,6 @@ namespace He4.Reflection
   {
 
     protected FieldInfo Field;
-    protected MethodInfo Method;
 
     /// <summary>
     /// Overrides WritableMemberAccessor<TTarget, TMember>.Member.
@@ -19,25 +18,7 @@ namespace He4.Reflection
       set
       {
 
-        while (true)
-        {
-
-          if (Method != null)
-          {
-
-            Method.Invoke(Target, new object[1] { value });
-            break;
-          }
-
-          if (Field != null)
-          {
-
-            Field.SetValue(Target, value);
-            break;
-          }
-
-          break;
-        }
+        Field.SetValue(Target, value);
       }
     }
 
@@ -63,7 +44,6 @@ namespace He4.Reflection
       var instance = new WritableFieldAccessor<TTarget, TMember>();
 
       instance.Field = template.Field;
-      instance.Method = template.Method;
 
       return instance;
     }

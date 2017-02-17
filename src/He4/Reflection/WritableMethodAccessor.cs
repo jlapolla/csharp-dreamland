@@ -7,7 +7,6 @@ namespace He4.Reflection
   public class WritableMethodAccessor<TTarget, TMember> : WritableMemberAccessor<TTarget, TMember>
   {
 
-    protected FieldInfo Field;
     protected MethodInfo Method;
 
     /// <summary>
@@ -19,25 +18,7 @@ namespace He4.Reflection
       set
       {
 
-        while (true)
-        {
-
-          if (Method != null)
-          {
-
-            Method.Invoke(Target, new object[1] { value });
-            break;
-          }
-
-          if (Field != null)
-          {
-
-            Field.SetValue(Target, value);
-            break;
-          }
-
-          break;
-        }
+        Method.Invoke(Target, new object[1] { value });
       }
     }
 
@@ -56,7 +37,6 @@ namespace He4.Reflection
 
       var instance = new WritableMethodAccessor<TTarget, TMember>();
 
-      instance.Field = template.Field;
       instance.Method = template.Method;
 
       return instance;
