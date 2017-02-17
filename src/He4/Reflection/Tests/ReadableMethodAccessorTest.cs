@@ -98,6 +98,31 @@ namespace He4.Reflection.Tests
 #else
     [TestMethod]
 #endif
+    public void MakeThrowsWhenMethodHasArguments()
+    {
+
+      bool throwsError = false;
+
+      try
+      {
+
+        ReadableMethodAccessor<SampleClass, ValueType>.Make("GetValueWithExtraArguments");
+      }
+      catch (Exception ex)
+      {
+
+        throwsError = true;
+        Assert.AreEqual("\"GetValueWithExtraArguments\" must be a public, non-static, zero-argument method of He4.Reflection.Tests.SampleClass.", ex.Message);
+      }
+
+      Assert.IsTrue(throwsError);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
     public void MakeThrowsWhenMemberIsNotAMethod()
     {
 
@@ -116,6 +141,78 @@ namespace He4.Reflection.Tests
       }
 
       Assert.IsTrue(throwsError);
+    }
+
+    /* Method tests */
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void MakeThrowsWhenMethodReturnTypeDoesNotConform()
+    {
+
+      bool throwsError = false;
+
+      try
+      {
+
+        ReadableMethodAccessor<SampleClass, string>.Make("GetValue");
+      }
+      catch (Exception ex)
+      {
+
+        throwsError = true;
+        Assert.AreEqual("He4.Reflection.Tests.SampleClass.GetValue return type must conform to System.String.", ex.Message);
+      }
+
+      Assert.IsTrue(throwsError);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void WorksWithZeroArgumentMethods()
+    {
+
+      var target = SampleClass.Make();
+      var accessor = ReadableMethodAccessor<SampleClass, ValueType>.Make("GetValue");
+      accessor.Target = target;
+
+      target.Value = 0;
+      Assert.AreEqual(0, accessor.Member);
+      Assert.AreEqual(0, accessor.GetMember());
+      Assert.AreNotEqual(1, accessor.GetMember());
+
+      target.Value = 1;
+      Assert.AreEqual(1, accessor.Member);
+      Assert.AreEqual(1, accessor.GetMember());
+      Assert.AreNotEqual(0, accessor.GetMember());
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void WorksWithCovarianceInMethods()
+    {
+
+      var target = SampleClass.Make();
+      var accessor = ReadableMethodAccessor<SampleClass, object>.Make("GetValue");
+      accessor.Target = target;
+
+      target.Value = 0;
+      Assert.AreEqual((object) 0, accessor.Member);
+      Assert.AreEqual((object) 0, accessor.GetMember());
+      Assert.AreNotEqual((object) 1, accessor.GetMember());
+
+      target.Value = 1;
+      Assert.AreEqual((object) 1, accessor.Member);
+      Assert.AreEqual((object) 1, accessor.GetMember());
+      Assert.AreNotEqual((object) 0, accessor.GetMember());
     }
 
     /* Duplication tests */
