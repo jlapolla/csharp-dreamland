@@ -57,6 +57,9 @@
     <Compile Include="..\..\..\src\He4\Reflection\Tests\ReadablePropertyAccessorTest.cs">
       <Link>He4\Reflection\Tests\ReadablePropertyAccessorTest.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\src\He4\Reflection\Tests\ReadableMethodAccessorTest.cs">
+      <Link>He4\Reflection\Tests\ReadableMethodAccessorTest.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\He4.Reflection\He4.Reflection.csproj">
