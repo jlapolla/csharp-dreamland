@@ -59,7 +59,7 @@ namespace He4.Reflection
     public static WritableMemberAccessor<TTarget, TMember> Make(string memberName)
     {
 
-      var instance = new WritableMemberAccessor<TTarget, TMember>();
+      WritableMemberAccessor<TTarget, TMember> instance = null;
 
       Type targetType = typeof(TTarget);
 
@@ -71,7 +71,7 @@ namespace He4.Reflection
         if (property != null)
         {
 
-          SetupWithProperty(instance, property);
+          instance = WritablePropertyAccessor<TTarget, TMember>.Make(property);
           break;
         }
 
@@ -80,7 +80,7 @@ namespace He4.Reflection
         if (method != null)
         {
 
-          SetupWithMethod(instance, method);
+          instance = WritableMethodAccessor<TTarget, TMember>.Make(method);
           break;
         }
 
@@ -89,7 +89,7 @@ namespace He4.Reflection
         if (field != null)
         {
 
-          SetupWithField(instance, field);
+          instance = WritableFieldAccessor<TTarget, TMember>.Make(field);
           break;
         }
 
@@ -105,42 +105,6 @@ namespace He4.Reflection
       var instance = new WritableMemberAccessor<TTarget, TMember>();
       Setup(instance, template);
       return instance;
-    }
-
-    private static void SetupWithProperty(WritableMemberAccessor<TTarget, TMember> instance, PropertyInfo property)
-    {
-
-      if (!property.PropertyType.IsAssignableFrom(typeof(TMember)))
-      {
-
-        throw new Exception(typeof(TTarget) + "." + property.Name + " must be assignable from " + typeof(TMember) + ".");
-      }
-
-      instance.Method = property.GetSetMethod();
-
-      if (instance.Method == null)
-      {
-
-        throw new Exception(typeof(TTarget) + "." + property.Name + " must have a public set accessor.");
-      }
-    }
-
-    private static void SetupWithMethod(WritableMemberAccessor<TTarget, TMember> instance, MethodInfo method)
-    {
-
-      instance.Method = method;
-    }
-
-    private static void SetupWithField(WritableMemberAccessor<TTarget, TMember> instance, FieldInfo field)
-    {
-
-      if (!field.FieldType.IsAssignableFrom(typeof(TMember)))
-      {
-
-        throw new Exception(typeof(TTarget) + "." + field.Name + " must be assignable from " + typeof(TMember) + ".");
-      }
-
-      instance.Field = field;
     }
 
     protected static void Setup(WritableMemberAccessor<TTarget, TMember> instance, WritableMemberAccessor<TTarget, TMember> template)
