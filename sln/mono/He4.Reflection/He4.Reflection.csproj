@@ -60,6 +60,9 @@
     <Compile Include="..\..\..\src\He4\Reflection\ReadableMethodAccessor.cs">
       <Link>He4\Reflection\ReadableMethodAccessor.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\src\He4\Reflection\ReadableFieldAccessor.cs">
+      <Link>He4\Reflection\ReadableFieldAccessor.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\He4\He4.csproj">
