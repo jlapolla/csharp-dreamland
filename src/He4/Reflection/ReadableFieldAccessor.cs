@@ -22,6 +22,21 @@ namespace He4.Reflection
       }
     }
 
+    public static new ReadableFieldAccessor<TTarget, TMember> Make(string fieldName)
+    {
+
+      Type targetType = typeof(TTarget);
+      FieldInfo field = targetType.GetField(fieldName, DefaultBindingFlags);
+
+      if (field == null)
+      {
+
+        throw new Exception("\"" + fieldName + "\" must be a public, non-static field of " + targetType + ".");
+      }
+
+      return Make(field);
+    }
+
     public static ReadableFieldAccessor<TTarget, TMember> Make(FieldInfo field)
     {
 
