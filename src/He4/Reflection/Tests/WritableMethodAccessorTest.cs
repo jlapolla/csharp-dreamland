@@ -168,6 +168,51 @@ namespace He4.Reflection.Tests
       Assert.IsTrue(throwsError);
     }
 
+    /* Method tests */
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void WorksWithOneArgumentMethods()
+    {
+
+      var target = SampleClass.Make();
+      var accessor = WritableMethodAccessor<SampleClass, ValueType>.Make("SetValue");
+      accessor.Target = target;
+
+      accessor.Member = 0;
+      Assert.AreEqual(0, target.Value);
+
+      accessor.SetMember(1);
+      Assert.AreEqual(1, target.Value);
+
+      accessor.Member = 2;
+      Assert.AreEqual(2, target.Value);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void WorksWithContravarianceInMethods()
+    {
+
+      var target = SampleClass.Make();
+      var accessor = WritableMethodAccessor<SampleClass, int>.Make("SetValue");
+      accessor.Target = target;
+
+      accessor.Member = 0;
+      Assert.AreEqual(0, target.Value);
+
+      accessor.SetMember(1);
+      Assert.AreEqual(1, target.Value);
+
+      accessor.Member = 2;
+      Assert.AreEqual(2, target.Value);
+    }
+
     /* Duplication tests */
 #if NUNIT
     [Test]

@@ -118,6 +118,76 @@ namespace He4.Reflection.Tests
       Assert.IsTrue(throwsError);
     }
 
+    /* Field tests */
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void MakeThrowsWhenFieldIsNotAssignable()
+    {
+
+      bool throwsError = false;
+
+      try
+      {
+
+        WritableFieldAccessor<SampleClass, object>.Make("Value");
+      }
+      catch (Exception ex)
+      {
+
+        throwsError = true;
+        Assert.AreEqual("He4.Reflection.Tests.SampleClass.Value must be assignable from System.Object.", ex.Message);
+      }
+
+      Assert.IsTrue(throwsError);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void WorksWithFields()
+    {
+
+      var target = SampleClass.Make();
+      var accessor = WritableFieldAccessor<SampleClass, ValueType>.Make("Value");
+      accessor.Target = target;
+
+      accessor.Member = 0;
+      Assert.AreEqual(0, target.Value);
+
+      accessor.SetMember(1);
+      Assert.AreEqual(1, target.Value);
+
+      accessor.Member = 2;
+      Assert.AreEqual(2, target.Value);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void WorksWithContravarianceInFields()
+    {
+
+      var target = SampleClass.Make();
+      var accessor = WritableFieldAccessor<SampleClass, int>.Make("Value");
+      accessor.Target = target;
+
+      accessor.Member = 0;
+      Assert.AreEqual(0, target.Value);
+
+      accessor.SetMember(1);
+      Assert.AreEqual(1, target.Value);
+
+      accessor.Member = 2;
+      Assert.AreEqual(2, target.Value);
+    }
+
     /* Duplication tests */
 #if NUNIT
     [Test]

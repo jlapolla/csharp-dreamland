@@ -118,6 +118,101 @@ namespace He4.Reflection.Tests
       Assert.IsTrue(throwsError);
     }
 
+    /* Property tests */
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void MakeThrowsWhenPropertyIsNotAssignable()
+    {
+
+      bool throwsError = false;
+
+      try
+      {
+
+        WritablePropertyAccessor<SampleClass, object>.Make("ValueProperty");
+      }
+      catch (Exception ex)
+      {
+
+        throwsError = true;
+        Assert.AreEqual("He4.Reflection.Tests.SampleClass.ValueProperty must be assignable from System.Object.", ex.Message);
+      }
+
+      Assert.IsTrue(throwsError);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void MakeThrowsWhenPropertyDoesNotHavePublicSetAccessor()
+    {
+
+      bool throwsError = false;
+
+      try
+      {
+
+        WritablePropertyAccessor<SampleClass, ValueType>.Make("ValuePropertyGetOnly");
+      }
+      catch (Exception ex)
+      {
+
+        throwsError = true;
+        Assert.AreEqual("He4.Reflection.Tests.SampleClass.ValuePropertyGetOnly must have a public set accessor.", ex.Message);
+      }
+
+      Assert.IsTrue(throwsError);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void WorksWithWritablePublicProperty()
+    {
+
+      var target = SampleClass.Make();
+      var accessor = WritablePropertyAccessor<SampleClass, ValueType>.Make("ValuePropertySetOnly");
+      accessor.Target = target;
+
+      accessor.Member = 0;
+      Assert.AreEqual(0, target.Value);
+
+      accessor.SetMember(1);
+      Assert.AreEqual(1, target.Value);
+
+      accessor.Member = 2;
+      Assert.AreEqual(2, target.Value);
+    }
+
+#if NUNIT
+    [Test]
+#else
+    [TestMethod]
+#endif
+    public void WorksWithContravarianceInProperties()
+    {
+
+      var target = SampleClass.Make();
+      var accessor = WritablePropertyAccessor<SampleClass, int>.Make("ValueProperty");
+      accessor.Target = target;
+
+      accessor.Member = 0;
+      Assert.AreEqual(0, target.Value);
+
+      accessor.SetMember(1);
+      Assert.AreEqual(1, target.Value);
+
+      accessor.Member = 2;
+      Assert.AreEqual(2, target.Value);
+    }
+
     /* Duplication tests */
 #if NUNIT
     [Test]
