@@ -48,9 +48,9 @@ namespace He4.Reflection
     }
 
     /// <summary>
-    /// Implements IWritableMemberAccessor<T>.Set.
+    /// Implements IWritableMemberAccessor<T>.SetMember.
     /// </summary>
-    public void Set(TMember value)
+    public void SetMember(TMember value)
     {
 
       Member = value;

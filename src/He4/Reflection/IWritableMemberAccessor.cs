@@ -10,8 +10,8 @@ namespace He4.Reflection
     T Member { set; }
 
     /// <summary>
-    /// Sets the value of the member.
+    /// Set the member.
     /// </summary>
-    void Set(T value);
+    void SetMember(T value);
   }
 }

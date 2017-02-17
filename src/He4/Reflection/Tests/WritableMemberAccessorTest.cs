@@ -159,7 +159,7 @@ namespace He4.Reflection.Tests
       accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
-      accessor.Set(1);
+      accessor.SetMember(1);
       Assert.AreEqual(1, target.Value);
 
       accessor.Member = 2;
@@ -181,7 +181,7 @@ namespace He4.Reflection.Tests
       accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
-      accessor.Set(1);
+      accessor.SetMember(1);
       Assert.AreEqual(1, target.Value);
 
       accessor.Member = 2;
@@ -254,7 +254,7 @@ namespace He4.Reflection.Tests
       accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
-      accessor.Set(1);
+      accessor.SetMember(1);
       Assert.AreEqual(1, target.Value);
 
       accessor.Member = 2;
@@ -276,7 +276,7 @@ namespace He4.Reflection.Tests
       accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
-      accessor.Set(1);
+      accessor.SetMember(1);
       Assert.AreEqual(1, target.Value);
 
       accessor.Member = 2;
@@ -324,7 +324,7 @@ namespace He4.Reflection.Tests
       accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
-      accessor.Set(1);
+      accessor.SetMember(1);
       Assert.AreEqual(1, target.Value);
 
       accessor.Member = 2;
@@ -346,7 +346,7 @@ namespace He4.Reflection.Tests
       accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
-      accessor.Set(1);
+      accessor.SetMember(1);
       Assert.AreEqual(1, target.Value);
 
       accessor.Member = 2;
@@ -370,7 +370,7 @@ namespace He4.Reflection.Tests
       accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
-      accessor.Set(1);
+      accessor.SetMember(1);
       Assert.AreEqual(1, target.Value);
 
       accessor.Member = 2;
