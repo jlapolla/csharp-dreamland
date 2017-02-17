@@ -26,6 +26,20 @@ namespace He4.Reflection
     {
 
       var instance = new WritablePropertyAccessor<TTarget, TMember>();
+      Setup(instance, property);
+      return instance;
+    }
+
+    public static WritablePropertyAccessor<TTarget, TMember> Make(WritablePropertyAccessor<TTarget, TMember> template)
+    {
+
+      var instance = new WritablePropertyAccessor<TTarget, TMember>();
+      Setup(instance, template);
+      return instance;
+    }
+
+    protected static void Setup(WritablePropertyAccessor<TTarget, TMember> instance, PropertyInfo property)
+    {
 
       if (!property.PropertyType.IsAssignableFrom(typeof(TMember)))
       {
@@ -40,18 +54,12 @@ namespace He4.Reflection
 
         throw new Exception(typeof(TTarget) + "." + property.Name + " must have a public set accessor.");
       }
-
-      return instance;
     }
 
-    public static WritablePropertyAccessor<TTarget, TMember> Make(WritablePropertyAccessor<TTarget, TMember> template)
+    protected static void Setup(WritablePropertyAccessor<TTarget, TMember> instance, WritablePropertyAccessor<TTarget, TMember> template)
     {
 
-      var instance = new WritablePropertyAccessor<TTarget, TMember>();
-
       instance.PropertySetMethod = template.PropertySetMethod;
-
-      return instance;
     }
 
     protected WritablePropertyAccessor()

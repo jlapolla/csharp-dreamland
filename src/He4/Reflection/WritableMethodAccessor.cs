@@ -26,9 +26,7 @@ namespace He4.Reflection
     {
 
       var instance = new WritableMethodAccessor<TTarget, TMember>();
-
-      instance.Method = method;
-
+      Setup(instance, method);
       return instance;
     }
 
@@ -36,10 +34,20 @@ namespace He4.Reflection
     {
 
       var instance = new WritableMethodAccessor<TTarget, TMember>();
+      Setup(instance, template);
+      return instance;
+    }
+
+    protected static void Setup(WritableMethodAccessor<TTarget, TMember> instance, MethodInfo method)
+    {
+
+      instance.Method = method;
+    }
+
+    protected static void Setup(WritableMethodAccessor<TTarget, TMember> instance, WritableMethodAccessor<TTarget, TMember> template)
+    {
 
       instance.Method = template.Method;
-
-      return instance;
     }
 
     protected WritableMethodAccessor()

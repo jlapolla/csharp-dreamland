@@ -26,6 +26,20 @@ namespace He4.Reflection
     {
 
       var instance = new WritableFieldAccessor<TTarget, TMember>();
+      Setup(instance, field);
+      return instance;
+    }
+
+    public static WritableFieldAccessor<TTarget, TMember> Make(WritableFieldAccessor<TTarget, TMember> template)
+    {
+
+      var instance = new WritableFieldAccessor<TTarget, TMember>();
+      Setup(instance, template);
+      return instance;
+    }
+
+    protected static void Setup(WritableFieldAccessor<TTarget, TMember> instance, FieldInfo field)
+    {
 
       if (!field.FieldType.IsAssignableFrom(typeof(TMember)))
       {
@@ -34,18 +48,12 @@ namespace He4.Reflection
       }
 
       instance.Field = field;
-
-      return instance;
     }
 
-    public static WritableFieldAccessor<TTarget, TMember> Make(WritableFieldAccessor<TTarget, TMember> template)
+    protected static void Setup(WritableFieldAccessor<TTarget, TMember> instance, WritableFieldAccessor<TTarget, TMember> template)
     {
 
-      var instance = new WritableFieldAccessor<TTarget, TMember>();
-
       instance.Field = template.Field;
-
-      return instance;
     }
 
     protected WritableFieldAccessor()
