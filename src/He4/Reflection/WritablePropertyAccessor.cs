@@ -29,6 +29,17 @@ namespace He4.Reflection
       return instance;
     }
 
+    public static WritablePropertyAccessor<TTarget, TMember> Make(WritablePropertyAccessor<TTarget, TMember> template)
+    {
+
+      var instance = new WritablePropertyAccessor<TTarget, TMember>();
+
+      instance.Field = template.Field;
+      instance.Method = template.Method;
+
+      return instance;
+    }
+
     protected WritablePropertyAccessor()
       : base()
     {

@@ -23,6 +23,17 @@ namespace He4.Reflection
       return instance;
     }
 
+    public static WritableFieldAccessor<TTarget, TMember> Make(WritableFieldAccessor<TTarget, TMember> template)
+    {
+
+      var instance = new WritableFieldAccessor<TTarget, TMember>();
+
+      instance.Field = template.Field;
+      instance.Method = template.Method;
+
+      return instance;
+    }
+
     protected WritableFieldAccessor()
       : base()
     {

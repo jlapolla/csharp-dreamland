@@ -102,16 +102,36 @@ namespace He4.Reflection
     public static WritableMemberAccessor<TTarget, TMember> Make(WritableMemberAccessor<TTarget, TMember> template)
     {
 
-      var instance = new WritableMemberAccessor<TTarget, TMember>();
-      Setup(instance, template);
+      WritableMemberAccessor<TTarget, TMember> instance = null;
+
+      while (true)
+      {
+
+        if (template is WritablePropertyAccessor<TTarget, TMember>)
+        {
+
+          instance = WritablePropertyAccessor<TTarget, TMember>.Make((WritablePropertyAccessor<TTarget, TMember>) template);
+          break;
+        }
+
+        if (template is WritableMethodAccessor<TTarget, TMember>)
+        {
+
+          instance = WritableMethodAccessor<TTarget, TMember>.Make((WritableMethodAccessor<TTarget, TMember>) template);
+          break;
+        }
+
+        if (template is WritableFieldAccessor<TTarget, TMember>)
+        {
+
+          instance = WritableFieldAccessor<TTarget, TMember>.Make((WritableFieldAccessor<TTarget, TMember>) template);
+          break;
+        }
+
+        throw new Exception("Unsupported subclass: " + template.GetType() + ".");
+      }
+
       return instance;
-    }
-
-    protected static void Setup(WritableMemberAccessor<TTarget, TMember> instance, WritableMemberAccessor<TTarget, TMember> template)
-    {
-
-      instance.Field = template.Field;
-      instance.Method = template.Method;
     }
 
     protected WritableMemberAccessor()
