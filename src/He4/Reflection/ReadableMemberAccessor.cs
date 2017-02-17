@@ -93,7 +93,7 @@ namespace He4.Reflection
         if (field != null)
         {
 
-          SetupWithField(instance, field);
+          instance = ReadableFieldAccessor<TTarget, TMember>.Make(field);
           break;
         }
 
@@ -109,18 +109,6 @@ namespace He4.Reflection
       var instance = new ReadableMemberAccessor<TTarget, TMember>();
       Setup(instance, template);
       return instance;
-    }
-
-    private static void SetupWithField(ReadableMemberAccessor<TTarget, TMember> instance, FieldInfo field)
-    {
-
-      if (!typeof(TMember).IsAssignableFrom(field.FieldType))
-      {
-
-        throw new Exception(typeof(TTarget) + "." + field.Name + " must conform to " + typeof(TMember) + ".");
-      }
-
-      instance.Field = field;
     }
 
     protected static void Setup(ReadableMemberAccessor<TTarget, TMember> instance, ReadableMemberAccessor<TTarget, TMember> template)
