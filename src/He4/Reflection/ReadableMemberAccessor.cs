@@ -100,9 +100,7 @@ namespace He4.Reflection
           break;
         }
 
-#if DEBUG
-        throw new Exception("Unknown subclass: " + template.GetType() + ".");
-#endif
+        throw new Exception("Unsupported subclass: " + template.GetType() + ".");
       }
 
       return instance;
