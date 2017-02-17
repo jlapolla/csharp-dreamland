@@ -60,7 +60,42 @@ namespace He4.Reflection
     {
 
       var instance = new WritableMemberAccessor<TTarget, TMember>();
-      Setup(instance, memberName);
+
+      Type targetType = typeof(TTarget);
+
+      while (true)
+      {
+
+        PropertyInfo property = targetType.GetProperty(memberName, DefaultBindingFlags);
+
+        if (property != null)
+        {
+
+          SetupWithProperty(instance, property);
+          break;
+        }
+
+        MethodInfo method = targetType.GetMethod(memberName, DefaultBindingFlags, Type.DefaultBinder, new Type[1] { typeof(TMember) }, new ParameterModifier[1] { new ParameterModifier(1) });
+
+        if (method != null)
+        {
+
+          SetupWithMethod(instance, method);
+          break;
+        }
+
+        FieldInfo field = targetType.GetField(memberName, DefaultBindingFlags);
+
+        if (field != null)
+        {
+
+          SetupWithField(instance, field);
+          break;
+        }
+
+        throw new Exception("\"" + memberName + "\" must be a public, non-static property, one-argument method, or field of " + targetType + " which is assignable from " + typeof(TMember) + ".");
+      }
+
       return instance;
     }
 
@@ -106,45 +141,6 @@ namespace He4.Reflection
       }
 
       instance.Field = field;
-    }
-
-    protected static void Setup(WritableMemberAccessor<TTarget, TMember> instance, string memberName)
-    {
-
-      Type targetType = typeof(TTarget);
-
-      while (true)
-      {
-
-        PropertyInfo property = targetType.GetProperty(memberName, DefaultBindingFlags);
-
-        if (property != null)
-        {
-
-          SetupWithProperty(instance, property);
-          break;
-        }
-
-        MethodInfo method = targetType.GetMethod(memberName, DefaultBindingFlags, Type.DefaultBinder, new Type[1] { typeof(TMember) }, new ParameterModifier[1] { new ParameterModifier(1) });
-
-        if (method != null)
-        {
-
-          SetupWithMethod(instance, method);
-          break;
-        }
-
-        FieldInfo field = targetType.GetField(memberName, DefaultBindingFlags);
-
-        if (field != null)
-        {
-
-          SetupWithField(instance, field);
-          break;
-        }
-
-        throw new Exception("\"" + memberName + "\" must be a public, non-static property, one-argument method, or field of " + targetType + " which is assignable from " + typeof(TMember) + ".");
-      }
     }
 
     protected static void Setup(WritableMemberAccessor<TTarget, TMember> instance, WritableMemberAccessor<TTarget, TMember> template)
