@@ -8,7 +8,6 @@ namespace He4.Reflection
   {
 
     protected FieldInfo Field;
-    protected MethodInfo Method;
 
     /// <summary>
     /// Overrides ReadableMemberAccessor<TTarget, TMember>.Member.
@@ -19,29 +18,7 @@ namespace He4.Reflection
       get
       {
 
-        TMember result = default(TMember);
-
-        while (true)
-        {
-
-          if (Method != null)
-          {
-
-            result = (TMember) Method.Invoke(Target, null);
-            break;
-          }
-
-          if (Field != null)
-          {
-
-            result = (TMember) Field.GetValue(Target);
-            break;
-          }
-
-          break;
-        }
-
-        return result;
+        return (TMember) Field.GetValue(Target);
       }
     }
 
@@ -77,7 +54,6 @@ namespace He4.Reflection
     {
 
       instance.Field = template.Field;
-      instance.Method = template.Method;
     }
 
     protected ReadableFieldAccessor()
