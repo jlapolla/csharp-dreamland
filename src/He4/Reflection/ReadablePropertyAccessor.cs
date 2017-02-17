@@ -7,6 +7,9 @@ namespace He4.Reflection
   public class ReadablePropertyAccessor<TTarget, TMember> : ReadableMemberAccessor<TTarget, TMember>
   {
 
+    protected FieldInfo Field;
+    protected MethodInfo Method;
+
     /// <summary>
     /// Overrides ReadableMemberAccessor<TTarget, TMember>.Member.
     /// </summary>

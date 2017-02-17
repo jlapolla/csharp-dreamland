@@ -8,8 +8,6 @@ namespace He4.Reflection
   {
 
     protected const BindingFlags DefaultBindingFlags = BindingFlags.Instance | BindingFlags.Public;
-    protected FieldInfo Field;
-    protected MethodInfo Method;
 
     /// <summary>
     /// Object that owns the member.
