@@ -158,13 +158,13 @@ namespace He4.Reflection.Tests
 
       target.Value = 0;
       Assert.AreEqual(0, accessor.Member);
-      Assert.AreEqual(0, accessor.Get());
-      Assert.AreNotEqual(1, accessor.Get());
+      Assert.AreEqual(0, accessor.GetMember());
+      Assert.AreNotEqual(1, accessor.GetMember());
 
       target.Value = 1;
       Assert.AreEqual(1, accessor.Member);
-      Assert.AreEqual(1, accessor.Get());
-      Assert.AreNotEqual(0, accessor.Get());
+      Assert.AreEqual(1, accessor.GetMember());
+      Assert.AreNotEqual(0, accessor.GetMember());
     }
 
 #if NUNIT
@@ -181,13 +181,13 @@ namespace He4.Reflection.Tests
 
       target.Value = 0;
       Assert.AreEqual((object) 0, accessor.Member);
-      Assert.AreEqual((object) 0, accessor.Get());
-      Assert.AreNotEqual((object) 1, accessor.Get());
+      Assert.AreEqual((object) 0, accessor.GetMember());
+      Assert.AreNotEqual((object) 1, accessor.GetMember());
 
       target.Value = 1;
       Assert.AreEqual((object) 1, accessor.Member);
-      Assert.AreEqual((object) 1, accessor.Get());
-      Assert.AreNotEqual((object) 0, accessor.Get());
+      Assert.AreEqual((object) 1, accessor.GetMember());
+      Assert.AreNotEqual((object) 0, accessor.GetMember());
     }
 
     /* Method tests */
@@ -255,13 +255,13 @@ namespace He4.Reflection.Tests
 
       target.Value = 0;
       Assert.AreEqual(0, accessor.Member);
-      Assert.AreEqual(0, accessor.Get());
-      Assert.AreNotEqual(1, accessor.Get());
+      Assert.AreEqual(0, accessor.GetMember());
+      Assert.AreNotEqual(1, accessor.GetMember());
 
       target.Value = 1;
       Assert.AreEqual(1, accessor.Member);
-      Assert.AreEqual(1, accessor.Get());
-      Assert.AreNotEqual(0, accessor.Get());
+      Assert.AreEqual(1, accessor.GetMember());
+      Assert.AreNotEqual(0, accessor.GetMember());
     }
 
 #if NUNIT
@@ -278,13 +278,13 @@ namespace He4.Reflection.Tests
 
       target.Value = 0;
       Assert.AreEqual((object) 0, accessor.Member);
-      Assert.AreEqual((object) 0, accessor.Get());
-      Assert.AreNotEqual((object) 1, accessor.Get());
+      Assert.AreEqual((object) 0, accessor.GetMember());
+      Assert.AreNotEqual((object) 1, accessor.GetMember());
 
       target.Value = 1;
       Assert.AreEqual((object) 1, accessor.Member);
-      Assert.AreEqual((object) 1, accessor.Get());
-      Assert.AreNotEqual((object) 0, accessor.Get());
+      Assert.AreEqual((object) 1, accessor.GetMember());
+      Assert.AreNotEqual((object) 0, accessor.GetMember());
     }
 
     /* Field tests */
@@ -327,13 +327,13 @@ namespace He4.Reflection.Tests
 
       target.Value = 0;
       Assert.AreEqual(0, accessor.Member);
-      Assert.AreEqual(0, accessor.Get());
-      Assert.AreNotEqual(1, accessor.Get());
+      Assert.AreEqual(0, accessor.GetMember());
+      Assert.AreNotEqual(1, accessor.GetMember());
 
       target.Value = 1;
       Assert.AreEqual(1, accessor.Member);
-      Assert.AreEqual(1, accessor.Get());
-      Assert.AreNotEqual(0, accessor.Get());
+      Assert.AreEqual(1, accessor.GetMember());
+      Assert.AreNotEqual(0, accessor.GetMember());
     }
 
 #if NUNIT
@@ -350,13 +350,13 @@ namespace He4.Reflection.Tests
 
       target.Value = 0;
       Assert.AreEqual((object) 0, accessor.Member);
-      Assert.AreEqual((object) 0, accessor.Get());
-      Assert.AreNotEqual((object) 1, accessor.Get());
+      Assert.AreEqual((object) 0, accessor.GetMember());
+      Assert.AreNotEqual((object) 1, accessor.GetMember());
 
       target.Value = 1;
       Assert.AreEqual((object) 1, accessor.Member);
-      Assert.AreEqual((object) 1, accessor.Get());
-      Assert.AreNotEqual((object) 0, accessor.Get());
+      Assert.AreEqual((object) 1, accessor.GetMember());
+      Assert.AreNotEqual((object) 0, accessor.GetMember());
     }
 
     /* Other tests */
@@ -375,13 +375,13 @@ namespace He4.Reflection.Tests
 
       target.Value = 0;
       Assert.AreEqual(0, accessor.Member);
-      Assert.AreEqual(0, accessor.Get());
-      Assert.AreNotEqual(1, accessor.Get());
+      Assert.AreEqual(0, accessor.GetMember());
+      Assert.AreNotEqual(1, accessor.GetMember());
 
       target.Value = 1;
       Assert.AreEqual(1, accessor.Member);
-      Assert.AreEqual(1, accessor.Get());
-      Assert.AreNotEqual(0, accessor.Get());
+      Assert.AreEqual(1, accessor.GetMember());
+      Assert.AreNotEqual(0, accessor.GetMember());
     }
   }
 }

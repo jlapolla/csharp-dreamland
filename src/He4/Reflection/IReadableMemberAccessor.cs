@@ -10,8 +10,8 @@ namespace He4.Reflection
     T Member { get; }
 
     /// <summary>
-    /// Returns the value of the member.
+    /// Returns the member.
     /// </summary>
-    T Get();
+    T GetMember();
   }
 }

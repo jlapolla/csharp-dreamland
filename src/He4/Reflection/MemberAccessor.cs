@@ -50,9 +50,9 @@ namespace He4.Reflection
     }
 
     /// <summary>
-    /// Implements IMemberAccessor<T>.Get.
+    /// Implements IMemberAccessor<T>.GetMember.
     /// </summary>
-    public TMember Get()
+    public TMember GetMember()
     {
 
       return Member;
