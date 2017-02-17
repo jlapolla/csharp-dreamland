@@ -4,12 +4,10 @@ using System.Reflection;
 namespace He4.Reflection
 {
 
-  public class ReadableMemberAccessor<TTarget, TMember> : IReadableMemberAccessor<TMember>
+  public abstract class ReadableMemberAccessor<TTarget, TMember> : IReadableMemberAccessor<TMember>
   {
 
     protected const BindingFlags DefaultBindingFlags = BindingFlags.Instance | BindingFlags.Public;
-    protected FieldInfo Field;
-    protected MethodInfo Method;
 
     /// <summary>
     /// Object that owns the member.
@@ -19,37 +17,7 @@ namespace He4.Reflection
     /// <summary>
     /// Implements IReadableMemberAccessor<T>.Member.
     /// </summary>
-    public TMember Member
-    {
-
-      get
-      {
-
-        TMember result = default(TMember);
-
-        while (true)
-        {
-
-          if (Method != null)
-          {
-
-            result = (TMember) Method.Invoke(Target, null);
-            break;
-          }
-
-          if (Field != null)
-          {
-
-            result = (TMember) Field.GetValue(Target);
-            break;
-          }
-
-          break;
-        }
-
-        return result;
-      }
-    }
+    public abstract TMember Member { get; }
 
     /// <summary>
     /// Implements IReadableMemberAccessor<T>.GetMember.
@@ -63,63 +31,7 @@ namespace He4.Reflection
     public static ReadableMemberAccessor<TTarget, TMember> Make(string memberName)
     {
 
-      var instance = new ReadableMemberAccessor<TTarget, TMember>();
-      Setup(instance, memberName);
-      return instance;
-    }
-
-    public static ReadableMemberAccessor<TTarget, TMember> Make(ReadableMemberAccessor<TTarget, TMember> template)
-    {
-
-      var instance = new ReadableMemberAccessor<TTarget, TMember>();
-      Setup(instance, template);
-      return instance;
-    }
-
-    private static void SetupWithProperty(ReadableMemberAccessor<TTarget, TMember> instance, PropertyInfo property)
-    {
-
-      if (!typeof(TMember).IsAssignableFrom(property.PropertyType))
-      {
-
-        throw new Exception(typeof(TTarget) + "." + property.Name + " must conform to " + typeof(TMember) + ".");
-      }
-
-      instance.Method = property.GetGetMethod();
-
-      if (instance.Method == null)
-      {
-
-        throw new Exception(typeof(TTarget) + "." + property.Name + " must have a public get accessor.");
-      }
-    }
-
-    private static void SetupWithMethod(ReadableMemberAccessor<TTarget, TMember> instance, MethodInfo method)
-    {
-
-      if (!typeof(TMember).IsAssignableFrom(method.ReturnType))
-      {
-
-        throw new Exception(typeof(TTarget) + "." + method.Name + " return type must conform to " + typeof(TMember) + ".");
-      }
-
-      instance.Method = method;
-    }
-
-    private static void SetupWithField(ReadableMemberAccessor<TTarget, TMember> instance, FieldInfo field)
-    {
-
-      if (!typeof(TMember).IsAssignableFrom(field.FieldType))
-      {
-
-        throw new Exception(typeof(TTarget) + "." + field.Name + " must conform to " + typeof(TMember) + ".");
-      }
-
-      instance.Field = field;
-    }
-
-    protected static void Setup(ReadableMemberAccessor<TTarget, TMember> instance, string memberName)
-    {
+      ReadableMemberAccessor<TTarget, TMember> instance = null;
 
       Type targetType = typeof(TTarget);
 
@@ -131,7 +43,7 @@ namespace He4.Reflection
         if (property != null)
         {
 
-          SetupWithProperty(instance, property);
+          instance = ReadablePropertyAccessor<TTarget, TMember>.Make(property);
           break;
         }
 
@@ -140,7 +52,7 @@ namespace He4.Reflection
         if (method != null)
         {
 
-          SetupWithMethod(instance, method);
+          instance = ReadableMethodAccessor<TTarget, TMember>.Make(method);
           break;
         }
 
@@ -149,19 +61,51 @@ namespace He4.Reflection
         if (field != null)
         {
 
-          SetupWithField(instance, field);
+          instance = ReadableFieldAccessor<TTarget, TMember>.Make(field);
           break;
         }
 
         throw new Exception("\"" + memberName + "\" must be a public, non-static property, zero-argument method, or field of " + targetType + ".");
       }
+
+      return instance;
     }
 
-    protected static void Setup(ReadableMemberAccessor<TTarget, TMember> instance, ReadableMemberAccessor<TTarget, TMember> template)
+    public static ReadableMemberAccessor<TTarget, TMember> Make(ReadableMemberAccessor<TTarget, TMember> template)
     {
 
-      instance.Field = template.Field;
-      instance.Method = template.Method;
+      ReadableMemberAccessor<TTarget, TMember> instance = null;
+
+      while (true)
+      {
+
+        if (template is ReadablePropertyAccessor<TTarget, TMember>)
+        {
+
+          instance = ReadablePropertyAccessor<TTarget, TMember>.Make((ReadablePropertyAccessor<TTarget, TMember>) template);
+          break;
+        }
+
+        if (template is ReadableMethodAccessor<TTarget, TMember>)
+        {
+
+          instance = ReadableMethodAccessor<TTarget, TMember>.Make((ReadableMethodAccessor<TTarget, TMember>) template);
+          break;
+        }
+
+        if (template is ReadableFieldAccessor<TTarget, TMember>)
+        {
+
+          instance = ReadableFieldAccessor<TTarget, TMember>.Make((ReadableFieldAccessor<TTarget, TMember>) template);
+          break;
+        }
+
+#if DEBUG
+        throw new Exception("Unknown subclass: " + template.GetType() + ".");
+#endif
+      }
+
+      return instance;
     }
 
     protected ReadableMemberAccessor()
