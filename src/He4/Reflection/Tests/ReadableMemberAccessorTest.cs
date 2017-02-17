@@ -157,12 +157,12 @@ namespace He4.Reflection.Tests
       accessor.Target = target;
 
       target.Value = 0;
-      Assert.AreEqual(0, accessor.Value);
+      Assert.AreEqual(0, accessor.Member);
       Assert.AreEqual(0, accessor.Get());
       Assert.AreNotEqual(1, accessor.Get());
 
       target.Value = 1;
-      Assert.AreEqual(1, accessor.Value);
+      Assert.AreEqual(1, accessor.Member);
       Assert.AreEqual(1, accessor.Get());
       Assert.AreNotEqual(0, accessor.Get());
     }
@@ -180,12 +180,12 @@ namespace He4.Reflection.Tests
       accessor.Target = target;
 
       target.Value = 0;
-      Assert.AreEqual((object) 0, accessor.Value);
+      Assert.AreEqual((object) 0, accessor.Member);
       Assert.AreEqual((object) 0, accessor.Get());
       Assert.AreNotEqual((object) 1, accessor.Get());
 
       target.Value = 1;
-      Assert.AreEqual((object) 1, accessor.Value);
+      Assert.AreEqual((object) 1, accessor.Member);
       Assert.AreEqual((object) 1, accessor.Get());
       Assert.AreNotEqual((object) 0, accessor.Get());
     }
@@ -254,12 +254,12 @@ namespace He4.Reflection.Tests
       accessor.Target = target;
 
       target.Value = 0;
-      Assert.AreEqual(0, accessor.Value);
+      Assert.AreEqual(0, accessor.Member);
       Assert.AreEqual(0, accessor.Get());
       Assert.AreNotEqual(1, accessor.Get());
 
       target.Value = 1;
-      Assert.AreEqual(1, accessor.Value);
+      Assert.AreEqual(1, accessor.Member);
       Assert.AreEqual(1, accessor.Get());
       Assert.AreNotEqual(0, accessor.Get());
     }
@@ -277,12 +277,12 @@ namespace He4.Reflection.Tests
       accessor.Target = target;
 
       target.Value = 0;
-      Assert.AreEqual((object) 0, accessor.Value);
+      Assert.AreEqual((object) 0, accessor.Member);
       Assert.AreEqual((object) 0, accessor.Get());
       Assert.AreNotEqual((object) 1, accessor.Get());
 
       target.Value = 1;
-      Assert.AreEqual((object) 1, accessor.Value);
+      Assert.AreEqual((object) 1, accessor.Member);
       Assert.AreEqual((object) 1, accessor.Get());
       Assert.AreNotEqual((object) 0, accessor.Get());
     }
@@ -326,12 +326,12 @@ namespace He4.Reflection.Tests
       accessor.Target = target;
 
       target.Value = 0;
-      Assert.AreEqual(0, accessor.Value);
+      Assert.AreEqual(0, accessor.Member);
       Assert.AreEqual(0, accessor.Get());
       Assert.AreNotEqual(1, accessor.Get());
 
       target.Value = 1;
-      Assert.AreEqual(1, accessor.Value);
+      Assert.AreEqual(1, accessor.Member);
       Assert.AreEqual(1, accessor.Get());
       Assert.AreNotEqual(0, accessor.Get());
     }
@@ -349,12 +349,12 @@ namespace He4.Reflection.Tests
       accessor.Target = target;
 
       target.Value = 0;
-      Assert.AreEqual((object) 0, accessor.Value);
+      Assert.AreEqual((object) 0, accessor.Member);
       Assert.AreEqual((object) 0, accessor.Get());
       Assert.AreNotEqual((object) 1, accessor.Get());
 
       target.Value = 1;
-      Assert.AreEqual((object) 1, accessor.Value);
+      Assert.AreEqual((object) 1, accessor.Member);
       Assert.AreEqual((object) 1, accessor.Get());
       Assert.AreNotEqual((object) 0, accessor.Get());
     }
@@ -374,12 +374,12 @@ namespace He4.Reflection.Tests
       accessor.Target = target;
 
       target.Value = 0;
-      Assert.AreEqual(0, accessor.Value);
+      Assert.AreEqual(0, accessor.Member);
       Assert.AreEqual(0, accessor.Get());
       Assert.AreNotEqual(1, accessor.Get());
 
       target.Value = 1;
-      Assert.AreEqual(1, accessor.Value);
+      Assert.AreEqual(1, accessor.Member);
       Assert.AreEqual(1, accessor.Get());
       Assert.AreNotEqual(0, accessor.Get());
     }

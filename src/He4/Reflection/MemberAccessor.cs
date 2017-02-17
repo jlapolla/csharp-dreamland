@@ -31,21 +31,21 @@ namespace He4.Reflection
     }
 
     /// <summary>
-    /// Implements IMemberAccessor<T>.Value.
+    /// Implements IMemberAccessor<T>.Member.
     /// </summary>
-    public TMember Value
+    public TMember Member
     {
 
       get
       {
 
-        return Readable.Value;
+        return Readable.Member;
       }
 
       set
       {
 
-        Writable.Value = value;
+        Writable.Member = value;
       }
     }
 
@@ -55,7 +55,7 @@ namespace He4.Reflection
     public TMember Get()
     {
 
-      return Value;
+      return Member;
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ namespace He4.Reflection
     public void Set(TMember value)
     {
 
-      Value = value;
+      Member = value;
     }
 
     public static MemberAccessor<TTarget, TMember> Make(string memberName)

@@ -5,9 +5,9 @@ namespace He4.Reflection
   {
 
     /// <summary>
-    /// Replaces IReadableMemberAccessor.Value and
-    /// IWritableMemberAccessor.Value.
+    /// Replaces IReadableMemberAccessor.Member and
+    /// IWritableMemberAccessor.Member.
     /// </summary>
-    new T Value { get; set; }
+    new T Member { get; set; }
   }
 }

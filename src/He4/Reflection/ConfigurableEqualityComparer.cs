@@ -73,9 +73,9 @@ namespace He4.Reflection
       {
 
         spec.Accessor.Target = left;
-        object leftVal = spec.Accessor.Value;
+        object leftVal = spec.Accessor.Member;
         spec.Accessor.Target = right;
-        object rightVal = spec.Accessor.Value;
+        object rightVal = spec.Accessor.Member;
 
         // Reset Accessor.Target to default(TTarget) since we should not retain
         // a reference to 'left' or 'right'.
@@ -119,7 +119,7 @@ namespace He4.Reflection
       {
 
         spec.Accessor.Target = obj;
-        object val = spec.Accessor.Value;
+        object val = spec.Accessor.Member;
 
         // Reset Accessor.Target to default(TTarget) since we should not retain
         // a reference to 'obj'.

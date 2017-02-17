@@ -5,9 +5,9 @@ namespace He4.Reflection
   {
 
     /// <summary>
-    /// Value of the member.
+    /// The member.
     /// </summary>
-    T Value { set; }
+    T Member { set; }
 
     /// <summary>
     /// Sets the value of the member.

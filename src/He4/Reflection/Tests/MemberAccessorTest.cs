@@ -30,17 +30,17 @@ namespace He4.Reflection.Tests
       var accessor = MemberAccessor<SampleClass, ValueType>.Make("ComboValue");
       accessor.Target = target;
 
-      accessor.Value = 0;
+      accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
-      Assert.AreEqual(0, accessor.Value);
+      Assert.AreEqual(0, accessor.Member);
 
       target.Value = 1;
       Assert.AreEqual(1, target.Value);
-      Assert.AreEqual(1, accessor.Value);
+      Assert.AreEqual(1, accessor.Member);
 
-      accessor.Value = 2;
+      accessor.Member = 2;
       Assert.AreEqual(2, target.Value);
-      Assert.AreEqual(2, accessor.Value);
+      Assert.AreEqual(2, accessor.Member);
     }
 
 #if NUNIT
@@ -55,17 +55,17 @@ namespace He4.Reflection.Tests
       var accessor = MemberAccessor<SampleClass, ValueType>.Make("GetValue", "SetValue");
       accessor.Target = target;
 
-      accessor.Value = 0;
+      accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
-      Assert.AreEqual(0, accessor.Value);
+      Assert.AreEqual(0, accessor.Member);
 
       target.Value = 1;
       Assert.AreEqual(1, target.Value);
-      Assert.AreEqual(1, accessor.Value);
+      Assert.AreEqual(1, accessor.Member);
 
-      accessor.Value = 2;
+      accessor.Member = 2;
       Assert.AreEqual(2, target.Value);
-      Assert.AreEqual(2, accessor.Value);
+      Assert.AreEqual(2, accessor.Member);
     }
 
 #if NUNIT
@@ -81,17 +81,17 @@ namespace He4.Reflection.Tests
           MemberAccessor<SampleClass, ValueType>.Make("ValueProperty"));
       accessor.Target = target;
 
-      accessor.Value = 0;
+      accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
-      Assert.AreEqual(0, accessor.Value);
+      Assert.AreEqual(0, accessor.Member);
 
       target.Value = 1;
       Assert.AreEqual(1, target.Value);
-      Assert.AreEqual(1, accessor.Value);
+      Assert.AreEqual(1, accessor.Member);
 
-      accessor.Value = 2;
+      accessor.Member = 2;
       Assert.AreEqual(2, target.Value);
-      Assert.AreEqual(2, accessor.Value);
+      Assert.AreEqual(2, accessor.Member);
     }
 
 #if NUNIT
@@ -107,17 +107,17 @@ namespace He4.Reflection.Tests
       implementation.Target = target;
       IMemberAccessor<ValueType> accessor = implementation;
 
-      accessor.Value = 0;
+      accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
-      Assert.AreEqual(0, accessor.Value);
+      Assert.AreEqual(0, accessor.Member);
 
       target.Value = 1;
       Assert.AreEqual(1, target.Value);
-      Assert.AreEqual(1, accessor.Value);
+      Assert.AreEqual(1, accessor.Member);
 
-      accessor.Value = 2;
+      accessor.Member = 2;
       Assert.AreEqual(2, target.Value);
-      Assert.AreEqual(2, accessor.Value);
+      Assert.AreEqual(2, accessor.Member);
     }
 
 #if NUNIT
@@ -134,12 +134,12 @@ namespace He4.Reflection.Tests
       IReadableMemberAccessor<ValueType> accessor = implementation;
 
       target.Value = 0;
-      Assert.AreEqual(0, accessor.Value);
+      Assert.AreEqual(0, accessor.Member);
       Assert.AreEqual(0, accessor.Get());
       Assert.AreNotEqual(1, accessor.Get());
 
       target.Value = 1;
-      Assert.AreEqual(1, accessor.Value);
+      Assert.AreEqual(1, accessor.Member);
       Assert.AreEqual(1, accessor.Get());
       Assert.AreNotEqual(0, accessor.Get());
     }
@@ -157,13 +157,13 @@ namespace He4.Reflection.Tests
       implementation.Target = target;
       IWritableMemberAccessor<ValueType> accessor = implementation;
 
-      accessor.Value = 0;
+      accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
       accessor.Set(1);
       Assert.AreEqual(1, target.Value);
 
-      accessor.Value = 2;
+      accessor.Member = 2;
       Assert.AreEqual(2, target.Value);
     }
   }

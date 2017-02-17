@@ -17,9 +17,9 @@ namespace He4.Reflection
     public TTarget Target { get; set; }
 
     /// <summary>
-    /// Implements IWritableMemberAccessor<T>.Value.
+    /// Implements IWritableMemberAccessor<T>.Member.
     /// </summary>
-    public TMember Value
+    public TMember Member
     {
 
       set
@@ -53,7 +53,7 @@ namespace He4.Reflection
     public void Set(TMember value)
     {
 
-      Value = value;
+      Member = value;
     }
 
     public static WritableMemberAccessor<TTarget, TMember> Make(string memberName)

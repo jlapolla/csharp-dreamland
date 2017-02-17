@@ -156,13 +156,13 @@ namespace He4.Reflection.Tests
       var accessor = WritableMemberAccessor<SampleClass, ValueType>.Make("ValuePropertySetOnly");
       accessor.Target = target;
 
-      accessor.Value = 0;
+      accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
       accessor.Set(1);
       Assert.AreEqual(1, target.Value);
 
-      accessor.Value = 2;
+      accessor.Member = 2;
       Assert.AreEqual(2, target.Value);
     }
 
@@ -178,13 +178,13 @@ namespace He4.Reflection.Tests
       var accessor = WritableMemberAccessor<SampleClass, int>.Make("ValueProperty");
       accessor.Target = target;
 
-      accessor.Value = 0;
+      accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
       accessor.Set(1);
       Assert.AreEqual(1, target.Value);
 
-      accessor.Value = 2;
+      accessor.Member = 2;
       Assert.AreEqual(2, target.Value);
     }
 
@@ -251,13 +251,13 @@ namespace He4.Reflection.Tests
       var accessor = WritableMemberAccessor<SampleClass, ValueType>.Make("SetValue");
       accessor.Target = target;
 
-      accessor.Value = 0;
+      accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
       accessor.Set(1);
       Assert.AreEqual(1, target.Value);
 
-      accessor.Value = 2;
+      accessor.Member = 2;
       Assert.AreEqual(2, target.Value);
     }
 
@@ -273,13 +273,13 @@ namespace He4.Reflection.Tests
       var accessor = WritableMemberAccessor<SampleClass, int>.Make("SetValue");
       accessor.Target = target;
 
-      accessor.Value = 0;
+      accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
       accessor.Set(1);
       Assert.AreEqual(1, target.Value);
 
-      accessor.Value = 2;
+      accessor.Member = 2;
       Assert.AreEqual(2, target.Value);
     }
 
@@ -321,13 +321,13 @@ namespace He4.Reflection.Tests
       var accessor = WritableMemberAccessor<SampleClass, ValueType>.Make("Value");
       accessor.Target = target;
 
-      accessor.Value = 0;
+      accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
       accessor.Set(1);
       Assert.AreEqual(1, target.Value);
 
-      accessor.Value = 2;
+      accessor.Member = 2;
       Assert.AreEqual(2, target.Value);
     }
 
@@ -343,13 +343,13 @@ namespace He4.Reflection.Tests
       var accessor = WritableMemberAccessor<SampleClass, int>.Make("Value");
       accessor.Target = target;
 
-      accessor.Value = 0;
+      accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
       accessor.Set(1);
       Assert.AreEqual(1, target.Value);
 
-      accessor.Value = 2;
+      accessor.Member = 2;
       Assert.AreEqual(2, target.Value);
     }
 
@@ -367,13 +367,13 @@ namespace He4.Reflection.Tests
           WritableMemberAccessor<SampleClass, ValueType>.Make("ValueProperty"));
       accessor.Target = target;
 
-      accessor.Value = 0;
+      accessor.Member = 0;
       Assert.AreEqual(0, target.Value);
 
       accessor.Set(1);
       Assert.AreEqual(1, target.Value);
 
-      accessor.Value = 2;
+      accessor.Member = 2;
       Assert.AreEqual(2, target.Value);
     }
   }

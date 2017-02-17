@@ -17,9 +17,9 @@ namespace He4.Reflection
     public TTarget Target { get; set; }
 
     /// <summary>
-    /// Implements IReadableMemberAccessor<T>.Value.
+    /// Implements IReadableMemberAccessor<T>.Member.
     /// </summary>
-    public TMember Value
+    public TMember Member
     {
 
       get
@@ -57,7 +57,7 @@ namespace He4.Reflection
     public TMember Get()
     {
 
-      return Value;
+      return Member;
     }
 
     public static ReadableMemberAccessor<TTarget, TMember> Make(string memberName)
